@@ -40,7 +40,8 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV.baseURL = '/healthy-buildings-app/';
+    ENV.locationType = 'hash';
   }
 
   return ENV;
