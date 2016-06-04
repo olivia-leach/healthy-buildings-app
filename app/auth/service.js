@@ -5,6 +5,7 @@ export default Ember.Service.extend({
   ajax: Ember.inject.service(),
   credentials: storageFor('auth'),
   isAuthenticated: Ember.computed.bool('credentials.token'),
+  isAdmin: Ember.computed.bool('credentials.admin'),
 
   signUp (credentials) {
     return this.get('ajax').post('/sign-up', {
@@ -31,6 +32,9 @@ export default Ember.Service.extend({
       this.get('credentials').set('id', result.user.id);
       this.get('credentials').set('email', result.user.email);
       this.get('credentials').set('token', result.user.token);
+      if (result.user.profile) {
+        this.get('credentials').set('admin', result.user.profile.admin_rights);
+      }
     });
   },
 
@@ -49,4 +53,18 @@ export default Ember.Service.extend({
     return this.get('ajax').del(`/sign-out/${this.get('credentials.id')}`)
     .finally(() => this.get('credentials').reset());
   },
+
+  createProfile () {
+    return this.get('ajax').post('/profiles', {
+      data: {
+        profile : {
+          user_id: this.get('credentials.id')
+        },
+      },
+    })
+    .then((result) => {
+        this.get('credentials').set('admin', result.profile.admin_rights);
+    });
+  },
+
 });
