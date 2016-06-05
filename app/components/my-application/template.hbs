@@ -4,8 +4,12 @@
 
     <div class="collapse navbar-collapse" id="navigation">
       <ul class="nav navbar-nav">
-        {{#if isAdmin}}
-        <li>{{#link-to "users"}}Users{{/link-to}}</li>
+        {{#if isAuthenticated}}
+          {{#if isAdmin}}
+          <li>{{#link-to "users"}}Users{{/link-to}}</li>
+          {{!-- {{else}} --}}
+          <li>{{#link-to "buildings"}}Building Dashboard{{/link-to}}</li>
+          {{/if}}
         {{/if}}
       </ul>
       <ul class="nav navbar-nav navbar-right">
