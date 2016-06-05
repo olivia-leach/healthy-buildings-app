@@ -6,8 +6,8 @@
       <ul class="nav navbar-nav">
         {{#if isAuthenticated}}
           {{#if isAdmin}}
-          <li>{{#link-to "users"}}Users{{/link-to}}</li>
-          {{!-- {{else}} --}}
+          <li>{{#link-to "users"}}Manage Users{{/link-to}}</li>
+          {{else}}
           <li>{{#link-to "buildings"}}Building Dashboard{{/link-to}}</li>
           {{/if}}
         {{/if}}
