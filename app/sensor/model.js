@@ -6,5 +6,6 @@ import DS from 'ember-data';
 
 export default Model.extend({
   floor: DS.attr('number'),
-  belongsTo: DS.belongsTo('building')
+  building: DS.belongsTo('building'),
+  points: DS.hasMany('point')
 });
