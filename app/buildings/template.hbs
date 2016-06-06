@@ -1,5 +1,6 @@
 <div class="container-fluid">
   <h2>Building Dashboard</h2>
+  <h6><a {{action "editDashboard" on="click"}} id="edit-link">Edit</a></h6>
   <div class="row">
     {{#each model as |building|}}
       <div class="col-md-4 building-card"><h3>{{buildings-dashboard building=building}}</h3></div>
