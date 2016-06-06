@@ -1,0 +1,22 @@
+{{building-name-input name=building.name}}
+{{building-address-input address=building.address}}
+{{building-city-input city=building.city}}
+{{building-state-input state=building.state}}
+{{building-zip-input zip=building.zip}}
+{{building-sqft-input sqft=building.sq_ft}}
+{{building-year-input year=building.year_const}}
+{{building-floors-input floors=building.num_floors}}
+{{building-notes-input notes=building.notes}}
+
+  <div class="form-group">
+    <label for="exampleInputFile">Upload image</label>
+    <input type="file" id="exampleInputFile">
+  </div>
+
+<button type="submit" class="btn btn-primary" {{action "submit"}}>
+  Submit
+</button>
+
+<button class="btn btn-default" {{action "reset"}} on="click">
+  Cancel
+</button>

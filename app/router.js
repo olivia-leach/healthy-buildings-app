@@ -14,6 +14,7 @@ Router.map(function () {
   this.route('building', { path: '/buildings/:id' });
   this.route('sensor', { path: '/sensors/:id' });
   this.route('sensors');
+  this.route('new-building');
 });
 
 export default Router;
