@@ -6,5 +6,7 @@ import DS from 'ember-data';
 export default Model.extend({
   score: DS.attr('number'),
   value: DS.attr('number'),
+  framework: DS.attr(),
   building: DS.belongsTo('building'),
+  framework: DS.belongsTo('framework')
 });
