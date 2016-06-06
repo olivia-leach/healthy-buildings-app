@@ -4,6 +4,6 @@
     {{#each model as |building|}}
       <div class="col-md-4 building-card"><h3>{{buildings-dashboard building=building}}</h3></div>
     {{/each}}
-    <div class="col-md-4 building-card">{{buildings-dashboard/new createItem="createItem"}}</div>
   </div>
+  {{buildings-dashboard/new createItem="createItem"}}
 </div>
