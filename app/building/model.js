@@ -19,5 +19,6 @@ export default Model.extend({
     inverse: 'buildings'
   }),
   baseline: belongsTo('baseline'),
-  measures: hasMany('measure')
+  measures: hasMany('measure'),
+  sensors: hasMany('sensors')
 });

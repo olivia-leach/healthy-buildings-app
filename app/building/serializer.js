@@ -4,6 +4,7 @@ import DS from 'ember-data';
 export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin,{
   attrs: {
     baseline: {embedded: 'always'},
-    measures: {embedded: 'always'}
+    measures: {embedded: 'always'},
+    sensors: {embedded: 'always'}
   }
 });
