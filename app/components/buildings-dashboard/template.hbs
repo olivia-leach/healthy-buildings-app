@@ -1,3 +1,8 @@
 {{#link-to 'building' building}}
   <h4>{{building.name}}</h4>
 {{/link-to}}
+
+<button class="btn btn-xs btn-danger"
+  {{ action "deleteBuilding" on="click"}}>
+  Delete
+</button>
