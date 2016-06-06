@@ -1,0 +1,13 @@
+<h4>The last 4 days:</h4>
+<ul>
+{{#each days as |day|}}
+  {{#link-to 'day' day.id}}<li>{{day.date}}</li>{{/link-to}}
+{{/each}}
+</ul>
+{{!--
+<h4>Active Sensors:</h4>
+<ul>
+{{#each building.sensors as |sensor|}}
+{{#link-to 'sensor' sensor.id}}<li>{{sensor.id}}</li>{{/link-to}}
+{{/each}}
+</ul> --}}
