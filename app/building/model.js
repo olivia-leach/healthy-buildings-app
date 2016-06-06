@@ -20,5 +20,6 @@ export default Model.extend({
   }),
   baseline: belongsTo('baseline'),
   measures: hasMany('measure'),
-  sensors: hasMany('sensors')
+  sensors: hasMany('sensors'),
+  days: hasMany('days')
 });
