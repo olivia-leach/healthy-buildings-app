@@ -5,13 +5,13 @@ import { hasMany } from 'ember-data/relationships';
 import DS from 'ember-data';
 
 export default Model.extend({
-  dateTime: DS.attr('date'),
+  datetime: DS.attr('date'),
   temp: DS.attr('number'),
   humidity: DS.attr('number'),
   co2: DS.attr('number'),
   noise: DS.attr('number'),
   pressure: DS.attr('number'),
-  PPD: DS.attr('number'),
+  ppd: DS.attr('number'),
   humidity_score: DS.attr('number'),
   noise_score: DS.attr('number'),
   co2_score: DS.attr('number'),

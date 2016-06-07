@@ -29,5 +29,5 @@
   "eqnull": true,
   "esnext": true,
   "unused": true,
-  "varstmt": true
+  "varstmt": true,
 }

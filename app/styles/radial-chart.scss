@@ -1,0 +1,97 @@
+.measures li {
+  display: inline-block;
+  margin: 2px 10px;
+}
+
+.measures li:hover {
+  cursor: pointer;
+}
+
+hr {
+  border-color: #565656;
+}
+
+svg {
+  display: block;
+  margin: 0 auto;
+}
+
+.container {
+  margin: 0 auto;
+}
+
+.week {
+  text-align: center;
+}
+
+.date {
+  color: white;
+  font-size: 25px;
+  font-weight: 100;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.box {
+  width: 210px;
+  height: 38px;
+  position: relative;
+  left: -45px;
+  // padding: 10px 0;
+  cursor: pointer;
+  // border: 1px solid red;
+  // background-color: blue;
+}
+
+li:hover .circle {
+  color: white;
+  background-color: #565656;
+}
+
+.rbc-label-start {
+  font-family: fontawesome;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.big-baseline-chart {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.measures li {
+  padding: 0;
+  margin: 0 auto;
+  position: relative;
+  left: -20px;
+  border: 1px solid red;
+}
+
+.baseline-info {
+  position: relative;
+  left: -10px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.little-chart {
+  display: flex;
+  align-items: center;
+}
+
+.measures {
+  // position: relative;
+  // top: -565px;
+  // left: 0;
+}
+
+div {
+  // border: 1px solid blue;
+}
+
+.little-radial-container {
+  height: 0px;
+}

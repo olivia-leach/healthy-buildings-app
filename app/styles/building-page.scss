@@ -1,0 +1,39 @@
+.leed-box {
+  position: absolute;
+  left: -110px;
+  top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.leed {
+  height: 100px;
+}
+
+.leed-no {
+  opacity: 0.2;
+}
+
+.leed-text {
+  width: 60px;
+  position: relative;
+  top: -75px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.muted-text {
+  opacity: 0.8;
+}
+
+.baseline-num {
+  position: absolute;
+  right: 0;
+}
+
+.back {
+  position: relative;
+  top: 50px;
+}

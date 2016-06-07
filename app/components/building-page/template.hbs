@@ -1,8 +1,28 @@
-<h4>{{building.name}}</h4>
-<h6>{{building.address}}, {{building.city}}, {{building.state}}</h6>
+<h3>{{building.name}}</h3>
+<h5>{{building.address}}, {{building.city}}, {{building.state}}</h5>
 
-{{building-page/baseline building=building}}
-{{building-page/sensors building=building}}
-{{building-page/daily days=building.days}}
+{{#if building.baseline.certified}}
+  <div class="leed-box">
+    <img class="leed" src="http://www.poetshouse.org/uploads/media/page-main-images/leed.jpg">
+  </div>
+{{else}}
+  <div class="leed-box">
+    <img class="leed leed-no" src="http://www.poetshouse.org/uploads/media/page-main-images/leed.jpg">
+    <h5 class="leed-text">This building is not LEED certified</h5>
+  </div>
+{{/if}}
 
-{{#link-to 'buildings'}}Back to Building Dashboard{{/link-to}}
+<div class="row">
+  <div class="col-md-3">
+  {{building-page/daily days=building.days baselineScore=baselineScore}}
+  {{building-page/sensors building=building}}
+  </div>
+  <div class="col-md-6">
+    {{building-page/center building=building}}
+  </div>
+  <div class="col-md-3">
+  {{building-page/baseline building=building}}
+  </div>
+</div>
+
+<p class="back">{{#link-to 'buildings'}}Back to Building Dashboard{{/link-to}}</p>
