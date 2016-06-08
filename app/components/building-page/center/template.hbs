@@ -1,10 +1,21 @@
-<h4>Current Health Score</h4>
-<h5 class="muted-text">{{numsensors}} sensors reporting</h5>
-<h6>Last updated: <span id="lastUpdate"></span></h6>
+<div class="row no-gutters">
+<div class="col-md-4">
+  <h3>Health Score</h3>
+  <h4 id="date">{{todaysDate}}</h4>
+  <h5 class="muted-text">{{numsensors}} sensors reporting</h5>
+  <div class="overall-score muted-text">{{overall}}</div>
+
+  <ul class="keys">
+    <li><div class="key aer-key"></div>Air Exchange Rate</li>
+    <li><div class="key tc-key"></div>Thermal Comfort</li>
+    <li><div class="key noise-key"></div>Noise</li>
+    <li><div class="key humid-key"></div>Humidity</li>
+    <li><div class="key overall-key"></div>Overall Health Score</li>
+  </ul>
+</div>
 
 {{!-- {{building-page/center/donut building=building}} --}}
-<div class="row">
-  <div class="col-md-12 main-donut-chart">
+  <div class="col-md-8 main-donut-chart">
     {{building-page/center/radial width=150 height=150 class="medium" building=building}}
   </div>
 </div>
