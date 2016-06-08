@@ -1,5 +1,10 @@
 <h2>{{sensor.building.name}}: Sensor {{sensor.id}}</h2>
 {{#link-to 'building' sensor.building.id}}Back to building overview{{/link-to}}
+
+{{!-- {{#each sensor.points as |point|}}
+  <li>{{point.datetime}}</li>
+{{/each}} --}}
+
 <h4>Data</h4>
 
 <div class="col-md-12 sensor-chart">

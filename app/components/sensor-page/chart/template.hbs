@@ -1,3 +1,8 @@
 <div class="timeseries">
-  {{c3-chart data=data axis=axis}}
+  {{#if points}}
+    {{c3-chart data=data axis=axis}}
+  {{else}}
+    {{!-- <h4>Loading data...</h4> --}}
+    <div class="loader">Loading...</div>
+  {{/if}}
 </div>

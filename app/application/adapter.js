@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import ActiveModelAdapter from 'active-model-adapter';
+import ENV from 'healthy-buildings-app/config/environment';
 
 export default ActiveModelAdapter.extend({
+  host: ENV.apiHost,
   auth: Ember.inject.service(),
 
   headers: Ember.computed('auth.credentials.token', {
