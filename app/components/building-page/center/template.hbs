@@ -1,7 +1,10 @@
 <h4>Current Health Score</h4>
+<h5 class="muted-text">{{numsensors}} sensors reporting</h5>
+<h6>Last updated: <span id="lastUpdate"></span></h6>
+
 {{!-- {{building-page/center/donut building=building}} --}}
 <div class="row">
-  <div class="col-md-12 donut-container">
-    {{building-page/center/donut width=150 height=150 class="medium" building=building}}
+  <div class="col-md-12 main-donut-chart">
+    {{building-page/center/radial width=150 height=150 class="medium" building=building}}
   </div>
 </div>

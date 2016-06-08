@@ -13,14 +13,14 @@
 {{/if}}
 
 <div class="row">
-  <div class="col-md-3">
-  {{building-page/daily days=building.days baselineScore=baselineScore}}
-  {{building-page/sensors building=building}}
-  </div>
-  <div class="col-md-6">
+  <div class="col-md-9">
     {{building-page/center building=building}}
+  <div class="row">
+    {{building-page/daily days=building.days baselineScore=baselineScore}}
+    {{building-page/sensors building=building}}
   </div>
-  <div class="col-md-3">
+  </div>
+  <div class="col-md-3 baseline-column">
   {{building-page/baseline building=building}}
   </div>
 </div>

@@ -45,8 +45,6 @@ export default Ember.Component.extend({
         d3.select('.baseline-label').text($('#baseline-info-' + d.get('id')).text());
         mainChart.update(d.series);
       }).attr('class', 'box')
-      // .append('div').attr('class', 'box').text(function(d) {
-      // })
       .each(function(d, i) {
         d.series = [content[i].get('score')*100];
         new RadialProgressChart('#measure-' + d.get('id'), {
@@ -58,13 +56,6 @@ export default Ember.Component.extend({
           series: d.series
         });
       });
-
-      // d3.selectAll('.little-chart')
-      // .on('click', function(d) {
-        // console.log($(this).attr('id'));
-        // d3.select('.baseline-label').text($('#baseline-info-' + d.get('id')).text());
-        // mainChart.update(d.series);
-      // });
 
   }.on('didInsertElement')
 });

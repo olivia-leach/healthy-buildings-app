@@ -1,20 +1,22 @@
 import Ember from 'ember';
 import RadialProgressChart from 'npm:radial-progress-chart';
+import moment from 'moment';
+
+export default Ember.Route.extend({
+  model(params) {
+    return this.get('store').findRecord('sensor', params.id);
+  },
+});
 
 let color = d3.scale.category20();
 
 export default Ember.Component.extend({
-  // tagName: 'svg',
-  // attributeBindings: 'width height'.w(),
-  // fontSize: 10,
+
   content: Ember.computed(function() {
-    console.log(this.get('building.measures').toArray());
-    let measures = this.get('building.measures').toArray();
+    let days = this.get('building.days').toArray();
     let results = [];
-    for (let i = 0; i < measures.get('length'); i++) {
-      if (measures[i].get('score') !== 999) {
-        results.push(measures[i]);
-      }
+    for (let i = 0; i < days.get('length'); i++) {
+        results.push(days[i]);
     }
     return results;
   }),
@@ -26,22 +28,35 @@ export default Ember.Component.extend({
   draw: function() {
     let content = this.get('content');
 
-    let mainChart = new RadialProgressChart('.baseline-chart', {
-      diameter: 20,
+    let mainChart = new RadialProgressChart('.main-donut-chart', {
+      diameter: 30,
+      stroke: {
+        width: 30
+      },
       series: [{
-        labelStart: '\uF106',
-        value: content[0].get('score')*100
+        label: 'Humidity',
+        value: content[0].get('humidity_score')*100
       }, {
-        labelStart: '\uF101',
-        value: 50
+        // labelStart: '\uF101',
+        value: content[0].get('tc_score')*100
       }, {
-        labelStart: '\uF105',
-        value: 50
+        // labelStart: '\uF101',
+        value: content[0].get('noise_score')*100
+      }, {
+        // labelStart: '\uF105',
+        value: content[0].get('aer_score')*100
+      }, {
+        value: (
+          content[0].get('aer_score')*0.07 +
+          content[0].get('humidity_score')*0.01 +
+          content[0].get('noise_score')*0.03 +
+          content[0].get('tc_score')*0.07
+        )*100/(18/100)
       }]
     });
 
     d3.select('.week').selectAll('li')
-      .data(data).enter()
+      .data(content).enter()
       .append('li').on('click', function(d) {
         // Update active class, date and main chart
         d3.selectAll('.circle').classed('active', false);
@@ -50,10 +65,11 @@ export default Ember.Component.extend({
         mainChart.update(d.series);
       })
       .append('div').attr('class', 'circle').text(function(d) {
-        return d.day;
+        console.log(d.get('day'));
+        return getDate(d.get('day'));
       })
       .each(function(d, i) {
-        d.date = dateFormatter(getDate(i));
+        d.date = getDate(i);
         d.series = [getRandom(), getRandom(), getRandom()];
         new RadialProgressChart(this.parentNode, {
           diameter: 10,
@@ -65,11 +81,9 @@ export default Ember.Component.extend({
         });
       });
 
-    // Return some chronological dates
+    // Return chronological dates
     function getDate(i) {
-      var date = new Date('2015-06-16');
-      date.setDate(date.getDate() + i);
-      return date;
+      return moment().subtract(5-i, 'day').format('LL');
     }
 
     // Random int between 20-80

@@ -37,3 +37,14 @@
   position: relative;
   top: 50px;
 }
+
+.week li {
+  display: inline;
+}
+
+.week {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
