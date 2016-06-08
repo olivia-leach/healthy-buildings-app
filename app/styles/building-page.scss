@@ -35,7 +35,8 @@
 
 .back {
   position: relative;
-  top: 50px;
+  top: -20px;
+  left: -20px;
 }
 
 .week li {
@@ -109,4 +110,9 @@
 
 .baseline-column {
   padding-left: 20px;
+}
+
+.sensor-button {
+  margin: 20px;
+  min-width: 50px;
 }

@@ -1,10 +1,10 @@
 <h5>Active Sensors</h5>
 <h6 class="muted-text">This building has {{numsensors}} active sensors. Click each to learn more.</h6>
 
-<div class="col-md-8">
+<div class="col-md-10">
 {{#each building.sensors as |sensor|}}
     {{!-- <button class="btn btn-default sensor-button"> --}}
-      <a class="btn btn-primary" role="button">{{#link-to 'sensor' sensor.id}}{{sensor.id}}{{/link-to}}</a>
+      {{#link-to 'sensor' sensor.id}}<button class="btn btn-primary sensor-button">{{sensor.id}}</button>{{/link-to}}
     {{!-- </button> --}}
 {{/each}}
 </div>

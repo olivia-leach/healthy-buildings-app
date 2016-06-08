@@ -7,6 +7,7 @@
 @import 'radial-chart';
 @import 'historical_days';
 @import 'buttons';
+@import 'footer';
 
 body {
   // background-color: rgb(23, 24, 26);
@@ -14,6 +15,15 @@ body {
   font-family: 'Helvetica', 'Calibri', 'sans-serif';
 }
 
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  // Margin bottom by footer height
+  margin-bottom: 60px;
+}
 // // Example app.scss
 // @import 'components/color';
 //
