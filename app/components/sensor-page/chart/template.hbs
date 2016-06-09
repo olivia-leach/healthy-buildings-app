@@ -1,8 +1,13 @@
 <div class="timeseries">
+  {{!-- <select onchange={{action "selectVehicle" value="target.value"}}>
+    {{#each measures as |vehicleChoice|}}
+      <option value={{vehicleChoice}} selected={{eq query vehicleChoice}}>{{vehicleChoice}}</option>
+    {{/each}}
+  </select> --}}
   {{#if points}}
     {{c3-chart data=data axis=axis}}
   {{else}}
     {{!-- <h4>Loading data...</h4> --}}
-    <div class="loader">Loading...</div>
+    {{!-- <div class="loader">Loading...</div> --}}
   {{/if}}
 </div>
