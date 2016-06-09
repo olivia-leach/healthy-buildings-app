@@ -1,15 +1,23 @@
-.nav-container {
-  width: 100%;
-  margin: 0;
-  padding: 0;
+.navbar-brand, .navbar-nav > li > a {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0);
+  color: white;
 }
 
-// .container-fluid {
-//   width: 100%;
-//   padding: 0;
-//   margin: 0;
+.navbar-inverse {
+  background-image: none;
+  border-width: 0px;
+  border-radius: 0px;
+  background-color: rgba(0,0,0,0.8);
+  color: white;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0);
+}
+
+// .navbar a:hover {
+//   background-color: rgba(0,0,0,0.2);
+//   color: black;
 // }
-
-.brand {
-  padding-left: 20px;
-}
+//
+// .nav > li > a:hover {
+//   background-color: rgba(0,0,0,0.2);
+//   // color: black;
+// }

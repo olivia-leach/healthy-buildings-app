@@ -34,3 +34,15 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Source Sans Pro', sans-serif;
 }
+
+body.ember-application {
+  margin: 0;
+  padding: 0;
+  text-shadow: 0;
+}
+
+body.ember-application {
+  // Margin bottom by footer height
+
+  margin-bottom: 60px;
+}
