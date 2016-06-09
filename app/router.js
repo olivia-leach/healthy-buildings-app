@@ -18,6 +18,7 @@ Router.map(function () {
   this.route('sensors');
   this.route('new-building');
   this.route('day', { path: '/days/:id' });
+  this.route('about');
 });
 
 export default Router;
