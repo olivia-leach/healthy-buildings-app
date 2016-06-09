@@ -9,6 +9,7 @@ export default Ember.Route.extend({
         Ember.$('body').append()
       },
   deactivate: function(){
-        $('body').css('background-image', "none");
+        $('body').css('background', "none");
+        // $('body').css('background', "url('images/ps_neutral.png')");
       }
 });

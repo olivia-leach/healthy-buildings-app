@@ -1,7 +1,6 @@
 <h2>{{sensor.building.name}}: Sensor {{sensor.id}}</h2>
 <h6>{{#link-to 'building' sensor.building.id}}Back to building overview{{/link-to}}</h6>
 
-<h4>100 most recent sensor measurements are shown</h4>
 {{!-- {{#each sensor.points as |point|}}
   <li>{{point.datetime}}</li>
 {{/each}} --}}
@@ -15,11 +14,14 @@
 
 <div class="col-md-12 sensor-chart">
   {{#if sensor.points}}
+    <h4>100 most recent sensor measurements are shown</h4>
     {{#each measures as |measure| }}
       {{sensor-page/chart points=sensor.points query=measure.name label=measure.label color=measure.color}}
     {{/each}}
   {{else}}
-    <h4>Loading data...</h4>
-    <div class="loader">Loading...</div>
+    <div class="loader-container">
+      <h4>Loading data...</h4>
+      <div class="loader">Loading...</div>
+    </div>
   {{/if}}
 </div>

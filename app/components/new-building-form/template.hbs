@@ -8,15 +8,12 @@
 {{building-floors-input floors=building.num_floors}}
 {{building-notes-input notes=building.notes}}
 
-  <div class="form-group">
-    <label for="exampleInputFile">Upload image</label>
-    <input type="file" id="exampleInputFile">
-  </div>
-
-<button type="submit" class="btn btn-primary" {{action "submit"}}>
+<button type="submit" class="btn btn-primary new-building-form" {{action "submit"}}>
   Submit
 </button>
 
 <button class="btn btn-default" {{action "reset"}} on="click">
   Cancel
 </button>
+
+<div class="space"></div>

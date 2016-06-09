@@ -42,7 +42,7 @@ export default Ember.Component.extend({
     let baseline = this.get('baseline');
 
     let mainChart = new RadialProgressChart('.main-donut-chart', {
-      diameter: 30,
+      diameter: 50,
       stroke: {
         width: 30
       },

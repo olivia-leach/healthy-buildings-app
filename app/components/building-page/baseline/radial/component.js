@@ -37,7 +37,8 @@ export default Ember.Component.extend({
       series: [{
         labelStart: content[0].get('score.framework.name'),
         value: content[0].get('score')*100
-      }]
+      }],
+      center: Math.round(content[0].get('score')*100,2) + '%'
     });
 
     let chart_data;
@@ -47,6 +48,7 @@ export default Ember.Component.extend({
       .append('div').on('click', function(d) {
         d3.select('.baseline-label').text($('#baseline-info-' + d.get('id')).text());
         mainChart.update(d.series);
+        $('.rbc-center-text-line0').text(Math.round(d.get('score')*100,2)+'%');
       }).attr('class', 'box')
       .each(function(d, i) {
         d.series = [content[i].get('score')*100];
@@ -59,7 +61,7 @@ export default Ember.Component.extend({
             width: 6,
             gap: 1
           },
-          series: d.series
+          series: d.series,
         });
       });
 
