@@ -15,6 +15,7 @@ module.exports = function(defaults) {
   // app.import('bower_components/bootstrap-sass/assets/stylesheets/', { destDir 'styles/bootstrap' });
   app.import('bower_components/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.woff2', { destDir: 'fonts/bootstrap' });
   app.import('bower_components/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.woff', { destDir: 'fonts/bootstrap' });
+  app.import('/images/backsplash.jpg', { destDirt: 'assets/images' });
 
   return app.toTree();
 };
