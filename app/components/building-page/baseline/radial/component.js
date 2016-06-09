@@ -36,9 +36,9 @@ export default Ember.Component.extend({
       },
       series: [{
         labelStart: content[0].get('score.framework.name'),
-        value: content[0].get('score')*100
+        value: this.get('baseline')
       }],
-      center: Math.round(content[0].get('score')*100,2) + '%'
+      center: Math.round(this.get('baseline')) + '%'
     });
 
     let chart_data;
@@ -46,6 +46,7 @@ export default Ember.Component.extend({
     d3.select('.measures').selectAll('li')
       .data(content).enter()
       .append('div').on('click', function(d) {
+        $('#reset-baseline').show();
         d3.select('.baseline-label').text($('#baseline-info-' + d.get('id')).text());
         mainChart.update(d.series);
         $('.rbc-center-text-line0').text(Math.round(d.get('score')*100,2)+'%');
@@ -63,6 +64,19 @@ export default Ember.Component.extend({
           },
           series: d.series,
         });
+      });
+
+      let baseline = this.get('baseline');
+
+    d3.select('#reset-baseline').on('click', function(d) {
+      console.log('test');
+      $('#reset-baseline').hide();
+      let series = [{
+          value: baseline
+        }];
+      mainChart.update(series);
+      $('.baseline-label').text('Overall Score');
+      $('.rbc-center-text-line0').text(Math.round(baseline,2)+'%');
       });
 
   }.on('didInsertElement')

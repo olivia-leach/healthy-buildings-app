@@ -40,6 +40,17 @@ export default Ember.Component.extend({
   draw: function() {
     let content = this.get('content');
     let baseline = this.get('baseline');
+    let overall_start = Ember.computed(function() {
+      let calc = (((
+        content[4].get('aer_score')*7 +
+        content[4].get('humidity_score')*1 +
+        content[4].get('noise_score')*3 +
+        content[4].get('tc_score')*7 +
+        baseline*45
+      )/63)*100);
+      console.log(calc);
+      return calc;
+    })
 
     let mainChart = new RadialProgressChart('.main-donut-chart', {
       diameter: 50,
@@ -49,6 +60,14 @@ export default Ember.Component.extend({
       shadow: {
         width: 0
       },
+      // center: Math.round(content[0].get('score')*100,2) + '%',
+      // overall: ((
+      //   content[4].get('aer_score')*7 +
+      //   content[4].get('humidity_score')*1 +
+      //   content[4].get('noise_score')*3 +
+      //   content[4].get('tc_score')*7 +
+      //   baseline*45
+      // )/63)*100,
       series: [{
         label: 'Humidity',
         value: content[4].get('humidity_score')*100
@@ -62,12 +81,7 @@ export default Ember.Component.extend({
         // labelStart: '\uF105',
         value: content[4].get('aer_score')*100
       }, {
-        value: (
-          content[4].get('aer_score')*0.07 +
-          content[4].get('humidity_score')*0.01 +
-          content[4].get('noise_score')*0.03 +
-          content[4].get('tc_score')*0.07
-        )*100/(18/100)
+        value: 50
       }]
     });
 
@@ -82,7 +96,6 @@ export default Ember.Component.extend({
         mainChart.update(d.series);
       })
       .append('div').attr('class', 'circle').text(function(d) {
-        console.log(d.get('day'));
         return getDate(d.get('day'));
       })
       .each(function(d, i) {
@@ -94,7 +107,6 @@ export default Ember.Component.extend({
           content[i].get('tc_score')*7 +
           baseline*45
         )/63)*100;
-        console.log(baseline);
         // d.series = [getRandom(), getRandom(), getRandom()];
         d.series = [{
           value: content[i].get('humidity_score')*100
