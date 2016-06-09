@@ -37,7 +37,7 @@ export default Ember.Component.extend({
       this.get('content').objectAt(4).get('noise_score')*3 +
       this.get('content').objectAt(4).get('tc_score')*7 +
       this.get('baseline')*45
-    )/63)*100,2) + '%';
+    )/63)*100,2);
   })
 
 });

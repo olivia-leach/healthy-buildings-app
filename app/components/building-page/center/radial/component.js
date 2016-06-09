@@ -81,7 +81,7 @@ export default Ember.Component.extend({
         // labelStart: '\uF105',
         value: content[4].get('aer_score')*100
       }, {
-        value: 50
+        value: this.get('overall')
       }]
     });
 
