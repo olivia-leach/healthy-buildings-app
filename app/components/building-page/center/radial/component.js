@@ -109,6 +109,9 @@ export default Ember.Component.extend({
         }];
         new RadialProgressChart(this.parentNode, {
           diameter: 10,
+          shadow: {
+            width: 0
+          },
           stroke: {
             width: 6,
             gap: 1

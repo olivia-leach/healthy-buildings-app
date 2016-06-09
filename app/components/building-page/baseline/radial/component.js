@@ -52,6 +52,9 @@ export default Ember.Component.extend({
         d.series = [content[i].get('score')*100];
         new RadialProgressChart('#measure-' + d.get('id'), {
           diameter: 10,
+          shadow: {
+            width: 0
+          },
           stroke: {
             width: 6,
             gap: 1
