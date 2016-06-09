@@ -1,4 +1,11 @@
-<h3>{{building.name}}</h3>
+<h3>
+  {{#if isEditing}}
+    {{input value=label}}
+    <button {{action save}}>Save</button>
+  {{else}}
+    <span class="editable" {{action edit on="click"}}>{{label}}</span><span class="glyphicon glyphicon-pencil glyphicon-small"></span>
+  {{/if}}
+</h3>
 {{#if building.address}}<h5>{{building.address}}, {{building.city}}, {{building.state}}</h5>{{/if}}
 
 {{#if building.measures}}
