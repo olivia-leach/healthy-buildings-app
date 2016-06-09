@@ -9,7 +9,7 @@ export default Ember.Route.extend({
       this.get('auth').signUp(credentials)
       .then(() => this.get('auth').signIn(credentials))
       .then(() => this.get('auth').createProfile())
-      .then(() => this.transitionTo('application'))
+      .then(() => this.transitionTo('buildings'))
       .then(() => {
         this.get('flashMessages')
         .success('Successfully signed-up! You have also been signed-in.');
