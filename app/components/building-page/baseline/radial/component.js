@@ -31,7 +31,9 @@ export default Ember.Component.extend({
         width: 15,
         gap: 1
       },
-      shadow: 0,
+      shadow: {
+        width: 0
+      },
       series: [{
         labelStart: content[0].get('score.framework.name'),
         value: content[0].get('score')*100

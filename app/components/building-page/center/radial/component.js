@@ -46,7 +46,9 @@ export default Ember.Component.extend({
       stroke: {
         width: 30
       },
-      shadow: 0,
+      shadow: {
+        width: 0
+      },
       series: [{
         label: 'Humidity',
         value: content[4].get('humidity_score')*100
