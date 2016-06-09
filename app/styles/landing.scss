@@ -33,10 +33,11 @@
   Ensure background is added first
   */
   // background: linear-gradient(to bottom, #eee, rgba(222,112,6,0.2), #de7006),url('/images/backsplash.png');
-  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./images/backsplash.jpg') no-repeat center center fixed;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/backsplash.jpg') no-repeat center center fixed;
 
   background-size: cover;
-   background-attachment: fixed;
+
+  background-attachment: fixed;
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
 
