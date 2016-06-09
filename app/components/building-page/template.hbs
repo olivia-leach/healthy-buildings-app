@@ -1,9 +1,10 @@
 <h3>
   {{#if isEditing}}
-    {{input value=label}}
-    <button {{action save}}>Save</button>
+    {{input value=label class="edit-bar"}}
+    <button class="btn btn-default btn-xs" {{action save}}>Save</button>
+    <button class="btn btn-default btn-xs" {{action cancel}}>Cancel</button>
   {{else}}
-    <span class="editable" {{action edit on="click"}}>{{label}}</span><span class="glyphicon glyphicon-pencil glyphicon-small"></span>
+    <span class="editable" {{action edit on="click"}}>{{label}}</span><a href="" {{action edit on="click"}} data-toggle="tooltip" title="Click to edit name"><span class="glyphicon glyphicon-pencil glyphicon-small"></span></a>
   {{/if}}
 </h3>
 {{#if building.address}}<h5>{{building.address}}, {{building.city}}, {{building.state}}</h5>{{/if}}
@@ -37,9 +38,9 @@
 <img src="">
 <div class="row warning">
   <div class="col-md-8">
-    <div class="panel panel-danger">
+    <div class="panel panel-warning">
       <div class="panel-heading">
-        <h3 class="panel-title"><span class="glyphicon glyphicon-exclamation-sign"></span> Building page not found</h3>
+        <h3 class="panel-title"><span class="glyphicon glyphicon-random"></span><span class="panel-title-text">Building page in development</span></h3>
       </div>
       <div class="panel-body">
         This building was recently added to your dashboard. Site admins have been notified and are in the process of verifying the details of your building and connecting it to its data sensors. Please try again soon!

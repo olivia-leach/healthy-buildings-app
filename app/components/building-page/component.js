@@ -3,9 +3,14 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   isEditing: false,
   label: Ember.computed(function() {
-    return this.get('building.name')
+    // $('[data-toggle="tooltip"]').tooltip();
+    // $('.glyphicon-small').tooltip();
+    return this.get('building.name');
   }),
   building: {},
+  cancel: function() {
+    this.set('isEditing', false);
+  },
   save: function() {
     this.set('isEditing', false);
     console.log('saved');
