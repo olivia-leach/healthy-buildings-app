@@ -9,6 +9,8 @@
 @import 'buttons';
 @import 'footer';
 @import 'loader';
+@import 'landing';
+@import 'navbar';
 
 body {
   // background-color: rgb(23, 24, 26);
@@ -16,21 +18,38 @@ body {
   font-family: 'Helvetica', 'Calibri', 'sans-serif';
 }
 
+.landing {
+  background: url('/images/backsplash.png') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  // width: 100%;
+  // height: 100%;
+  // margin: 0;
+  // padding: 0;
+}
+
+.rest {
+  // width: 100%;
+  // height: 100%;
+  // margin: 0;
+  // padding: 0;
+}
+
 html {
   min-height: 100%;
   position: relative;
+  margin: 0;
+  padding: 0;
 }
 
 body {
   // Margin bottom by footer height
+
   margin-bottom: 60px;
 }
-// // Example app.scss
-// @import 'components/color';
-//
-// // Custom color settings go here
-// // $primary-color: color("pink", "lighten-2");
-//
-// @import 'components/variables';
-// @import 'materialize';
-// @import 'ember-cli-materialize';
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Source Sans Pro', sans-serif;
+}

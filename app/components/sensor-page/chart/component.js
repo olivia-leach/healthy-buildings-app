@@ -31,6 +31,14 @@ export default Ember.Component.extend({
     var self = this;
     // console.log('test');
     // console.log($('#drop-down option:selected').text());
+
+    Ember.run.later(function() {
+      self.get('data.columns').push(
+        ['data3', 400, 500, 450, 700, 600, 500]
+      );
+      self.notifyPropertyChange('data');
+    }, 1000);
+
   },
 
   updateChart: function() {
@@ -66,8 +74,8 @@ export default Ember.Component.extend({
           this.get('dates'),
           this.get('results')
         ],
-        color: this.get('color')
-        // type: 'scatter'
+        color: this.get('color'),
+        type: 'spline'
       })
     }),
 
