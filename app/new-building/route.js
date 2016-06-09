@@ -15,6 +15,10 @@ export default Ember.Route.extend({
         this.get('flashMessages')
         .danger('There was a problem. Please try again.');
       });
+    },
+
+    goHome () {
+      this.transitionTo('buildings');
     }
   }
 });

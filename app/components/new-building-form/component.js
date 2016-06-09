@@ -14,7 +14,7 @@ export default Ember.Component.extend({
 
     reset () {
       this.set('building', {});
-      // this.transitionTo('buildings');
+      this.sendAction('goHome');
     },
   },
 });

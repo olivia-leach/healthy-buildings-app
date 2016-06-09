@@ -36,11 +36,4 @@ export default Ember.Component.extend({
         });
     }
   }),
-
-  // actions: {
-  //   updateBuilding () {
-  //     console.log('updating building');
-  //     // this.sendAction('updateBuilding', this.get('building'));
-  //   }
-  // }
 });
