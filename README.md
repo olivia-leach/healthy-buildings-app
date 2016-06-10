@@ -5,6 +5,12 @@ An Ember.js app built to visualize indoor air monitoring data for a test case of
 
 This project was inspired by work completed by the Harvard School of Public Health Sensors for Health group. Their goal is to develop a tool for property managers to visualize real-time indoor environment data.
 
+Live website: http://olivia-leach.github.io/healthy-buildings-app/#/
+
+Front-end repo: https://github.com/olivia-leach/healthy-buildings-app
+
+Back-end repo: https://github.com/olivia-leach/healthy-buildings-api
+
 ## Technologies used
 
 * Ember.js
