@@ -6,7 +6,8 @@ module.exports = function(environment) {
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
-    apiHost: 'http://localhost:3000/',
+    // apiHost: 'http://localhost:3000/',
+    apiHost: 'https://healthy-buildings-api.herokuapp.com/',
     // apiHost: 'https://healthybuildings-api.herokuapp.com/',
     EmberENV: {
       FEATURES: {
