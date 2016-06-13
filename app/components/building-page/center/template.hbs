@@ -3,13 +3,14 @@
   <h3>Health Score</h3>
   <h4 id="date">{{todaysDate}}</h4>
   <h5 class="muted-text">{{numsensors}} sensors reporting</h5>
-  <div class="overall-score muted-text">{{overall}}%</div>
+  <div class="muted-text"><span class="overall-score">{{overall}}</span><span class="small-text"> / 60</span></div>
 
   <ul class="keys">
-    <li><div class="key aer-key"></div>Air Exchange Rate</li>
+    <li><div class="key humid-key"></div>Humidity</li>
     <li><div class="key tc-key"></div>Thermal Comfort</li>
     <li><div class="key noise-key"></div>Noise</li>
-    <li><div class="key humid-key"></div>Humidity</li>
+    <li><div class="key aer-key"></div>Air Exchange Rate</li>
+    <li><div class="key baseline-key"></div>Baseline Score</li>
     <li><div class="key overall-key"></div>Overall Health Score</li>
   </ul>
 </div>

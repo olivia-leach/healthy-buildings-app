@@ -40,36 +40,18 @@ export default Ember.Component.extend({
   draw: function() {
     let content = this.get('content');
     let baseline = this.get('baseline');
-    let overall_start = Ember.computed(function() {
-      let calc = (((
-        content[4].get('aer_score')*7 +
-        content[4].get('humidity_score')*1 +
-        content[4].get('noise_score')*3 +
-        content[4].get('tc_score')*7 +
-        baseline*45
-      )/63)*100);
-      console.log(calc);
-      return calc;
-    })
+    let aer_score = content[4].get('aer_score');
+    console.log(this.get('overall'));
 
     let mainChart = new RadialProgressChart('.main-donut-chart', {
       diameter: 50,
       stroke: {
-        width: 30
+        width: 25
       },
       shadow: {
         width: 0
       },
-      // center: Math.round(content[0].get('score')*100,2) + '%',
-      // overall: ((
-      //   content[4].get('aer_score')*7 +
-      //   content[4].get('humidity_score')*1 +
-      //   content[4].get('noise_score')*3 +
-      //   content[4].get('tc_score')*7 +
-      //   baseline*45
-      // )/63)*100,
       series: [{
-        label: 'Humidity',
         value: content[4].get('humidity_score')*100
       }, {
         // labelStart: '\uF101',
@@ -80,8 +62,11 @@ export default Ember.Component.extend({
       }, {
         // labelStart: '\uF105',
         value: content[4].get('aer_score')*100
-      }, {
-        value: this.get('overall')
+      },{
+        value: baseline
+      },{
+        // value: overall_start*100
+        value: (this.get('overall')/60)*100
       }]
     });
 
@@ -92,7 +77,7 @@ export default Ember.Component.extend({
         d3.selectAll('.circle').classed('active', false);
         d3.select(this).select('.circle').classed('active', true);
         d3.select('#date').text(getDate(d.get('day')));
-        d3.select('.overall-score').text(Math.round(d.overall,2) + '%');
+        d3.select('.overall-score').text(Math.round((d.overall/100)*60,2));
         mainChart.update(d.series);
       })
       .append('div').attr('class', 'circle').text(function(d) {
@@ -105,9 +90,8 @@ export default Ember.Component.extend({
           content[i].get('humidity_score')*1 +
           content[i].get('noise_score')*3 +
           content[i].get('tc_score')*7 +
-          baseline*45
-        )/63)*100;
-        // d.series = [getRandom(), getRandom(), getRandom()];
+          (baseline/100)*42
+        )/60)*100;
         d.series = [{
           value: content[i].get('humidity_score')*100
         }, {
@@ -116,6 +100,8 @@ export default Ember.Component.extend({
           value: content[i].get('noise_score')*100
         }, {
           value: content[i].get('aer_score')*100
+        },{
+          value: baseline
         }, {
           value: d.overall
         }];

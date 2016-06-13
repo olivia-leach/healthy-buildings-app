@@ -20,13 +20,25 @@ export default Ember.Component.extend({
 
   baseline: Ember.computed(function() {
     let measures = this.get('building.measures').toArray();
+    console.log(measures);
     let result = 0;
     for (let i = 0; i < measures.length; i++) {
       let score = measures[i].get('score');
-      if (score !== 999) {
-        result += measures[i].get('score')*0.03
+      if (score === 999) {
+        score = 0.25;
+      }
+      console.log(score);
+      if (i === 6) {
+        result += measures[i].get('score')*0.01;
+      } else if (i === 7) {
+        result += measures[i].get('score')*0.02;
+      } else {
+        result += measures[i].get('score')*0.03;
       }
     }
+    console.log(result);
+    result = (result/.42);
+    console.log(result);
     return result;
   }),
 
@@ -36,8 +48,8 @@ export default Ember.Component.extend({
       this.get('content').objectAt(4).get('humidity_score')*1 +
       this.get('content').objectAt(4).get('noise_score')*3 +
       this.get('content').objectAt(4).get('tc_score')*7 +
-      this.get('baseline')*45
-    )/63)*100,2);
+      (this.get('baseline')/100)*42
+    )),2);
   })
 
 });
