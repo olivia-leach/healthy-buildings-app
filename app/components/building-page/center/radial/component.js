@@ -21,17 +21,17 @@ export default Ember.Component.extend({
     return results;
   }),
 
-  baseline: Ember.computed(function() {
-    let measures = this.get('building.measures').toArray();
-    let result = 0;
-    for (let i = 0; i < measures.length; i++) {
-      let score = measures[i].get('score');
-      if (score !== 999) {
-        result += measures[i].get('score')*0.03
-      }
-    }
-    return result;
-  }),
+  // baseline: Ember.computed(function() {
+  //   let measures = this.get('building.measures').toArray();
+  //   let result = 0;
+  //   for (let i = 0; i < measures.length; i++) {
+  //     let score = measures[i].get('score');
+  //     if (score !== 999) {
+  //       result += measures[i].get('score')*0.03
+  //     }
+  //   }
+  //   return result;
+  // }),
 
   transform: function(){
     return 'translate(' + this.get('width')/2 + ',' + this.get('height')/2 + ')';
@@ -39,9 +39,27 @@ export default Ember.Component.extend({
 
   draw: function() {
     let content = this.get('content');
-    let baseline = this.get('baseline');
-    let aer_score = content[4].get('aer_score');
-    console.log(this.get('overall'));
+    let baseline = this.get('baseline')*100;
+    let humidity_score = content[0].get('humidity_score');
+    let aer_score = content[0].get('aer_score');
+    let noise_score = content[0].get('noise_score');
+    let tc_score = content[0].get('tc_score');
+
+    if (humidity_score === 999) {
+      humidity_score = .25;
+    }
+
+    if (aer_score === 999) {
+      aer_score = .25;
+    }
+
+    if (noise_score === 999) {
+      noise_score = .25;
+    }
+
+    if (tc_score === 999) {
+      tc_score = .25;
+    }
 
     let mainChart = new RadialProgressChart('.main-donut-chart', {
       diameter: 50,
@@ -52,21 +70,23 @@ export default Ember.Component.extend({
         width: 0
       },
       series: [{
-        value: content[4].get('humidity_score')*100
+        value: humidity_score*100
       }, {
         // labelStart: '\uF101',
-        value: content[4].get('tc_score')*100
+        value: tc_score*100
       }, {
         // labelStart: '\uF101',
-        value: content[4].get('noise_score')*100
+        value: noise_score*100
       }, {
         // labelStart: '\uF105',
-        value: content[4].get('aer_score')*100
+        value: aer_score*100
       },{
         value: baseline
       },{
         // value: overall_start*100
-        value: (this.get('overall')/60)*100
+        value: (content[0].get('overall_score')/60)*100,
+        // value: (this.get('overall')/60)*100,
+        color: ['#1a962a', '#1a962a']
       }]
     });
 
@@ -77,7 +97,7 @@ export default Ember.Component.extend({
         d3.selectAll('.circle').classed('active', false);
         d3.select(this).select('.circle').classed('active', true);
         d3.select('#date').text(getDate(d.get('day')));
-        d3.select('.overall-score').text(Math.round((d.overall/100)*60,2));
+        d3.select('.overall-score').text(Math.round((d.overall)*10)/10);
         mainChart.update(d.series);
       })
       .append('div').attr('class', 'circle').text(function(d) {
@@ -85,25 +105,43 @@ export default Ember.Component.extend({
       })
       .each(function(d, i) {
         d.date = getDate(i);
-        d.overall = ((
-          content[i].get('aer_score')*7 +
-          content[i].get('humidity_score')*1 +
-          content[i].get('noise_score')*3 +
-          content[i].get('tc_score')*7 +
-          (baseline/100)*42
-        )/60)*100;
+        d.overall = content[4-i].get('overall_score');
+        let humidity_score = content[4-i].get('humidity_score');
+        let aer_score = content[4-i].get('aer_score');
+        let noise_score = content[4-i].get('noise_score');
+        let tc_score = content[4-i].get('tc_score');
+
+        if (content[4-i].get('humidity_score') === 999) {
+          humidity_score = .25;
+        }
+
+        if (content[4-i].get('aer_score') === 999) {
+          aer_score = .25;
+        }
+
+        if (content[4-i].get('noise_score') === 999) {
+          noise_score = .25;
+        }
+
+        if (content[4-i].get('tc_score') === 999) {
+          tc_score = .25;
+        }
+
         d.series = [{
-          value: content[i].get('humidity_score')*100
+          // value: content[4-i].get('humidity_score')*100
+          value: humidity_score*100
         }, {
-          value: content[i].get('tc_score')*100
+          value: tc_score*100
         }, {
-          value: content[i].get('noise_score')*100
+          value: noise_score*100
         }, {
-          value: content[i].get('aer_score')*100
+          value: aer_score*100
         },{
           value: baseline
         }, {
-          value: d.overall
+          value: (d.overall/60)*100,
+          // value: d.overall,
+          color: ['#1a962a', '#1a962a']
         }];
         new RadialProgressChart(this.parentNode, {
           diameter: 10,
@@ -111,7 +149,7 @@ export default Ember.Component.extend({
             width: 0
           },
           stroke: {
-            width: 6,
+            width: 5,
             gap: 1
           },
           series: d.series
