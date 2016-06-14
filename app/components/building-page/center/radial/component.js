@@ -158,7 +158,7 @@ export default Ember.Component.extend({
 
     // Return chronological dates
     function getDate(i) {
-      return moment().subtract(5-i, 'day').format('LL');
+      return moment().subtract(i-1, 'day').format('LL');
     }
 
   }.on('didInsertElement')
