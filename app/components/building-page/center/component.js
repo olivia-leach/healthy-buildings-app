@@ -21,7 +21,6 @@ export default Ember.Component.extend({
   baseline: Ember.computed(function() {
     let baseline = this.get('building.baseline');
     let certified = baseline.get('certified');
-    console.log(certified);
     if (certified === false) {
       return 0.25;
     } else {
@@ -32,14 +31,7 @@ export default Ember.Component.extend({
   }),
 
   overall: Ember.computed(function() {
-    return Math.round(this.get('content').objectAt(0).get('overall_score')*10)/10
-    // return Math.round(((
-    //   this.get('content').objectAt(0).get('aer_score')*7 +
-    //   this.get('content').objectAt(0).get('humidity_score')*1 +
-    //   this.get('content').objectAt(0).get('noise_score')*3 +
-    //   this.get('content').objectAt(0).get('tc_score')*7 +
-    //   (this.get('baseline'))*42
-    // ))*10)/10;
+    return (Math.round(this.get('content').objectAt(0).get('overall_score')*10)/10).toFixed(1);
   })
 
 });

@@ -21,18 +21,6 @@ export default Ember.Component.extend({
     return results;
   }),
 
-  // baseline: Ember.computed(function() {
-  //   let measures = this.get('building.measures').toArray();
-  //   let result = 0;
-  //   for (let i = 0; i < measures.length; i++) {
-  //     let score = measures[i].get('score');
-  //     if (score !== 999) {
-  //       result += measures[i].get('score')*0.03
-  //     }
-  //   }
-  //   return result;
-  // }),
-
   transform: function(){
     return 'translate(' + this.get('width')/2 + ',' + this.get('height')/2 + ')';
   },
@@ -97,7 +85,7 @@ export default Ember.Component.extend({
         d3.selectAll('.circle').classed('active', false);
         d3.select(this).select('.circle').classed('active', true);
         d3.select('#date').text(getDate(d.get('day')));
-        d3.select('.overall-score').text(Math.round((d.overall)*10)/10);
+        d3.select('.overall-score').text((Math.round((d.overall)*10)/10).toFixed(1));
         mainChart.update(d.series);
       })
       .append('div').attr('class', 'circle').text(function(d) {
