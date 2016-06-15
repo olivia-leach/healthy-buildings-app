@@ -1,4 +1,4 @@
-<h3>
+<h2>
   {{#if isEditing}}
     {{input value=label class="edit-bar"}}
     <button class="btn btn-default btn-xs" {{action save}}>Save</button>
@@ -6,7 +6,7 @@
   {{else}}
     <span class="editable" {{action edit on="click"}}>{{label}}</span><a href="" {{action edit on="click"}} data-toggle="tooltip" title="Click to edit name"><span class="glyphicon glyphicon-pencil glyphicon-small"></span></a>
   {{/if}}
-</h3>
+</h2>
 {{#if building.address}}<h5>{{building.address}}, {{building.city}}, {{building.state}}</h5>{{/if}}
 
 {{#if building.measures}}

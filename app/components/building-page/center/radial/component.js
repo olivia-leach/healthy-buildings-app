@@ -318,7 +318,7 @@ export default Ember.Component.extend({
 
       });
 
-    let foundationDiam = 35;
+    let foundationDiam = 50;
     let foundationWidth = 10;
 
     let ventilation = new RadialProgressChart('#ventilation', {

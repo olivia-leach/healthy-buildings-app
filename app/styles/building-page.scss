@@ -41,6 +41,7 @@
 
 .week li {
   display: inline;
+  cursor: pointer;
 }
 
 .week {
@@ -61,7 +62,7 @@
 .keys li {
   margin-left: -20px;
   position: relative;
-  top: 60px;
+  top: 40px;
   left: -20px;
   list-style: none;
   font-size: 11px;
@@ -171,4 +172,60 @@
 .small-text {
   font-size: 2em;
   font-weight: 300;
+}
+
+.foundations-list {
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  padding: 0;
+  margin: 0;
+  // justify-content: center;
+  // height: 60vh;
+  // overflow-y: scroll;
+}
+
+.foundations-list li {
+  list-style: none;
+}
+
+.foundation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.foundation-label {
+  align-self: baseline;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  top: -6px;
+}
+
+.rbc-center-text-line0 {
+  font-family: 'Source Sans Pro';
+}
+
+.foundations-column {
+  text-align: center;
+  background-color: rgba(0,0,0,0.03);
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.hl {
+  border-bottom: 1px groove rgba(0,0,0,0.2);
+  width: 60%;
+  align-self: center;
+}
+
+.score-container {
+  padding: 20px 0 0 0;
 }
