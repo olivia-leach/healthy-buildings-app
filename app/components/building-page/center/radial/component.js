@@ -32,6 +32,20 @@ export default Ember.Component.extend({
     let aer_score = content[0].get('aer_score');
     let noise_score = content[0].get('noise_score');
     let tc_score = content[0].get('tc_score');
+    let enhanced_iaq = content[0].get('enhanced_iaq');
+    let tc = content[0].get('tc');
+    let iaq_perf = content[0].get('iaq_perf');
+    let low_emit_air = content[0].get('low_emit_air');
+    let iaq_assess = content[0].get('iaq_assess');
+    let acoustic = content[0].get('acoustic');
+    let low_emit_dirt = content[0].get('low_emit_dirt');
+    let green_clean = content[0].get('green_clean');
+    let ipm = content[0].get('ipm');
+    let int_lighting = content[0].get('int_lighting');
+    let daylight = content[0].get('daylight');
+    let views = content[0].get('views');
+    let mold = content[0].get('mold');
+    let ets = content[0].get('ets');
 
     if (humidity_score === 999) {
       humidity_score = .25;
@@ -47,6 +61,62 @@ export default Ember.Component.extend({
 
     if (tc_score === 999) {
       tc_score = .25;
+    }
+
+    if (enhanced_iaq === 999) {
+      enhanced_iaq = .25;
+    }
+
+    if (tc === 999) {
+      tc = .25;
+    }
+
+    if (iaq_perf === 999) {
+      iaq_perf = .25;
+    }
+
+    if (low_emit_air === 999) {
+      low_emit_air = .25;
+    }
+
+    if (iaq_assess === 999) {
+      iaq_assess = .25;
+    }
+
+    if (acoustic === 999) {
+      acoustic = .25;
+    }
+
+    if (low_emit_dirt === 999) {
+      low_emit_dirt = .25;
+    }
+
+    if (green_clean === 999) {
+      green_clean = .25;
+    }
+
+    if (ipm === 999) {
+      ipm = .25;
+    }
+
+    if (int_lighting === 999) {
+      int_lighting = .25;
+    }
+
+    if (daylight === 999) {
+      daylight = .25;
+    }
+
+    if (views === 999) {
+      views = .25;
+    }
+
+    if (mold === 999) {
+      mold = .25;
+    }
+
+    if (ets === 999) {
+      ets = .25;
     }
 
     let mainChart = new RadialProgressChart('.main-donut-chart', {
@@ -78,6 +148,8 @@ export default Ember.Component.extend({
       }]
     });
 
+    let day = 5;
+
     d3.select('.week').selectAll('li')
       .data(content).enter()
       .append('li').on('click', function(d) {
@@ -85,8 +157,16 @@ export default Ember.Component.extend({
         d3.selectAll('.circle').classed('active', false);
         d3.select(this).select('.circle').classed('active', true);
         d3.select('#date').text(getDate(d.get('day')));
+        d3.select('#test').text(d.get('day'));
         d3.select('.overall-score').text((Math.round((d.overall)*10)/10).toFixed(1));
         mainChart.update(d.series);
+        ventilation.update(d.ventilation);
+        airQuality.update(d.airQuality);
+        noise.update(d.noise);
+        dirtAndDust.update(d.dirtAndDust);
+        ipm.update(d.ipm);
+        lightingAndViews.update(d.lightingAndViews);
+        moisture.update(d.moisture);
       })
       .append('div').attr('class', 'circle').text(function(d) {
         return getDate(d.get('day'));
@@ -98,6 +178,19 @@ export default Ember.Component.extend({
         let aer_score = content[4-i].get('aer_score');
         let noise_score = content[4-i].get('noise_score');
         let tc_score = content[4-i].get('tc_score');
+        let enhanced_iaq = content[4-i].get('enhanced_iaq');
+        let tc = content[4-i].get('tc');
+        let iaq_perf = content[4-i].get('iaq_perf');
+        let low_emit_air = content[4-i].get('low_emit_air');
+        let iaq_assess = content[4-i].get('iaq_assess');
+        let acoustic = content[4-i].get('acoustic');
+        let low_emit_dirt = content[4-i].get('low_emit_dirt');
+        let green_clean = content[4-i].get('green_clean');
+        let ipm = content[4-i].get('ipm');
+        let int_lighting = content[4-i].get('int_lighting');
+        let daylight = content[4-i].get('daylight');
+        let views = content[4-i].get('views');
+        let mold = content[4-i].get('mold');
 
         if (content[4-i].get('humidity_score') === 999) {
           humidity_score = .25;
@@ -113,6 +206,58 @@ export default Ember.Component.extend({
 
         if (content[4-i].get('tc_score') === 999) {
           tc_score = .25;
+        }
+
+        if (content[4-i].get('enhanced_iaq') === 999) {
+          enhanced_iaq = .25;
+        }
+
+        if (content[4-i].get('tc') === 999) {
+          tc = .25;
+        }
+
+        if (iaq_perf === 999) {
+          iaq_perf = .25;
+        }
+
+        if (low_emit_air === 999) {
+          low_emit_air = .25;
+        }
+
+        if (iaq_assess === 999) {
+          iaq_assess = .25;
+        }
+
+        if (acoustic === 999) {
+          acoustic = .25;
+        }
+
+        if (low_emit_dirt === 999) {
+          low_emit_dirt = .25;
+        }
+
+        if (green_clean === 999) {
+          green_clean = .25;
+        }
+
+        if (ipm === 999) {
+          ipm = .25;
+        }
+
+        if (int_lighting === 999) {
+          int_lighting = .25;
+        }
+
+        if (daylight === 999) {
+          daylight = .25;
+        }
+
+        if (views === 999) {
+          views = .25;
+        }
+
+        if (mold === 999) {
+          mold = .25;
         }
 
         d.series = [{
@@ -142,7 +287,201 @@ export default Ember.Component.extend({
           },
           series: d.series
         });
+
+        d.ventilation = [{
+          value: ((enhanced_iaq*3 + tc*3 + aer_score*7 + tc_score*7)/20)*100
+        }];
+
+        d.airQuality = [{
+          value: ((iaq_perf*3 + low_emit_air*3 + iaq_assess*3)/9)*100
+        }];
+
+        d.noise = [{
+          value: ((acoustic*3 + noise_score*3)/6)*100
+        }];
+
+        d.dirtAndDust = [{
+          value: ((low_emit_dirt*1 + green_clean*2)/3)*100
+        }];
+
+        d.ipm = [{
+          value: ((ipm*3)/3)*100
+        }];
+
+        d.lightingAndViews = [{
+          value: ((int_lighting*3 + daylight*3 + views*3)/9)*100
+        }];
+
+        d.moisture = [{
+          value: ((mold*3 + humidity_score*1)/4)*100
+        }];
+
       });
+
+    let foundationDiam = 35;
+    let foundationWidth = 10;
+
+    let ventilation = new RadialProgressChart('#ventilation', {
+      diameter: foundationDiam,
+      center: function(p) {
+        let points = 20;
+        return (Math.round((p*points)*10/100)/10) + '/' + points;
+      },
+      stroke: {
+        width: foundationWidth,
+        gap: 1
+      },
+      shadow: {
+        width: 0
+      },
+      series: [{
+        value: ((enhanced_iaq*3 + tc*3 + aer_score*7 + tc_score*7)/20)*100
+      }]
+    });
+
+    let airQuality = new RadialProgressChart('#airQuality', {
+      diameter: foundationDiam,
+      center: function(p) {
+        let points = 9;
+        return (Math.round((p*points)*10/100)/10) + '/' + points;
+      },
+      stroke: {
+        width: foundationWidth,
+        gap: 1
+      },
+      shadow: {
+        width: 0
+      },
+      series: [{
+        value: ((iaq_perf*3 + low_emit_air*3 + iaq_assess*3)/9)*100
+      }]
+    });
+
+    let noise = new RadialProgressChart('#noise', {
+      diameter: foundationDiam,
+      center: function(p) {
+        let points = 6;
+        return (Math.round((p*points)*10/100)/10) + '/' + points;
+      },
+      stroke: {
+        width: foundationWidth,
+        gap: 1
+      },
+      shadow: {
+        width: 0
+      },
+      series: [{
+        value: ((acoustic*3 + noise_score*3)/6)*100
+      }]
+    });
+
+    let dirtAndDust = new RadialProgressChart('#dirtAndDust', {
+      diameter: foundationDiam,
+      center: function(p) {
+        let points = 3;
+        return (Math.round((p*points)*10/100)/10) + '/' + points;
+      },
+      stroke: {
+        width: foundationWidth,
+        gap: 1
+      },
+      shadow: {
+        width: 0
+      },
+      series: [{
+        value: ((low_emit_dirt*1 + green_clean*2)/3)*100
+      }]
+    });
+
+    let pestControl = new RadialProgressChart('#pestControl', {
+      diameter: foundationDiam,
+      center: function(p) {
+        let points = 3;
+        return (Math.round((p*points)*10/100)/10) + '/' + points;
+      },
+      stroke: {
+        width: foundationWidth,
+        gap: 1
+      },
+      shadow: {
+        width: 0
+      },
+      series: [{
+        value: ((ipm*3)/3)*100
+      }]
+    });
+
+    let water = new RadialProgressChart('#water', {
+      diameter: foundationDiam,
+      center: function(p) {
+        let points = 10;
+        return  'NA';
+      },
+      stroke: {
+        width: foundationWidth,
+        gap: 1
+      },
+      shadow: {
+        width: 0
+      },
+      series: [{
+        value: 0
+      }]
+    });
+
+    let lightingAndViews = new RadialProgressChart('#lightingAndViews', {
+      diameter: foundationDiam,
+      center: function(p) {
+        let points = 9;
+        return (Math.round((p*points)*10/100)/10) + '/' + points;
+      },
+      stroke: {
+        width: foundationWidth,
+        gap: 1
+      },
+      shadow: {
+        width: 0
+      },
+      series: [{
+        value: ((int_lighting*3 + daylight*3 + views*3)/9)*100
+      }]
+    });
+
+    let moisture = new RadialProgressChart('#moisture', {
+      diameter: foundationDiam,
+      center: function(p) {
+        let points = 4;
+        return (Math.round((p*points)*10/100)/10) + '/' + points;
+      },
+      stroke: {
+        width: foundationWidth,
+        gap: 1
+      },
+      shadow: {
+        width: 0
+      },
+      series: [{
+        value: ((mold*3 + humidity_score*1)/4)*100
+      }]
+    });
+
+    let smokingPolicy = new RadialProgressChart('#smokingPolicy', {
+      diameter: foundationDiam,
+      center: function(p) {
+        let points = 3;
+        return (Math.round((p*points)*10/100)/10) + '/' + points;
+      },
+      stroke: {
+        width: foundationWidth,
+        gap: 1
+      },
+      shadow: {
+        width: 0
+      },
+      series: [{
+        value: ((ets*3)/3)*100
+      }]
+    });
 
     // Return chronological dates
     function getDate(i) {
