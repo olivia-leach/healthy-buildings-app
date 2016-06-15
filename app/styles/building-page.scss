@@ -129,7 +129,7 @@
 }
 
 .sensor-button:hover {
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  box-shadow: 0 7px 14px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
 }
 
 .warning {
@@ -214,8 +214,9 @@
 
 .foundations-column {
   text-align: center;
-  background-color: rgba(0,0,0,0.03);
-  padding: 10px 0;
+  background-color: rgba(41,45,48,0.05);
+  border-radius: 5px;
+  padding: 25px 0;
   display: flex;
   flex-direction: column;
 }
@@ -228,4 +229,8 @@
 
 .score-container {
   padding: 20px 0 0 0;
+}
+
+.foundations-title {
+  padding: 0 10%;
 }
