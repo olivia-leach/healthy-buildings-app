@@ -12,13 +12,15 @@ let color = d3.scale.category20();
 
 export default Ember.Component.extend({
 
-  // details: Ember.computed(function() {
-  //   let sensors = this.get('sensors').toArray();
-  //   let results = [];
-  //   for (let i = 0; i < sensors.length; i++) {
-  //     array[i]
-  //   }
-  // })
+  details: Ember.computed(function() {
+    let details = this.get('building.details').toArray();
+    let results = [];
+    for (let i = 0; i < details.get('length'); i++) {
+      results.push(details[i]);
+    }
+    console.log(results);
+    return results;
+  }),
 
   content: Ember.computed(function() {
     let days = this.get('building.days').toArray();
@@ -35,7 +37,7 @@ export default Ember.Component.extend({
 
   draw: function() {
     let content = this.get('content');
-    console.log(content);
+    let details = this.get('details');
     let baseline = this.get('baseline')*100;
     let humidity_score = content[0].get('humidity_score');
     let aer_score = content[0].get('aer_score');
@@ -50,7 +52,6 @@ export default Ember.Component.extend({
     let low_emit_dirt = content[0].get('low_emit_dirt');
     let green_clean = content[0].get('green_clean');
     let ipm = content[0].get('ipm');
-    console.log(ipm);
     let int_lighting = content[0].get('int_lighting');
     let daylight = content[0].get('daylight');
     let views = content[0].get('views');
@@ -158,8 +159,26 @@ export default Ember.Component.extend({
       }]
     });
 
-    d3.select('svg g').selectAll('g').selectAll('path')
+    let tip = d3.select('body').append('div')
+      .attr('class', 'tooltip')
+      .style('opacity', 0);
+
+    d3.select('svg g').selectAll('g').selectAll('path.bg')
+      .on('mouseover', function(d) {
+        d3.select(this).style("opacity", 0.4);
+        // tip.transition().duration(200).style("opacity", .9);
+        // tip.html('test')
+        //         .style("left", (d3.event.pageX) + "px")
+        //         .style("top", (d3.event.pageY - 28) + "px");
+      })
+      .on('mouseout', function(d) {
+        d3.select(this).style("opacity", 0.2);
+        // tip.transition().duration(100).style("opacity", 0);
+      })
       .on('click', function(d) {
+        console.log(day);
+        $('#aerModal').modal('show');
+        $('#modalContent').empty();
         let color = this.style.fill;
         if (color === "rgb(0, 122, 255)") {
           console.log("baseline clicked");
@@ -171,9 +190,7 @@ export default Ember.Component.extend({
           console.log("noise clicked");
         } else if (color === "rgb(255, 149, 0)") {
           console.log("aer clicked");
-          $('#aerModal').modal('show');
           $('#myModalLabel').text('Air Exchange Rate');
-          $('#modalContent').empty();
           let aerChart = new RadialProgressChart('#modalContent', {
             diameter: 50,
             stroke: {
@@ -208,15 +225,18 @@ export default Ember.Component.extend({
     });
 
     let day = 5;
+    let startDate = content[4].get('date');
 
     d3.select('.week').selectAll('li')
       .data(content).enter()
       .append('li').on('click', function(d) {
+        console.log(6-d.get('day'));
         // Update active class, date and main chart
         d3.selectAll('.circle').classed('active', false);
         d3.select(this).select('.circle').classed('active', true);
-        d3.select('#date').text(getDate(d.get('day')));
-        d3.select('#test').text(d.get('day'));
+        let thisDate = moment(startDate).add(5-d.get('day'), 'days').format('LL');
+        d3.select('#date').text(thisDate);
+        // d3.select('#date').text(getDate(d.get('date')));
         d3.select('.overall-score').text((Math.round((d.overall)*10)/10).toFixed(1));
         mainChart.update(d.series);
         ventilation.update(d.ventilation);
@@ -226,12 +246,13 @@ export default Ember.Component.extend({
         // pestControl.update(d.ipm);
         lightingAndViews.update(d.lightingAndViews);
         moisture.update(d.moisture);
+        day = 6-d.day;
       })
       .append('div').attr('class', 'circle').text(function(d) {
-        return getDate(d.get('day'));
+        return moment(startDate).add(5-d.get('day'), 'days').format('LL');
+        // return moment(d.date).format('LL');
       })
       .each(function(d, i) {
-        d.date = getDate(i);
         d.overall = content[4-i].get('overall_score');
         let humidity_score = content[4-i].get('humidity_score');
         let aer_score = content[4-i].get('aer_score');
@@ -251,27 +272,27 @@ export default Ember.Component.extend({
         let views = content[4-i].get('views');
         let mold = content[4-i].get('mold');
 
-        if (content[4-i].get('humidity_score') === 999) {
+        if (humidity_score === 999) {
           humidity_score = .25;
         }
 
-        if (content[4-i].get('aer_score') === 999) {
+        if (aer_score === 999) {
           aer_score = .25;
         }
 
-        if (content[4-i].get('noise_score') === 999) {
+        if (noise_score === 999) {
           noise_score = .25;
         }
 
-        if (content[4-i].get('tc_score') === 999) {
+        if (tc_score === 999) {
           tc_score = .25;
         }
 
-        if (content[4-i].get('enhanced_iaq') === 999) {
+        if (enhanced_iaq === 999) {
           enhanced_iaq = .25;
         }
 
-        if (content[4-i].get('tc') === 999) {
+        if (tc === 999) {
           tc = .25;
         }
 
@@ -320,7 +341,7 @@ export default Ember.Component.extend({
         }
 
         d.series = [{
-          // value: content[4-i].get('humidity_score')*100
+          // value: content[i].get('humidity_score')*100
           value: humidity_score*100
         }, {
           value: tc_score*100
@@ -543,8 +564,8 @@ export default Ember.Component.extend({
     });
 
     // Return chronological dates
-    function getDate(i) {
-      return moment().subtract(i-1, 'day').format('LL');
+    function getDate(date) {
+      return moment(date).format('LL');
     }
 
   }.on('didInsertElement')

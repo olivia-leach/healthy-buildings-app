@@ -5,10 +5,6 @@ export default Ember.Component.extend({
       return (this.get('building.sensors.length'));
   }),
 
-  todaysDate: Ember.computed(function() {
-    return moment().format('LL');
-  }),
-
   sensors: Ember.computed(function() {
     return this.get('building.sensors');
   }),
@@ -20,6 +16,11 @@ export default Ember.Component.extend({
         results.push(days[i]);
     }
     return results;
+  }),
+
+  todaysDate: Ember.computed(function() {
+    let lastDate = (this.get('content')[0].get('date'));
+    return moment(lastDate).format('LL');
   }),
 
   baseline: Ember.computed(function() {
