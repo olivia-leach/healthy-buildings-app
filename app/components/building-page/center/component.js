@@ -9,6 +9,10 @@ export default Ember.Component.extend({
     return moment().format('LL');
   }),
 
+  sensors: Ember.computed(function() {
+    return this.get('building.sensors');
+  }),
+
   content: Ember.computed(function() {
     let days = this.get('building.days').toArray();
     let results = [];

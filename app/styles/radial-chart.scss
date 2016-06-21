@@ -85,3 +85,12 @@ li:hover .circle {
 .little-radial-container {
   height: 0px;
 }
+
+g {
+  pointer-events: none;
+}
+
+svg g g {
+  pointer-events: all;
+  cursor: pointer;
+}

@@ -12,6 +12,14 @@ let color = d3.scale.category20();
 
 export default Ember.Component.extend({
 
+  // details: Ember.computed(function() {
+  //   let sensors = this.get('sensors').toArray();
+  //   let results = [];
+  //   for (let i = 0; i < sensors.length; i++) {
+  //     array[i]
+  //   }
+  // })
+
   content: Ember.computed(function() {
     let days = this.get('building.days').toArray();
     let results = [];
@@ -27,6 +35,7 @@ export default Ember.Component.extend({
 
   draw: function() {
     let content = this.get('content');
+    console.log(content);
     let baseline = this.get('baseline')*100;
     let humidity_score = content[0].get('humidity_score');
     let aer_score = content[0].get('aer_score');
@@ -41,6 +50,7 @@ export default Ember.Component.extend({
     let low_emit_dirt = content[0].get('low_emit_dirt');
     let green_clean = content[0].get('green_clean');
     let ipm = content[0].get('ipm');
+    console.log(ipm);
     let int_lighting = content[0].get('int_lighting');
     let daylight = content[0].get('daylight');
     let views = content[0].get('views');
@@ -148,6 +158,55 @@ export default Ember.Component.extend({
       }]
     });
 
+    d3.select('svg g').selectAll('g').selectAll('path')
+      .on('click', function(d) {
+        let color = this.style.fill;
+        if (color === "rgb(0, 122, 255)") {
+          console.log("baseline clicked");
+        } else if (color === "rgb(26, 213, 222)") {
+          console.log("humidity clicked");
+        } else if (color === "rgb(160, 255, 3)") {
+          console.log("thermal comfort clicked");
+        } else if (color === "rgb(233, 11, 58)") {
+          console.log("noise clicked");
+        } else if (color === "rgb(255, 149, 0)") {
+          console.log("aer clicked");
+          $('#aerModal').modal('show');
+          $('#myModalLabel').text('Air Exchange Rate');
+          $('#modalContent').empty();
+          let aerChart = new RadialProgressChart('#modalContent', {
+            diameter: 50,
+            stroke: {
+              width: 25
+            },
+            shadow: {
+              width: 0
+            },
+            series: [{
+              value: humidity_score*100
+            }, {
+              // labelStart: '\uF101',
+              value: tc_score*100
+            }, {
+              // labelStart: '\uF101',
+              value: noise_score*100
+            }, {
+              // labelStart: '\uF105',
+              value: aer_score*100
+            },{
+              value: baseline
+            },{
+              // value: overall_start*100
+              value: (content[0].get('overall_score')/60)*100,
+              // value: (this.get('overall')/60)*100,
+              color: ['#1a962a', '#1a962a']
+            }]
+          });
+        } else if (color === "rgb(26, 150, 42)") {
+          console.log("overall clicked");
+        }
+    });
+
     let day = 5;
 
     d3.select('.week').selectAll('li')
@@ -164,7 +223,7 @@ export default Ember.Component.extend({
         airQuality.update(d.airQuality);
         noise.update(d.noise);
         dirtAndDust.update(d.dirtAndDust);
-        ipm.update(d.ipm);
+        // pestControl.update(d.ipm);
         lightingAndViews.update(d.lightingAndViews);
         moisture.update(d.moisture);
       })
