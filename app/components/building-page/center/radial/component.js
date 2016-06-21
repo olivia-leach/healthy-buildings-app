@@ -18,7 +18,6 @@ export default Ember.Component.extend({
     for (let i = 0; i < details.get('length'); i++) {
       results.push(details[i]);
     }
-    console.log(results);
     return results;
   }),
 
@@ -180,6 +179,13 @@ export default Ember.Component.extend({
         $('#aerModal').modal('show');
         $('#modalContent').empty();
         let color = this.style.fill;
+        let dataset = [];
+        let today = [];
+        for (let i=0; i < details.length; i++) {
+          if (details[i].get('day') === day) {
+            today.push(details[i]);
+          }
+        }
         if (color === "rgb(0, 122, 255)") {
           console.log("baseline clicked");
         } else if (color === "rgb(26, 213, 222)") {
@@ -191,37 +197,36 @@ export default Ember.Component.extend({
         } else if (color === "rgb(255, 149, 0)") {
           console.log("aer clicked");
           $('#myModalLabel').text('Air Exchange Rate');
-          let aerChart = new RadialProgressChart('#modalContent', {
-            diameter: 50,
-            stroke: {
-              width: 25
-            },
-            shadow: {
-              width: 0
-            },
-            series: [{
-              value: humidity_score*100
-            }, {
-              // labelStart: '\uF101',
-              value: tc_score*100
-            }, {
-              // labelStart: '\uF101',
-              value: noise_score*100
-            }, {
-              // labelStart: '\uF105',
-              value: aer_score*100
-            },{
-              value: baseline
-            },{
-              // value: overall_start*100
-              value: (content[0].get('overall_score')/60)*100,
-              // value: (this.get('overall')/60)*100,
-              color: ['#1a962a', '#1a962a']
-            }]
-          });
+          for (let i = 0; i < today.length; i++) {
+              console.log(today[i].get('aer'));
+              let aer;
+              if (today[i].get('aer') === 999) {
+                aer = 0;
+              } else {
+                aer = today[i].get('aer');
+              }
+              if (today[i].get('aer') !== 999) {
+                dataset.push(
+                    { value: aer * 100,
+                      // labelStart: today[i].get('pid'),
+                    color: color });
+              }
+          }
         } else if (color === "rgb(26, 150, 42)") {
           console.log("overall clicked");
         }
+
+        new RadialProgressChart('#modalContent', {
+          diameter: 30,
+          stroke: {
+            width: 15,
+            gap: 3
+          },
+          shadow: {
+            width: 0
+          },
+          series: dataset
+        })
     });
 
     let day = 5;
@@ -230,13 +235,11 @@ export default Ember.Component.extend({
     d3.select('.week').selectAll('li')
       .data(content).enter()
       .append('li').on('click', function(d) {
-        console.log(6-d.get('day'));
         // Update active class, date and main chart
         d3.selectAll('.circle').classed('active', false);
         d3.select(this).select('.circle').classed('active', true);
         let thisDate = moment(startDate).add(5-d.get('day'), 'days').format('LL');
         d3.select('#date').text(thisDate);
-        // d3.select('#date').text(getDate(d.get('date')));
         d3.select('.overall-score').text((Math.round((d.overall)*10)/10).toFixed(1));
         mainChart.update(d.series);
         ventilation.update(d.ventilation);
@@ -246,11 +249,10 @@ export default Ember.Component.extend({
         // pestControl.update(d.ipm);
         lightingAndViews.update(d.lightingAndViews);
         moisture.update(d.moisture);
-        day = 6-d.day;
+        day = 6-d.get('day');
       })
       .append('div').attr('class', 'circle').text(function(d) {
         return moment(startDate).add(5-d.get('day'), 'days').format('LL');
-        // return moment(d.date).format('LL');
       })
       .each(function(d, i) {
         d.overall = content[4-i].get('overall_score');
