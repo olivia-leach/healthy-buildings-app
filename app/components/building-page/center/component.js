@@ -37,6 +37,10 @@ export default Ember.Component.extend({
 
   overall: Ember.computed(function() {
     return (Math.round(this.get('content').objectAt(0).get('overall_score')*10)/10).toFixed(1);
-  })
+  }),
+
+  chosenDate: Ember.computed(function() {
+    let val = $('.slider-handle').first().attr('aria-valuenow') || 5;
+  }),
 
 });

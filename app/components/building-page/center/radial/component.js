@@ -10,7 +10,99 @@ export default Ember.Route.extend({
 
 let color = d3.scale.category20();
 
+let popUpChart;
+let day;
+let chosenColor;
+
 export default Ember.Component.extend({
+
+  actions: {
+    changed() {
+      let details = this.get('details');
+
+      this.set('chosenDate', $('.slider-handle').first().attr('aria-valuenow'));
+      let timelineDay = this.get('chosenDate');
+      day = parseInt(timelineDay, 10);
+      $('.timeline-labels li').removeClass('selected-date');
+
+      if (timelineDay === "1") {
+        $('#firstDate').toggleClass('selected-date');
+        $('.week li:nth-child(1)').trigger('click');
+      } else if (timelineDay === "2") {
+        $('#secondDate').toggleClass('selected-date');
+        $('.week li:nth-child(2)').trigger('click');
+      } else if (timelineDay === "3") {
+        $('#thirdDate').toggleClass('selected-date');
+        $('.week li:nth-child(3)').trigger('click');
+      } else if (timelineDay === "4") {
+        $('#fourthDate').toggleClass('selected-date');
+        $('.week li:nth-child(4)').trigger('click');
+      } else if (timelineDay === "5") {
+        $('#fifthDate').toggleClass('selected-date');
+        $('.week li:nth-child(5)').trigger('click');
+      }
+      let dataset = [];
+      let today = [];
+      for (let i=0; i < details.length; i++) {
+        if (details[i].get('day') === day) {
+          today.push(details[i]);
+        }
+      }
+      if (chosenColor === "rgb(0, 122, 255)") {
+        console.log("baseline clicked");
+        $('#myModalLabel').text('Baseline Score');
+      } else if (chosenColor === "rgb(26, 213, 222)") {
+        console.log("humidity clicked");
+        $('#myModalLabel').text('Humidity');
+      } else if (chosenColor === "rgb(160, 255, 3)") {
+        console.log("thermal comfort clicked");
+        $('#myModalLabel').text('Thermal Comfort');
+      } else if (chosenColor === "rgb(233, 11, 58)") {
+        console.log("noise clicked");
+        $('#myModalLabel').text('Noise');
+      } else if (chosenColor === "rgb(255, 149, 0)") {
+        for (let i = 0; i < today.length; i++) {
+            if (today[i].get('aer') === 999) {
+              dataset.push(
+                  { value: 0,
+                    labelStart: today[i].get('pid'),
+                    color: {
+                      solid: "none",
+                      background: "rgba(0, 0, 0, 0.37)"
+                    }
+                  });
+            } else {
+                dataset.push(
+                  { value: today[i].get('aer') * 100,
+                    labelStart: today[i].get('pid'),
+                    color: chosenColor });
+                  }
+            }
+      } else if (chosenColor === "rgb(26, 150, 42)") {
+        console.log("overall clicked");
+        $('#myModalLabel').text('Overall Score');
+      }
+
+      $('#modalContent').empty();
+
+      new RadialProgressChart('#modalContent', {
+        diameter: 30,
+        animation: {
+          // duration: 0,
+          delay: 1
+        },
+        stroke: {
+          width: 15,
+          gap: 3
+        },
+        shadow: {
+          width: 0
+        },
+        series: dataset
+      });
+
+    },
+  },
 
   details: Ember.computed(function() {
     let details = this.get('building.details').toArray();
@@ -33,6 +125,11 @@ export default Ember.Component.extend({
   transform: function(){
     return 'translate(' + this.get('width')/2 + ',' + this.get('height')/2 + ')';
   },
+
+  chosenDate: Ember.computed(function() {
+    // this.get('chosenDate');
+    return $('.slider-handle').first().attr('aria-valuenow');
+  }),
 
   draw: function() {
     let content = this.get('content');
@@ -178,7 +275,7 @@ export default Ember.Component.extend({
         console.log(day);
         $('#aerModal').modal('show');
         $('#modalContent').empty();
-        let color = this.style.fill;
+        chosenColor = this.style.fill;
         let dataset = [];
         let today = [];
         for (let i=0; i < details.length; i++) {
@@ -186,38 +283,48 @@ export default Ember.Component.extend({
             today.push(details[i]);
           }
         }
-        if (color === "rgb(0, 122, 255)") {
+        if (chosenColor === "rgb(0, 122, 255)") {
           console.log("baseline clicked");
-        } else if (color === "rgb(26, 213, 222)") {
+          $('#myModalLabel').text('Baseline Score');
+        } else if (chosenColor === "rgb(26, 213, 222)") {
           console.log("humidity clicked");
-        } else if (color === "rgb(160, 255, 3)") {
+          $('#myModalLabel').text('Humidity');
+        } else if (chosenColor === "rgb(160, 255, 3)") {
           console.log("thermal comfort clicked");
-        } else if (color === "rgb(233, 11, 58)") {
+          $('#myModalLabel').text('Thermal Comfort');
+        } else if (chosenColor === "rgb(233, 11, 58)") {
           console.log("noise clicked");
-        } else if (color === "rgb(255, 149, 0)") {
-          console.log("aer clicked");
+          $('#myModalLabel').text('Noise');
+        } else if (chosenColor === "rgb(255, 149, 0)") {
           $('#myModalLabel').text('Air Exchange Rate');
           for (let i = 0; i < today.length; i++) {
-              console.log(today[i].get('aer'));
-              let aer;
               if (today[i].get('aer') === 999) {
-                aer = 0;
-              } else {
-                aer = today[i].get('aer');
-              }
-              if (today[i].get('aer') !== 999) {
                 dataset.push(
-                    { value: aer * 100,
-                      // labelStart: today[i].get('pid'),
-                    color: color });
+                    { value: 0,
+                      labelStart: today[i].get('pid'),
+                      color: {
+                        solid: "none",
+                        background: "rgba(0, 0, 0, 0.37)"
+                      }
+                    });
+              } else {
+                dataset.push(
+                    { value: today[i].get('aer') * 100,
+                      labelStart: today[i].get('pid'),
+                    color: chosenColor });
               }
           }
-        } else if (color === "rgb(26, 150, 42)") {
+        } else if (chosenColor === "rgb(26, 150, 42)") {
           console.log("overall clicked");
+          $('#myModalLabel').text('Overall Score');
         }
 
-        new RadialProgressChart('#modalContent', {
+        popUpChart = new RadialProgressChart('#modalContent', {
           diameter: 30,
+          animation: {
+            // duration: 1,
+            delay: 1
+          },
           stroke: {
             width: 15,
             gap: 3
@@ -226,10 +333,10 @@ export default Ember.Component.extend({
             width: 0
           },
           series: dataset
-        })
+        });
     });
 
-    let day = 5;
+    day = 5;
     let startDate = content[4].get('date');
 
     d3.select('.week').selectAll('li')
@@ -250,6 +357,24 @@ export default Ember.Component.extend({
         lightingAndViews.update(d.lightingAndViews);
         moisture.update(d.moisture);
         day = 6-d.get('day');
+        let position = (day*25) - 25;
+        let chosenDate = day.toString();
+        $('.slider-handle').first().attr('style', "left: " + position + '%').attr('aria-valuenow', chosenDate);
+
+        $('.timeline-labels li').removeClass('selected-date');
+
+        if (chosenDate === "1") {
+          $('#firstDate').toggleClass('selected-date')
+        } else if (chosenDate === "2") {
+          $('#secondDate').toggleClass('selected-date')
+        } else if (chosenDate === "3") {
+          $('#thirdDate').toggleClass('selected-date')
+        } else if (chosenDate === "4") {
+          $('#fourthDate').toggleClass('selected-date')
+        } else if (chosenDate === "5") {
+          $('#fifthDate').toggleClass('selected-date')
+        }
+
       })
       .append('div').attr('class', 'circle').text(function(d) {
         return moment(startDate).add(5-d.get('day'), 'days').format('LL');
