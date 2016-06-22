@@ -52,14 +52,59 @@ export default Ember.Component.extend({
         console.log("baseline clicked");
         $('#myModalLabel').text('Baseline Score');
       } else if (chosenColor === "rgb(26, 213, 222)") {
-        console.log("humidity clicked");
-        $('#myModalLabel').text('Humidity');
+        for (let i = 0; i < today.length; i++) {
+            if (today[i].get('rh') === 999) {
+              dataset.push(
+                  { value: 0,
+                    labelStart: today[i].get('pid'),
+                    color: {
+                      solid: "none",
+                      background: "rgba(0, 0, 0, 0.37)"
+                    }
+                  });
+            } else {
+              let humidity;
+              if (today[i].get('rh') < 60) {
+                humidity = 1;
+              } else {
+                humidity = 0;
+              }
+                dataset.push(
+                  { value: humidity*100,
+                    labelStart: today[i].get('pid'),
+                    color: chosenColor });
+                  }
+            }
       } else if (chosenColor === "rgb(160, 255, 3)") {
         console.log("thermal comfort clicked");
         $('#myModalLabel').text('Thermal Comfort');
       } else if (chosenColor === "rgb(233, 11, 58)") {
-        console.log("noise clicked");
-        $('#myModalLabel').text('Noise');
+        for (let i = 0; i < today.length; i++) {
+            if (today[i].get('noise') === 999) {
+              dataset.push(
+                  { value: 0,
+                    labelStart: today[i].get('pid'),
+                    color: {
+                      solid: "none",
+                      background: "rgba(0, 0, 0, 0.37)"
+                    }
+                  });
+            } else {
+              let noise;
+              if (today[i].get('noise') < 45) {
+                noise = 1;
+              } else {
+                noise = 1 - (today[i].get('noise')-45)/20;
+                if (noise < 0) {
+                  noise = 0;
+                }
+              }
+              dataset.push(
+                { value: noise*100,
+                  labelStart: today[i].get('pid'),
+                  color: chosenColor });
+                }
+            }
       } else if (chosenColor === "rgb(255, 149, 0)") {
         for (let i = 0; i < today.length; i++) {
             if (today[i].get('aer') === 999) {
@@ -72,12 +117,18 @@ export default Ember.Component.extend({
                     }
                   });
             } else {
-                dataset.push(
-                  { value: today[i].get('aer') * 100,
+              let aer;
+              if (today[i].get('aer') >= 1) {
+                aer = 1;
+              } else {
+                aer = today[i].get('aer');
+              }
+              dataset.push(
+                  { value: aer * 100,
                     labelStart: today[i].get('pid'),
-                    color: chosenColor });
-                  }
+                  color: chosenColor });
             }
+        }
       } else if (chosenColor === "rgb(26, 150, 42)") {
         console.log("overall clicked");
         $('#myModalLabel').text('Overall Score');
@@ -272,7 +323,6 @@ export default Ember.Component.extend({
         // tip.transition().duration(100).style("opacity", 0);
       })
       .on('click', function(d) {
-        console.log(day);
         $('#aerModal').modal('show');
         $('#modalContent').empty();
         chosenColor = this.style.fill;
@@ -287,14 +337,61 @@ export default Ember.Component.extend({
           console.log("baseline clicked");
           $('#myModalLabel').text('Baseline Score');
         } else if (chosenColor === "rgb(26, 213, 222)") {
-          console.log("humidity clicked");
           $('#myModalLabel').text('Humidity');
+          for (let i = 0; i < today.length; i++) {
+              if (today[i].get('rh') === 999) {
+                dataset.push(
+                    { value: 0,
+                      labelStart: today[i].get('pid'),
+                      color: {
+                        solid: "none",
+                        background: "rgba(0, 0, 0, 0.37)"
+                      }
+                    });
+              } else {
+                let humidity;
+                if (today[i].get('rh') < 60) {
+                  humidity = 1;
+                } else {
+                  humidity = 0;
+                }
+                  dataset.push(
+                    { value: humidity*100,
+                      labelStart: today[i].get('pid'),
+                      color: chosenColor });
+                    }
+              }
         } else if (chosenColor === "rgb(160, 255, 3)") {
           console.log("thermal comfort clicked");
           $('#myModalLabel').text('Thermal Comfort');
         } else if (chosenColor === "rgb(233, 11, 58)") {
-          console.log("noise clicked");
           $('#myModalLabel').text('Noise');
+          for (let i = 0; i < today.length; i++) {
+              if (today[i].get('noise') === 999) {
+                dataset.push(
+                    { value: 0,
+                      labelStart: today[i].get('pid'),
+                      color: {
+                        solid: "none",
+                        background: "rgba(0, 0, 0, 0.37)"
+                      }
+                    });
+              } else {
+                let noise;
+                if (today[i].get('noise') < 45) {
+                  noise = 1;
+                } else {
+                  noise = 1 - (today[i].get('noise')-45)/20;
+                  if (noise < 0) {
+                    noise = 0;
+                  }
+                }
+                dataset.push(
+                  { value: noise*100,
+                    labelStart: today[i].get('pid'),
+                    color: chosenColor });
+                  }
+              }
         } else if (chosenColor === "rgb(255, 149, 0)") {
           $('#myModalLabel').text('Air Exchange Rate');
           for (let i = 0; i < today.length; i++) {
@@ -308,8 +405,14 @@ export default Ember.Component.extend({
                       }
                     });
               } else {
+                let aer;
+                if (today[i].get('aer') >= 1) {
+                  aer = 1;
+                } else {
+                  aer = today[i].get('aer');
+                }
                 dataset.push(
-                    { value: today[i].get('aer') * 100,
+                    { value: aer * 100,
                       labelStart: today[i].get('pid'),
                     color: chosenColor });
               }
