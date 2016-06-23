@@ -4,6 +4,7 @@ import DS from 'ember-data';
 export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin,{
   attrs: {
     points: {embedded: 'always'},
-    building: {embedded: 'always'}
-  }
+    building: {embedded: 'always'},
+    pid: 'PID'
+  },
 });

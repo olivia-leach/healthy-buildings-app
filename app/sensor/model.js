@@ -5,6 +5,7 @@ import { hasMany } from 'ember-data/relationships';
 import DS from 'ember-data';
 
 export default Model.extend({
+  pid: DS.attr('number'),
   floor: DS.attr('number'),
   building: DS.belongsTo('building'),
   building_id: DS.attr('number'),
