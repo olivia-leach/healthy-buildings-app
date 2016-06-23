@@ -16,6 +16,16 @@ let chosenColor;
 
 export default Ember.Component.extend({
 
+  keyDown(event) {
+    if ($('#detailsModal').is(':visible')) {
+      if (event.keyCode === 37 || event.keyCode === 40) {
+        $('#leftArrow').trigger('click');
+      } else if (event.keyCode === 39 || event.keyCode === 38) {
+        $('#rightArrow').trigger('click');
+      }
+    }
+  },
+
   actions: {
     changed() {
       let details = this.get('details');
@@ -370,7 +380,7 @@ export default Ember.Component.extend({
         // tip.transition().duration(100).style("opacity", 0);
       })
       .on('click', function(d) {
-        $('#aerModal').modal('show');
+        $('#detailsModal').modal('show');
         chosenColor = this.style.fill;
         drawModalChart(chosenColor, day, details);
       });
