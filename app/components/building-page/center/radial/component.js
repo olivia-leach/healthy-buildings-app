@@ -13,6 +13,7 @@ let color = d3.scale.category20();
 let popUpChart;
 let day;
 let chosenColor;
+let sensors;
 
 export default Ember.Component.extend({
 
@@ -96,6 +97,10 @@ export default Ember.Component.extend({
     return results;
   }),
 
+  sensor_list: Ember.computed(function() {
+    return this.get('building.sensors');
+  }),
+
   content: Ember.computed(function() {
     let days = this.get('building.days').toArray();
     let results = [];
@@ -115,7 +120,6 @@ export default Ember.Component.extend({
   }),
 
   drawModalChart: function(chosenColor, day, details) {
-    $('#modalContent').empty();
     let dataset = [];
     let today = [];
     for (let i=0; i < details.length; i++) {
@@ -221,24 +225,11 @@ export default Ember.Component.extend({
       $('#leftArrow').addClass('end-of-line');
     }
 
-    popUpChart = new RadialProgressChart('#modalContent', {
-      diameter: 30,
-      animation: {
-        // duration: 1,
-        delay: 1
-      },
-      stroke: {
-        width: 15,
-        gap: 3
-      },
-      shadow: {
-        width: 0
-      },
-      series: dataset
-    });
+    popUpChart.update(dataset);
   },
 
   draw: function() {
+    sensors = this.get('sensor_list').toArray();
     let drawModalChart = this.drawModalChart;
     let content = this.get('content');
     let details = this.get('details');
@@ -263,75 +254,75 @@ export default Ember.Component.extend({
     let ets = content[0].get('ets');
 
     if (humidity_score === 999) {
-      humidity_score = .25;
+      humidity_score = 0.25;
     }
 
     if (aer_score === 999) {
-      aer_score = .25;
+      aer_score = 0.25;
     }
 
     if (noise_score === 999) {
-      noise_score = .25;
+      noise_score = 0.25;
     }
 
     if (tc_score === 999) {
-      tc_score = .25;
+      tc_score = 0.25;
     }
 
     if (enhanced_iaq === 999) {
-      enhanced_iaq = .25;
+      enhanced_iaq = 0.25;
     }
 
     if (tc === 999) {
-      tc = .25;
+      tc = 0.25;
     }
 
     if (iaq_perf === 999) {
-      iaq_perf = .25;
+      iaq_perf = 0.25;
     }
 
     if (low_emit_air === 999) {
-      low_emit_air = .25;
+      low_emit_air = 0.25;
     }
 
     if (iaq_assess === 999) {
-      iaq_assess = .25;
+      iaq_assess = 0.25;
     }
 
     if (acoustic === 999) {
-      acoustic = .25;
+      acoustic = 0.25;
     }
 
     if (low_emit_dirt === 999) {
-      low_emit_dirt = .25;
+      low_emit_dirt = 0.25;
     }
 
     if (green_clean === 999) {
-      green_clean = .25;
+      green_clean = 0.25;
     }
 
     if (ipm === 999) {
-      ipm = .25;
+      ipm = 0.25;
     }
 
     if (int_lighting === 999) {
-      int_lighting = .25;
+      int_lighting = 0.25;
     }
 
     if (daylight === 999) {
-      daylight = .25;
+      daylight = 0.25;
     }
 
     if (views === 999) {
-      views = .25;
+      views = 0.25;
     }
 
     if (mold === 999) {
-      mold = .25;
+      mold = 0.25;
     }
 
     if (ets === 999) {
-      ets = .25;
+      ets = 0.25;
     }
 
     let mainChart = new RadialProgressChart('.main-donut-chart', {
@@ -382,6 +373,41 @@ export default Ember.Component.extend({
       .on('click', function(d) {
         $('#detailsModal').modal('show');
         chosenColor = this.style.fill;
+
+        // create array with the sensor ids
+        let sensors_array = [];
+        for (let i = 0; i < sensors.length; i++) {
+          sensors_array.push(
+            {
+              labelStart: sensors[i].get('pid'),
+              value: 0,
+              color: {
+                solid: chosenColor
+                // solid: "none",
+                // background: "rgba(0, 0, 0, 0.37)"
+              }
+            }
+          );
+        }
+
+        // set up blank modal radial chart with all of the sensors
+        $('#modalContent').empty();
+        popUpChart = new RadialProgressChart('#modalContent', {
+          diameter: 30,
+          animation: {
+            // duration: 1,
+            delay: 1
+          },
+          stroke: {
+            width: 15,
+            gap: 3
+          },
+          shadow: {
+            width: 0
+          },
+          series: sensors_array
+        });
+
         drawModalChart(chosenColor, day, details);
       });
 
@@ -456,71 +482,71 @@ export default Ember.Component.extend({
         let mold = content[4-i].get('mold');
 
         if (humidity_score === 999) {
-          humidity_score = .25;
+          humidity_score = 0.25;
         }
 
         if (aer_score === 999) {
-          aer_score = .25;
+          aer_score = 0.25;
         }
 
         if (noise_score === 999) {
-          noise_score = .25;
+          noise_score = 0.25;
         }
 
         if (tc_score === 999) {
-          tc_score = .25;
+          tc_score = 0.25;
         }
 
         if (enhanced_iaq === 999) {
-          enhanced_iaq = .25;
+          enhanced_iaq = 0.25;
         }
 
         if (tc === 999) {
-          tc = .25;
+          tc = 0.25;
         }
 
         if (iaq_perf === 999) {
-          iaq_perf = .25;
+          iaq_perf = 0.25;
         }
 
         if (low_emit_air === 999) {
-          low_emit_air = .25;
+          low_emit_air = 0.25;
         }
 
         if (iaq_assess === 999) {
-          iaq_assess = .25;
+          iaq_assess = 0.25;
         }
 
         if (acoustic === 999) {
-          acoustic = .25;
+          acoustic = 0.25;
         }
 
         if (low_emit_dirt === 999) {
-          low_emit_dirt = .25;
+          low_emit_dirt = 0.25;
         }
 
         if (green_clean === 999) {
-          green_clean = .25;
+          green_clean = 0.25;
         }
 
         if (ipm === 999) {
-          ipm = .25;
+          ipm = 0.25;
         }
 
         if (int_lighting === 999) {
-          int_lighting = .25;
+          int_lighting = 0.25;
         }
 
         if (daylight === 999) {
-          daylight = .25;
+          daylight = 0.25;
         }
 
         if (views === 999) {
-          views = .25;
+          views = 0.25;
         }
 
         if (mold === 999) {
-          mold = .25;
+          mold = 0.25;
         }
 
         d.series = [{
