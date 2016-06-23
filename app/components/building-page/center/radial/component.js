@@ -20,139 +20,61 @@ export default Ember.Component.extend({
     changed() {
       let details = this.get('details');
 
-      this.set('chosenDate', $('.slider-handle').first().attr('aria-valuenow'));
+      let timeline = $('.slider-value');
+      let value = timeline.slider('getValue');
+
+      this.set('chosenDate', value);
+      $('.week li:nth-child(' + value + ')').trigger('click');
+
       let timelineDay = this.get('chosenDate');
       day = parseInt(timelineDay, 10);
       $('.timeline-labels li').removeClass('selected-date');
+      $('.timeline-labels li:nth-child(' + value + ')').addClass('selected-date');
 
-      if (timelineDay === "1") {
-        $('#firstDate').toggleClass('selected-date');
-        $('.week li:nth-child(1)').trigger('click');
-      } else if (timelineDay === "2") {
-        $('#secondDate').toggleClass('selected-date');
-        $('.week li:nth-child(2)').trigger('click');
-      } else if (timelineDay === "3") {
-        $('#thirdDate').toggleClass('selected-date');
-        $('.week li:nth-child(3)').trigger('click');
-      } else if (timelineDay === "4") {
-        $('#fourthDate').toggleClass('selected-date');
-        $('.week li:nth-child(4)').trigger('click');
-      } else if (timelineDay === "5") {
-        $('#fifthDate').toggleClass('selected-date');
-        $('.week li:nth-child(5)').trigger('click');
-      }
-      let dataset = [];
-      let today = [];
-      for (let i=0; i < details.length; i++) {
-        if (details[i].get('day') === day) {
-          today.push(details[i]);
-        }
-      }
-      if (chosenColor === "rgb(0, 122, 255)") {
-        console.log("baseline clicked");
-        $('#myModalLabel').text('Baseline Score');
-      } else if (chosenColor === "rgb(26, 213, 222)") {
-        for (let i = 0; i < today.length; i++) {
-            if (today[i].get('rh') === 999) {
-              dataset.push(
-                  { value: 0,
-                    labelStart: today[i].get('pid'),
-                    color: {
-                      solid: "none",
-                      background: "rgba(0, 0, 0, 0.37)"
-                    }
-                  });
-            } else {
-              let humidity;
-              if (today[i].get('rh') < 60) {
-                humidity = 1;
-              } else {
-                humidity = 0;
-              }
-                dataset.push(
-                  { value: humidity*100,
-                    labelStart: today[i].get('pid'),
-                    color: chosenColor });
-                  }
-            }
-      } else if (chosenColor === "rgb(160, 255, 3)") {
-        console.log("thermal comfort clicked");
-        $('#myModalLabel').text('Thermal Comfort');
-      } else if (chosenColor === "rgb(233, 11, 58)") {
-        for (let i = 0; i < today.length; i++) {
-            if (today[i].get('noise') === 999) {
-              dataset.push(
-                  { value: 0,
-                    labelStart: today[i].get('pid'),
-                    color: {
-                      solid: "none",
-                      background: "rgba(0, 0, 0, 0.37)"
-                    }
-                  });
-            } else {
-              let noise;
-              if (today[i].get('noise') < 45) {
-                noise = 1;
-              } else {
-                noise = 1 - (today[i].get('noise')-45)/20;
-                if (noise < 0) {
-                  noise = 0;
-                }
-              }
-              dataset.push(
-                { value: noise*100,
-                  labelStart: today[i].get('pid'),
-                  color: chosenColor });
-                }
-            }
-      } else if (chosenColor === "rgb(255, 149, 0)") {
-        for (let i = 0; i < today.length; i++) {
-            if (today[i].get('aer') === 999) {
-              dataset.push(
-                  { value: 0,
-                    labelStart: today[i].get('pid'),
-                    color: {
-                      solid: "none",
-                      background: "rgba(0, 0, 0, 0.37)"
-                    }
-                  });
-            } else {
-              let aer;
-              if (today[i].get('aer') >= 1) {
-                aer = 1;
-              } else {
-                aer = today[i].get('aer');
-              }
-              dataset.push(
-                  { value: aer * 100,
-                    labelStart: today[i].get('pid'),
-                  color: chosenColor });
-            }
-        }
-      } else if (chosenColor === "rgb(26, 150, 42)") {
-        console.log("overall clicked");
-        $('#myModalLabel').text('Overall Score');
-      }
-
-      $('#modalContent').empty();
-
-      new RadialProgressChart('#modalContent', {
-        diameter: 30,
-        animation: {
-          // duration: 0,
-          delay: 1
-        },
-        stroke: {
-          width: 15,
-          gap: 3
-        },
-        shadow: {
-          width: 0
-        },
-        series: dataset
-      });
-
+      this.drawModalChart(chosenColor, day, details);
     },
+
+    leftArrow() {
+      let details = this.get('details');
+
+      let timeline = $('.slider-value');
+      let value = timeline.slider('getValue');
+      timeline.slider('setValue', value-1, true, true);
+      value = timeline.slider('getValue');
+
+      $('.week li:nth-child(' + value + ')').trigger('click');
+
+      $('#leftArrow').removeClass('end-of-line');
+      $('#rightArrow').removeClass('end-of-line');
+
+      if (value === 1) {
+        $('#leftArrow').addClass('end-of-line');
+      }
+
+      this.drawModalChart(chosenColor, value, details);
+    },
+
+    rightArrow() {
+      let details = this.get('details');
+
+      let timeline = $('.slider-value');
+      let value = timeline.slider('getValue');
+      timeline.slider('setValue', value+1, true, true);
+      value = timeline.slider('getValue');
+
+      $('.week li:nth-child(' + value + ')').trigger('click');
+      $('.slider-track div:nth-child(' + (value + 3) + ')').trigger('click');
+
+      $('#leftArrow').removeClass('end-of-line');
+      $('#rightArrow').removeClass('end-of-line');
+
+      if (value === 5) {
+        $('#rightArrow').addClass('end-of-line');
+      }
+
+      this.drawModalChart(chosenColor, value, details);
+    },
+
   },
 
   details: Ember.computed(function() {
@@ -178,11 +100,136 @@ export default Ember.Component.extend({
   },
 
   chosenDate: Ember.computed(function() {
-    // this.get('chosenDate');
-    return $('.slider-handle').first().attr('aria-valuenow');
+    let timeline = $('.slider-value');
+    return timeline.slider('getValue');
   }),
 
+  drawModalChart: function(chosenColor, day, details) {
+    $('#modalContent').empty();
+    let dataset = [];
+    let today = [];
+    for (let i=0; i < details.length; i++) {
+      if (details[i].get('day') === day) {
+        today.push(details[i]);
+      }
+    }
+    if (chosenColor === "rgb(0, 122, 255)") {
+      console.log("baseline clicked");
+      $('#myModalLabel').text('Baseline Score');
+    } else if (chosenColor === "rgb(26, 213, 222)") {
+      $('#myModalLabel').text('Humidity');
+      for (let i = 0; i < today.length; i++) {
+          if (today[i].get('rh') === 999) {
+            dataset.push(
+                { value: 0,
+                  labelStart: today[i].get('pid'),
+                  color: {
+                    solid: "none",
+                    background: "rgba(0, 0, 0, 0.37)"
+                  }
+                });
+          } else {
+            let humidity;
+            if (today[i].get('rh') < 60) {
+              humidity = 1;
+            } else {
+              humidity = 0;
+            }
+              dataset.push(
+                { value: humidity*100,
+                  labelStart: today[i].get('pid'),
+                  color: chosenColor });
+                }
+          }
+    } else if (chosenColor === "rgb(160, 255, 3)") {
+      console.log("thermal comfort clicked");
+      $('#myModalLabel').text('Thermal Comfort');
+    } else if (chosenColor === "rgb(233, 11, 58)") {
+      $('#myModalLabel').text('Noise');
+      for (let i = 0; i < today.length; i++) {
+          if (today[i].get('noise') === 999) {
+            dataset.push(
+                { value: 0,
+                  labelStart: today[i].get('pid'),
+                  color: {
+                    solid: "none",
+                    background: "rgba(0, 0, 0, 0.37)"
+                  }
+                });
+          } else {
+            let noise;
+            if (today[i].get('noise') < 45) {
+              noise = 1;
+            } else {
+              noise = 1 - (today[i].get('noise')-45)/20;
+              if (noise < 0) {
+                noise = 0;
+              }
+            }
+            dataset.push(
+              { value: noise*100,
+                labelStart: today[i].get('pid'),
+                color: chosenColor });
+              }
+          }
+    } else if (chosenColor === "rgb(255, 149, 0)") {
+      $('#myModalLabel').text('Air Exchange Rate');
+      for (let i = 0; i < today.length; i++) {
+          if (today[i].get('aer') === 999) {
+            dataset.push(
+                { value: 0,
+                  labelStart: today[i].get('pid'),
+                  color: {
+                    solid: "none",
+                    background: "rgba(0, 0, 0, 0.37)"
+                  }
+                });
+          } else {
+            let aer;
+            if (today[i].get('aer') >= 1) {
+              aer = 1;
+            } else {
+              aer = today[i].get('aer');
+            }
+            dataset.push(
+                { value: aer * 100,
+                  labelStart: today[i].get('pid'),
+                color: chosenColor });
+          }
+      }
+    } else if (chosenColor === "rgb(26, 150, 42)") {
+      console.log("overall clicked");
+      $('#myModalLabel').text('Overall Score');
+    }
+
+    $('#rightArrow').removeClass('end-of-line');
+    $('#leftArrow').removeClass('end-of-line');
+
+    if (day === 5) {
+      $('#rightArrow').addClass('end-of-line');
+    } else if (day === 1) {
+      $('#leftArrow').addClass('end-of-line');
+    }
+
+    popUpChart = new RadialProgressChart('#modalContent', {
+      diameter: 30,
+      animation: {
+        // duration: 1,
+        delay: 1
+      },
+      stroke: {
+        width: 15,
+        gap: 3
+      },
+      shadow: {
+        width: 0
+      },
+      series: dataset
+    });
+  },
+
   draw: function() {
+    let drawModalChart = this.drawModalChart;
     let content = this.get('content');
     let details = this.get('details');
     let baseline = this.get('baseline')*100;
@@ -324,120 +371,9 @@ export default Ember.Component.extend({
       })
       .on('click', function(d) {
         $('#aerModal').modal('show');
-        $('#modalContent').empty();
         chosenColor = this.style.fill;
-        let dataset = [];
-        let today = [];
-        for (let i=0; i < details.length; i++) {
-          if (details[i].get('day') === day) {
-            today.push(details[i]);
-          }
-        }
-        if (chosenColor === "rgb(0, 122, 255)") {
-          console.log("baseline clicked");
-          $('#myModalLabel').text('Baseline Score');
-        } else if (chosenColor === "rgb(26, 213, 222)") {
-          $('#myModalLabel').text('Humidity');
-          for (let i = 0; i < today.length; i++) {
-              if (today[i].get('rh') === 999) {
-                dataset.push(
-                    { value: 0,
-                      labelStart: today[i].get('pid'),
-                      color: {
-                        solid: "none",
-                        background: "rgba(0, 0, 0, 0.37)"
-                      }
-                    });
-              } else {
-                let humidity;
-                if (today[i].get('rh') < 60) {
-                  humidity = 1;
-                } else {
-                  humidity = 0;
-                }
-                  dataset.push(
-                    { value: humidity*100,
-                      labelStart: today[i].get('pid'),
-                      color: chosenColor });
-                    }
-              }
-        } else if (chosenColor === "rgb(160, 255, 3)") {
-          console.log("thermal comfort clicked");
-          $('#myModalLabel').text('Thermal Comfort');
-        } else if (chosenColor === "rgb(233, 11, 58)") {
-          $('#myModalLabel').text('Noise');
-          for (let i = 0; i < today.length; i++) {
-              if (today[i].get('noise') === 999) {
-                dataset.push(
-                    { value: 0,
-                      labelStart: today[i].get('pid'),
-                      color: {
-                        solid: "none",
-                        background: "rgba(0, 0, 0, 0.37)"
-                      }
-                    });
-              } else {
-                let noise;
-                if (today[i].get('noise') < 45) {
-                  noise = 1;
-                } else {
-                  noise = 1 - (today[i].get('noise')-45)/20;
-                  if (noise < 0) {
-                    noise = 0;
-                  }
-                }
-                dataset.push(
-                  { value: noise*100,
-                    labelStart: today[i].get('pid'),
-                    color: chosenColor });
-                  }
-              }
-        } else if (chosenColor === "rgb(255, 149, 0)") {
-          $('#myModalLabel').text('Air Exchange Rate');
-          for (let i = 0; i < today.length; i++) {
-              if (today[i].get('aer') === 999) {
-                dataset.push(
-                    { value: 0,
-                      labelStart: today[i].get('pid'),
-                      color: {
-                        solid: "none",
-                        background: "rgba(0, 0, 0, 0.37)"
-                      }
-                    });
-              } else {
-                let aer;
-                if (today[i].get('aer') >= 1) {
-                  aer = 1;
-                } else {
-                  aer = today[i].get('aer');
-                }
-                dataset.push(
-                    { value: aer * 100,
-                      labelStart: today[i].get('pid'),
-                    color: chosenColor });
-              }
-          }
-        } else if (chosenColor === "rgb(26, 150, 42)") {
-          console.log("overall clicked");
-          $('#myModalLabel').text('Overall Score');
-        }
-
-        popUpChart = new RadialProgressChart('#modalContent', {
-          diameter: 30,
-          animation: {
-            // duration: 1,
-            delay: 1
-          },
-          stroke: {
-            width: 15,
-            gap: 3
-          },
-          shadow: {
-            width: 0
-          },
-          series: dataset
-        });
-    });
+        drawModalChart(chosenColor, day, details);
+      });
 
     day = 5;
     let startDate = content[4].get('date');
@@ -462,25 +398,32 @@ export default Ember.Component.extend({
         day = 6-d.get('day');
         let position = (day*25) - 25;
         let chosenDate = day.toString();
-        $('.slider-handle').first().attr('style', "left: " + position + '%').attr('aria-valuenow', chosenDate);
 
+        let timeline = $('.slider-value');
+        let value = timeline.slider('getValue');
+        timeline.slider('setValue', day);
+
+        $('#modalDate').text(thisDate);
         $('.timeline-labels li').removeClass('selected-date');
-
         if (chosenDate === "1") {
-          $('#firstDate').toggleClass('selected-date')
+          $('#firstDate').toggleClass('selected-date');
         } else if (chosenDate === "2") {
-          $('#secondDate').toggleClass('selected-date')
+          $('#secondDate').toggleClass('selected-date');
         } else if (chosenDate === "3") {
-          $('#thirdDate').toggleClass('selected-date')
+          $('#thirdDate').toggleClass('selected-date');
         } else if (chosenDate === "4") {
-          $('#fourthDate').toggleClass('selected-date')
+          $('#fourthDate').toggleClass('selected-date');
         } else if (chosenDate === "5") {
-          $('#fifthDate').toggleClass('selected-date')
+          $('#fifthDate').toggleClass('selected-date');
         }
 
       })
       .append('div').attr('class', 'circle').text(function(d) {
-        return moment(startDate).add(5-d.get('day'), 'days').format('LL');
+        let label = moment(startDate).add(5-d.get('day'), 'days').format('LL');
+        let n = 6-d.get('day');
+        $('.timeline-labels li:nth-child(' + n + ')').text(moment(moment(startDate).add(5-d.get('day'), 'days')).format('l'));
+        $('#modalDate').text(label);
+        return label;
       })
       .each(function(d, i) {
         d.overall = content[4-i].get('overall_score');

@@ -13,11 +13,26 @@
         <div class="col-md-12" id="modalContent"></div>
       </div>
       <div class="row small-space">
-        {{!-- <div class="small-space"></div> --}}
+        <div class="col-md-12 center-container">
+          <h4 id="modalDate">Date</h4>
+        </div>
       </div>
       <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-        {{ui-slider ticks='1,2,3,4,5' tooltip='hide' changed='changed' selection="none"}}
+        <div class="col-md-12 center-container">
+
+          <!-- Controls -->
+          <a class="left timeline-control" role="button" {{action "leftArrow"}} id="leftArrow">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+
+          {{ui-slider ticks='1,2,3,4,5' tooltip='hide' changed='changed' selection="none"}}
+
+          <a class="right timeline-control" role="button" {{action "rightArrow"}} id="rightArrow">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+
         </div>
       </div>
       <div class="row">

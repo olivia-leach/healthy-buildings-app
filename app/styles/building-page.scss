@@ -50,7 +50,7 @@
   justify-content: space-around;
   align-items: center;
   font-size: 12px;
-  margin-top: 10px;
+  margin-top: 50px;
 }
 
 .main-donut-chart {
@@ -233,4 +233,8 @@
 
 .foundations-title {
   padding: 0 10%;
+}
+
+.circle.active {
+  font-weight: bold;
 }

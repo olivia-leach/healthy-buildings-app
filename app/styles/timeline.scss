@@ -20,3 +20,16 @@
 .selected-date {
   font-weight: bold;
 }
+
+.ui-slider {
+  width: 65%;
+}
+
+.timeline-control {
+  margin: 0 30px;
+}
+
+.end-of-line {
+  opacity: 0.5;
+  pointer-events: none;
+}
