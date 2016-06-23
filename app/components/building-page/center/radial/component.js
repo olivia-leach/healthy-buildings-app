@@ -751,5 +751,7 @@ export default Ember.Component.extend({
       return moment(date).format('LL');
     }
 
+    $('.week').children().last().children().first().addClass('active');
+
   }.on('didInsertElement')
 });
