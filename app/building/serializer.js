@@ -7,6 +7,7 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin,{
     measures: {embedded: 'always'},
     sensors: {embedded: 'always'},
     days: {embedded: 'always'},
-    details: {embedded: 'always'}
+    details: {embedded: 'always'},
+    certifications: {embedded: 'always'}
   }
 });
