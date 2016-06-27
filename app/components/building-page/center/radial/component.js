@@ -14,6 +14,7 @@ let popUpChart;
 let day;
 let chosenColor;
 let sensors;
+let sensors_array;
 
 export default Ember.Component.extend({
 
@@ -120,8 +121,8 @@ export default Ember.Component.extend({
   }),
 
   drawModalChart: function(chosenColor, day, details) {
-    let dataset = [];
     let today = [];
+    let dataset = [];
     for (let i=0; i < details.length; i++) {
       if (details[i].get('day') === day) {
         today.push(details[i]);
@@ -132,84 +133,69 @@ export default Ember.Component.extend({
       $('#myModalLabel').text('Baseline Score');
     } else if (chosenColor === "rgb(26, 213, 222)") {
       $('#myModalLabel').text('Humidity');
-      for (let i = 0; i < today.length; i++) {
-          if (today[i].get('rh') === 999) {
-            dataset.push(
-                { value: 0,
-                  labelStart: today[i].get('pid'),
-                  color: {
-                    solid: "none",
-                    background: "rgba(0, 0, 0, 0.37)"
-                  }
-                });
-          } else {
-            let humidity;
-            if (today[i].get('rh') < 60) {
+      let humidity;
+      for (let i = 0; i < sensors_array.length; i++) {
+        dataset[i] = {};
+        dataset[i].labelStart = sensors_array[i].labelStart;
+        dataset[i].value = 0;
+        for (let j = 0; j < today.length; j++) {
+          if (sensors_array[i].labelStart === today[j].get('pid')) {
+            if (today[j].get('rh') === 999) {
+              humidity = 0;
+            } else if (today[j].get('rh') < 60) {
               humidity = 1;
             } else {
               humidity = 0;
             }
-              dataset.push(
-                { value: humidity*100,
-                  labelStart: today[i].get('pid'),
-                  color: chosenColor });
-                }
+            dataset[i].value = humidity*100;
           }
+        }
+      }
     } else if (chosenColor === "rgb(160, 255, 3)") {
       console.log("thermal comfort clicked");
       $('#myModalLabel').text('Thermal Comfort');
     } else if (chosenColor === "rgb(233, 11, 58)") {
       $('#myModalLabel').text('Noise');
-      for (let i = 0; i < today.length; i++) {
-          if (today[i].get('noise') === 999) {
-            dataset.push(
-                { value: 0,
-                  labelStart: today[i].get('pid'),
-                  color: {
-                    solid: "none",
-                    background: "rgba(0, 0, 0, 0.37)"
-                  }
-                });
-          } else {
-            let noise;
-            if (today[i].get('noise') < 45) {
+      let noise;
+      for (let i = 0; i < sensors_array.length; i++) {
+        dataset[i] = {};
+        dataset[i].labelStart = sensors_array[i].labelStart;
+        dataset[i].value = 0;
+        for (let j = 0; j < today.length; j++) {
+          if (sensors_array[i].labelStart === today[j].get('pid')) {
+            if (today[j].get('noise') === 999) {
+              noise = 0;
+            } else if (today[j].get('noise') < 45) {
               noise = 1;
             } else {
-              noise = 1 - (today[i].get('noise')-45)/20;
+              noise = 1 - (today[j].get('noise')-45)/20;
               if (noise < 0) {
                 noise = 0;
               }
             }
-            dataset.push(
-              { value: noise*100,
-                labelStart: today[i].get('pid'),
-                color: chosenColor });
-              }
+            dataset[i].value = noise*100;
           }
+        }
+      }
     } else if (chosenColor === "rgb(255, 149, 0)") {
       $('#myModalLabel').text('Air Exchange Rate');
-      for (let i = 0; i < today.length; i++) {
-          if (today[i].get('aer') === 999) {
-            dataset.push(
-                { value: 0,
-                  labelStart: today[i].get('pid'),
-                  color: {
-                    solid: "none",
-                    background: "rgba(0, 0, 0, 0.37)"
-                  }
-                });
-          } else {
-            let aer;
-            if (today[i].get('aer') >= 1) {
+      let aer;
+      for (let i = 0; i < sensors_array.length; i++) {
+        dataset[i] = {};
+        dataset[i].labelStart = sensors_array[i].labelStart;
+        dataset[i].value = 0;
+        for (let j = 0; j < today.length; j++) {
+          if (sensors_array[i].labelStart === today[j].get('pid')) {
+            if (today[j].get('aer') === 999) {
+              aer = 0;
+            } else if (today[j].get('aer') >= 1) {
               aer = 1;
             } else {
-              aer = today[i].get('aer');
+              aer = today[j].get('aer');
             }
-            dataset.push(
-                { value: aer * 100,
-                  labelStart: today[i].get('pid'),
-                color: chosenColor });
+            dataset[i].value = aer*100;
           }
+        }
       }
     } else if (chosenColor === "rgb(26, 150, 42)") {
       console.log("overall clicked");
@@ -371,23 +357,15 @@ export default Ember.Component.extend({
         // tip.transition().duration(100).style("opacity", 0);
       })
       .on('click', function(d) {
-        $('#detailsModal').modal('show');
         chosenColor = this.style.fill;
 
         // create array with the sensor ids
-        let sensors_array = [];
+        sensors_array = [];
         for (let i = 0; i < sensors.length; i++) {
-          sensors_array.push(
-            {
-              labelStart: sensors[i].get('pid'),
-              value: 0,
-              color: {
-                solid: chosenColor
-                // solid: "none",
-                // background: "rgba(0, 0, 0, 0.37)"
-              }
-            }
-          );
+          sensors_array[i] = {};
+          sensors_array[i].labelStart = sensors[i].get('pid');
+          sensors_array[i].value = 50;
+          sensors_array[i].color = chosenColor;
         }
 
         // set up blank modal radial chart with all of the sensors
@@ -409,6 +387,7 @@ export default Ember.Component.extend({
         });
 
         drawModalChart(chosenColor, day, details);
+        $('#detailsModal').modal('show');
       });
 
     day = 5;
