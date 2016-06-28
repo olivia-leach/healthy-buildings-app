@@ -19,11 +19,13 @@ let sensors_array;
 export default Ember.Component.extend({
 
   keyDown(event) {
-    if ($('#detailsModal').is(':visible')) {
+    if (Ember.$('#detailsModal').is(':visible')) {
       if (event.keyCode === 37 || event.keyCode === 40) {
-        $('#leftArrow').trigger('click');
+        Ember.$('#leftArrow').trigger('click');
       } else if (event.keyCode === 39 || event.keyCode === 38) {
-        $('#rightArrow').trigger('click');
+        Ember.$('#rightArrow').trigger('click');
+      } else if (event.keyCode === 27) {
+        Ember.$('#modalContent').modal('hide');
       }
     }
   },
@@ -32,16 +34,16 @@ export default Ember.Component.extend({
     changed() {
       let details = this.get('details');
 
-      let timeline = $('.slider-value');
+      let timeline = Ember.$('.slider-value');
       let value = timeline.slider('getValue');
 
       this.set('chosenDate', value);
-      $('.week li:nth-child(' + value + ')').trigger('click');
+      Ember.$('.week li:nth-child(' + value + ')').trigger('click');
 
       let timelineDay = this.get('chosenDate');
       day = parseInt(timelineDay, 10);
-      $('.timeline-labels li').removeClass('selected-date');
-      $('.timeline-labels li:nth-child(' + value + ')').addClass('selected-date');
+      Ember.$('.timeline-labels li').removeClass('selected-date');
+      Ember.$('.timeline-labels li:nth-child(' + value + ')').addClass('selected-date');
 
       this.drawModalChart(chosenColor, day, details);
     },
@@ -49,18 +51,18 @@ export default Ember.Component.extend({
     leftArrow() {
       let details = this.get('details');
 
-      let timeline = $('.slider-value');
+      let timeline = Ember.$('.slider-value');
       let value = timeline.slider('getValue');
       timeline.slider('setValue', value-1, true, true);
       value = timeline.slider('getValue');
 
-      $('.week li:nth-child(' + value + ')').trigger('click');
+      Ember.$('.week li:nth-child(' + value + ')').trigger('click');
 
-      $('#leftArrow').removeClass('end-of-line');
-      $('#rightArrow').removeClass('end-of-line');
+      Ember.$('#leftArrow').removeClass('end-of-line');
+      Ember.$('#rightArrow').removeClass('end-of-line');
 
       if (value === 1) {
-        $('#leftArrow').addClass('end-of-line');
+        Ember.$('#leftArrow').addClass('end-of-line');
       }
 
       this.drawModalChart(chosenColor, value, details);
@@ -69,19 +71,19 @@ export default Ember.Component.extend({
     rightArrow() {
       let details = this.get('details');
 
-      let timeline = $('.slider-value');
+      let timeline = Ember.$('.slider-value');
       let value = timeline.slider('getValue');
       timeline.slider('setValue', value+1, true, true);
       value = timeline.slider('getValue');
 
-      $('.week li:nth-child(' + value + ')').trigger('click');
-      $('.slider-track div:nth-child(' + (value + 3) + ')').trigger('click');
+      Ember.$('.week li:nth-child(' + value + ')').trigger('click');
+      Ember.$('.slider-track div:nth-child(' + (value + 3) + ')').trigger('click');
 
-      $('#leftArrow').removeClass('end-of-line');
-      $('#rightArrow').removeClass('end-of-line');
+      Ember.$('#leftArrow').removeClass('end-of-line');
+      Ember.$('#rightArrow').removeClass('end-of-line');
 
       if (value === 5) {
-        $('#rightArrow').addClass('end-of-line');
+        Ember.$('#rightArrow').addClass('end-of-line');
       }
 
       this.drawModalChart(chosenColor, value, details);
@@ -102,6 +104,14 @@ export default Ember.Component.extend({
     return this.get('building.sensors');
   }),
 
+  leedCertified: Ember.computed(function() {
+
+  }),
+
+  certifications: Ember.computed('building.certifications', function() {
+    return this.get('building.certifications');
+  }),
+
   content: Ember.computed(function() {
     let days = this.get('building.days').toArray();
     let results = [];
@@ -116,9 +126,26 @@ export default Ember.Component.extend({
   },
 
   chosenDate: Ember.computed(function() {
-    let timeline = $('.slider-value');
+    let timeline = Ember.$('.slider-value');
     return timeline.slider('getValue');
   }),
+
+  baselineModal: function(certifications) {
+    Ember.$('.baseline-group').show();
+    let leedversion = certifications[0].get('leedversion');
+    let rating = certifications[0].get('rating');
+    let result = [];
+    for (let i = 0; i < certifications.length; i++) {
+      result[i] = {};
+      result[i].category = certifications[i].get('category');
+      result[i].credits = certifications[i].get('credits');
+      result[i].label = certifications[i].get('label');
+      result[i].obtained = certifications[i].get('obtained');
+    }
+
+    Ember.$('#baselineModalTitle').text('Baseline Score (' + leedversion + ' - ' + rating + ')');
+
+  },
 
   drawModalChart: function(chosenColor, day, details) {
     let today = [];
@@ -128,11 +155,8 @@ export default Ember.Component.extend({
         today.push(details[i]);
       }
     }
-    if (chosenColor === "rgb(0, 122, 255)") {
-      console.log("baseline clicked");
-      $('#myModalLabel').text('Baseline Score');
-    } else if (chosenColor === "rgb(26, 213, 222)") {
-      $('#myModalLabel').text('Humidity');
+    if (chosenColor === "rgb(26, 213, 222)") {
+      Ember.$('#myModalLabel').text('Humidity');
       let humidity;
       for (let i = 0; i < sensors_array.length; i++) {
         dataset[i] = {};
@@ -151,11 +175,8 @@ export default Ember.Component.extend({
           }
         }
       }
-    } else if (chosenColor === "rgb(160, 255, 3)") {
-      console.log("thermal comfort clicked");
-      $('#myModalLabel').text('Thermal Comfort');
     } else if (chosenColor === "rgb(233, 11, 58)") {
-      $('#myModalLabel').text('Noise');
+      Ember.$('#myModalLabel').text('Noise');
       let noise;
       for (let i = 0; i < sensors_array.length; i++) {
         dataset[i] = {};
@@ -178,7 +199,7 @@ export default Ember.Component.extend({
         }
       }
     } else if (chosenColor === "rgb(255, 149, 0)") {
-      $('#myModalLabel').text('Air Exchange Rate');
+      Ember.$('#myModalLabel').text('Air Exchange Rate');
       let aer;
       for (let i = 0; i < sensors_array.length; i++) {
         dataset[i] = {};
@@ -197,18 +218,15 @@ export default Ember.Component.extend({
           }
         }
       }
-    } else if (chosenColor === "rgb(26, 150, 42)") {
-      console.log("overall clicked");
-      $('#myModalLabel').text('Overall Score');
     }
 
-    $('#rightArrow').removeClass('end-of-line');
-    $('#leftArrow').removeClass('end-of-line');
+    Ember.$('#rightArrow').removeClass('end-of-line');
+    Ember.$('#leftArrow').removeClass('end-of-line');
 
     if (day === 5) {
-      $('#rightArrow').addClass('end-of-line');
+      Ember.$('#rightArrow').addClass('end-of-line');
     } else if (day === 1) {
-      $('#leftArrow').addClass('end-of-line');
+      Ember.$('#leftArrow').addClass('end-of-line');
     }
 
     popUpChart.update(dataset);
@@ -217,6 +235,8 @@ export default Ember.Component.extend({
   draw: function() {
     sensors = this.get('sensor_list').toArray();
     let drawModalChart = this.drawModalChart;
+    let certifications = this.get('certifications').toArray();
+    let baselineModal = this.baselineModal;
     let content = this.get('content');
     let details = this.get('details');
     let baseline = this.get('baseline')*100;
@@ -344,7 +364,14 @@ export default Ember.Component.extend({
       .attr('class', 'tooltip')
       .style('opacity', 0);
 
+    let pathCounter = 1;
+
     d3.select('svg g').selectAll('g').selectAll('path.bg')
+      .attr("id", function(d) {
+        let label = "ring" + pathCounter;
+        pathCounter +=1;
+        return label;
+      })
       .on('mouseover', function(d) {
         d3.select(this).style("opacity", 0.4);
         // tip.transition().duration(200).style("opacity", .9);
@@ -358,6 +385,7 @@ export default Ember.Component.extend({
       })
       .on('click', function(d) {
         chosenColor = this.style.fill;
+        Ember.$('.baseline-group').hide();
 
         // create array with the sensor ids
         sensors_array = [];
@@ -368,26 +396,53 @@ export default Ember.Component.extend({
           sensors_array[i].color = chosenColor;
         }
 
-        // set up blank modal radial chart with all of the sensors
-        $('#modalContent').empty();
-        popUpChart = new RadialProgressChart('#modalContent', {
-          diameter: 30,
-          animation: {
-            // duration: 1,
-            delay: 1
-          },
-          stroke: {
-            width: 15,
-            gap: 3
-          },
-          shadow: {
-            width: 0
-          },
-          series: sensors_array
-        });
+        Ember.$('#modalContent').empty();
 
-        drawModalChart(chosenColor, day, details);
-        $('#detailsModal').modal('show');
+        // set up blank modal radial chart with all of the sensors
+        if (this.id === "ring3" || this.id === "ring1" || this.id === "ring4") {
+          popUpChart = new RadialProgressChart('#modalContent', {
+            diameter: 30,
+            animation: {
+              // duration: 1,
+              delay: 1
+            },
+            stroke: {
+              width: 15,
+              gap: 3
+            },
+            shadow: {
+              width: 0
+            },
+            series: sensors_array
+          });
+
+          drawModalChart(chosenColor, day, details);
+
+          let pathCounter = 1;
+
+          d3.select('#modalContent').select('svg g').selectAll('g').selectAll('path.bg')
+            .attr("id", function(d) {
+              let label = "path" + pathCounter;
+              pathCounter +=1;
+              return label;
+            });
+
+          d3.select('#modalContent').select('svg g').selectAll('text')
+            .attr("fill", "none");
+
+          Ember.$('.timeline-group').show();
+          Ember.$('#detailsModal').modal('show');
+
+        } else if (this.id === "ring2") {
+          Ember.$('#myModalLabel').text('Thermal Comfort');
+          Ember.$('.timeline-group').show();
+          Ember.$('#detailsModal').modal('show');
+        } else if (this.id === "ring5") {
+          Ember.$('.timeline-group').hide();
+          baselineModal(certifications);
+          Ember.$('#baselineModal').modal('show');
+        }
+
       });
 
     day = 5;
@@ -414,30 +469,30 @@ export default Ember.Component.extend({
         let position = (day*25) - 25;
         let chosenDate = day.toString();
 
-        let timeline = $('.slider-value');
+        let timeline = Ember.$('.slider-value');
         let value = timeline.slider('getValue');
         timeline.slider('setValue', day);
 
-        $('#modalDate').text(thisDate);
-        $('.timeline-labels li').removeClass('selected-date');
+        Ember.$('#modalDate').text(thisDate);
+        Ember.$('.timeline-labels li').removeClass('selected-date');
         if (chosenDate === "1") {
-          $('#firstDate').toggleClass('selected-date');
+          Ember.$('#firstDate').toggleClass('selected-date');
         } else if (chosenDate === "2") {
-          $('#secondDate').toggleClass('selected-date');
+          Ember.$('#secondDate').toggleClass('selected-date');
         } else if (chosenDate === "3") {
-          $('#thirdDate').toggleClass('selected-date');
+          Ember.$('#thirdDate').toggleClass('selected-date');
         } else if (chosenDate === "4") {
-          $('#fourthDate').toggleClass('selected-date');
+          Ember.$('#fourthDate').toggleClass('selected-date');
         } else if (chosenDate === "5") {
-          $('#fifthDate').toggleClass('selected-date');
+          Ember.$('#fifthDate').toggleClass('selected-date');
         }
 
       })
       .append('div').attr('class', 'circle').text(function(d) {
         let label = moment(startDate).add(5-d.get('day'), 'days').format('LL');
         let n = 6-d.get('day');
-        $('.timeline-labels li:nth-child(' + n + ')').text(moment(moment(startDate).add(5-d.get('day'), 'days')).format('l'));
-        $('#modalDate').text(label);
+        Ember.$('.timeline-labels li:nth-child(' + n + ')').text(moment(moment(startDate).add(5-d.get('day'), 'days')).format('l'));
+        Ember.$('#modalDate').text(label);
         return label;
       })
       .each(function(d, i) {
@@ -756,7 +811,7 @@ export default Ember.Component.extend({
       return moment(date).format('LL');
     }
 
-    $('.week').children().last().children().first().addClass('active');
+    Ember.$('.week').children().last().children().first().addClass('active');
 
   }.on('didInsertElement')
 });

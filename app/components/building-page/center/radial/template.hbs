@@ -12,40 +12,362 @@
       <div class="row">
         <div class="col-md-12" id="modalContent"></div>
       </div>
+      <div class="timeline-group">
+        <div class="row small-space">
+          <div class="col-md-12 center-container">
+            <h4 id="modalDate">Date</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 center-container">
+
+            <!-- Controls -->
+            <a class="left timeline-control" role="button" {{action "leftArrow"}} id="leftArrow">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+
+            {{ui-slider ticks='1,2,3,4,5' tooltip='hide' changed='changed' selection="none"}}
+
+            <a class="right timeline-control" role="button" {{action "rightArrow"}} id="rightArrow">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <ul class="timeline-labels">
+              <li id="firstDate">11/8/2015</li>
+              <li id="secondDate">11/9/2015</li>
+              <li id="thirdDate">11/10/2015</li>
+              <li id="fourthDate">11/11/2015</li>
+              <li id="fifthDate" class="selected-date">11/12/2015</li>
+            </ul>
+          </div>
+      </div>
+    </div> {{!-- end timeline group --}}
+    <div class="row small-space">
+      {{!-- <div class="small-space"></div> --}}
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+    </div>
+    </div>
+    </div>
+
+<div class="modal fade" id="baselineModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="baselineModalTitle">Modal title</h4>
+      </div>
+      {{!-- <div class="modal-body"> --}}
       <div class="row small-space">
-        <div class="col-md-12 center-container">
-          <h4 id="modalDate">Date</h4>
+        {{!-- <div class="small-space"></div> --}}
+      </div>
+    <div class="baseline-group" hidden>
+      <div class="row small-space">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="col-md-6 baseline-credits">
+            <h5>Enhanced IAQ Strategies</h5>
+            <ul>
+              {{#each building.certifications as |certification|}}
+                  {{#if (eq certification.category 'Enhanced IAQ Strategies')}}
+                      {{#if (eq certification.obtained 'Yes')}}
+                        <li class="obtained">
+                          {{certification.credits}} - {{certification.label}}
+                        </li>
+                      {{else}}
+                        <li class="not-obtained">
+                          {{#if (eq certification.label 'NA')}}
+                            {{certification.credits}}
+                          {{else}}
+                            {{certification.credits}} - {{certification.label}}
+                          {{/if}}
+                        </li>
+                      {{/if}}
+                  {{/if}}
+              {{/each}}
+            </ul>
+            <h5>Thermal Comfort</h5>
+            <ul>
+              {{#each building.certifications as |certification|}}
+                {{#if (eq certification.category 'Enhanced IAQ Strategies')}}
+                    {{#if (eq certification.obtained 'Yes')}}
+                      <li class="obtained">
+                        {{certification.credits}} - {{certification.label}}
+                      </li>
+                    {{else}}
+                    <li class="not-obtained">
+                      {{#if (eq certification.label 'NA')}}
+                        {{certification.credits}}
+                      {{else}}
+                        {{certification.credits}} - {{certification.label}}
+                      {{/if}}
+                    </li>
+                    {{/if}}
+                {{/if}}
+              {{/each}}
+            </ul>
+          <h5>IAQ Performance</h5>
+            <ul>
+              {{#each building.certifications as |certification|}}
+                  {{#if (eq certification.category 'IAQ Performance')}}
+                    {{#if (eq certification.obtained 'Yes')}}
+                      <li class="obtained">
+                        {{certification.credits}} - {{certification.label}}
+                      </li>
+                    {{else}}
+                    <li class="not-obtained">
+                      {{#if (eq certification.label 'NA')}}
+                        {{certification.credits}}
+                      {{else}}
+                        {{certification.credits}} - {{certification.label}}
+                      {{/if}}
+                    </li>
+                    {{/if}}
+                  {{/if}}
+              {{/each}}
+            </ul>
+            <h5>Low-Emitting Materials</h5>
+            <ul>
+              {{#each building.certifications as |certification|}}
+                  {{#if (eq certification.category 'Low-emitting Materials')}}
+                    {{#if (eq certification.obtained 'Yes')}}
+                      <li class="obtained">
+                        {{certification.credits}} - {{certification.label}}
+                      </li>
+                    {{else}}
+                    <li class="not-obtained">
+                      {{#if (eq certification.label 'NA')}}
+                        {{certification.credits}}
+                      {{else}}
+                        {{certification.credits}} - {{certification.label}}
+                      {{/if}}
+                    </li>
+                    {{/if}}
+                  {{/if}}
+              {{/each}}
+            </ul>
+            <h5>IAQ Assessment</h5>
+            <ul>
+              {{#each building.certifications as |certification|}}
+                  {{#if (eq certification.category 'IAQ Assessment')}}
+                    {{#if (eq certification.obtained 'Yes')}}
+                      <li class="obtained">
+                        {{certification.credits}} - {{certification.label}}
+                      </li>
+                    {{else}}
+                    <li class="not-obtained">
+                      {{#if (eq certification.label 'NA')}}
+                        {{certification.credits}}
+                      {{else}}
+                        {{certification.credits}} - {{certification.label}}
+                      {{/if}}
+                    </li>
+                    {{/if}}
+                  {{/if}}
+              {{/each}}
+            </ul>
+            <h5>Acoustic Performance</h5>
+            <ul>
+              {{#each building.certifications as |certification|}}
+                  {{#if (eq certification.category 'Acoustic Performance')}}
+                    {{#if (eq certification.obtained 'Yes')}}
+                      <li class="obtained">
+                        {{certification.credits}} - {{certification.label}}
+                      </li>
+                    {{else}}
+                    <li class="not-obtained">
+                      {{#if (eq certification.label 'NA')}}
+                        {{certification.credits}}
+                      {{else}}
+                        {{certification.credits}} - {{certification.label}}
+                      {{/if}}
+                    </li>
+                    {{/if}}
+                  {{/if}}
+              {{/each}}
+            </ul>
+            <h5>Integrated Pest Management</h5>
+            <ul>
+              {{#each building.certifications as |certification|}}
+                  {{#if (eq certification.category 'Integrated Pest Management')}}
+                    {{#if (eq certification.obtained 'Yes')}}
+                      <li class="obtained">
+                        {{certification.credits}} - {{certification.label}}
+                      </li>
+                    {{else}}
+                    <li class="not-obtained">
+                      {{#if (eq certification.label 'NA')}}
+                        {{certification.credits}}
+                      {{else}}
+                        {{certification.credits}} - {{certification.label}}
+                      {{/if}}
+                    </li>
+                    {{/if}}
+                  {{/if}}
+              {{/each}}
+            </ul>
+          </div>
+          <div class="col-md-6 baseline-credits">
+            <div class="baseline-score-container center-content">
+              Total Score
+            </div>
+            <h5>Interior Lighting</h5>
+            <ul>
+              {{#each building.certifications as |certification|}}
+                  {{#if (eq certification.category 'Interior Lighting')}}
+                    {{#if (eq certification.obtained 'Yes')}}
+                      <li class="obtained">
+                        {{certification.credits}} - {{certification.label}}
+                      </li>
+                    {{else}}
+                    <li class="not-obtained">
+                      {{#if (eq certification.label 'NA')}}
+                        {{certification.credits}}
+                      {{else}}
+                        {{certification.credits}} - {{certification.label}}
+                      {{/if}}
+                    </li>
+                    {{/if}}
+                  {{/if}}
+              {{/each}}
+            </ul>
+            <h5>Daylighting</h5>
+            <ul>
+              {{#each building.certifications as |certification|}}
+                  {{#if (eq certification.category 'Daylighting')}}
+                    {{#if (eq certification.obtained 'Yes')}}
+                      <li class="obtained">
+                        {{certification.credits}} - {{certification.label}}
+                      </li>
+                    {{else}}
+                    <li class="not-obtained">
+                      {{#if (eq certification.label 'NA')}}
+                        {{certification.credits}}
+                      {{else}}
+                        {{certification.credits}} - {{certification.label}}
+                      {{/if}}
+                    </li>
+                    {{/if}}
+                  {{/if}}
+              {{/each}}
+            </ul>
+            <h5>Views</h5>
+            <ul>
+              {{#each building.certifications as |certification|}}
+                  {{#if (eq certification.category 'Views')}}
+                    {{#if (eq certification.obtained 'Yes')}}
+                      <li class="obtained">
+                        {{certification.credits}} - {{certification.label}}
+                      </li>
+                    {{else}}
+                    <li class="not-obtained">
+                      {{#if (eq certification.label 'NA')}}
+                        {{certification.credits}}
+                      {{else}}
+                        {{certification.credits}} - {{certification.label}}
+                      {{/if}}
+                    </li>
+                    {{/if}}
+                  {{/if}}
+              {{/each}}
+            </ul>
+            <h5>Green Cleaning</h5>
+            <ul>
+              {{#each building.certifications as |certification|}}
+                  {{#if (eq certification.category 'Green Cleaning')}}
+                    {{#if (eq certification.obtained 'Yes')}}
+                      <li class="obtained">
+                        {{certification.credits}} - {{certification.label}}
+                      </li>
+                    {{else}}
+                    <li class="not-obtained">
+                      {{#if (eq certification.label 'NA')}}
+                        {{certification.credits}}
+                      {{else}}
+                        {{certification.credits}} - {{certification.label}}
+                      {{/if}}
+                    </li>
+                    {{/if}}
+                  {{/if}}
+              {{/each}}
+            </ul>
+            <h5>Mold Prevention</h5>
+            <ul>
+              {{#each building.certifications as |certification|}}
+                  {{#if (eq certification.category 'Mold Prevention')}}
+                    {{#if (eq certification.obtained 'Yes')}}
+                      <li class="obtained">
+                        {{certification.credits}} - {{certification.label}}
+                      </li>
+                    {{else}}
+                    <li class="not-obtained">
+                      {{#if (eq certification.label 'NA')}}
+                        {{certification.credits}}
+                      {{else}}
+                        {{certification.credits}} - {{certification.label}}
+                      {{/if}}
+                    </li>
+                    {{/if}}
+                  {{/if}}
+              {{/each}}
+            </ul>
+            <h5>Smoking Policy</h5>
+            <ul>
+              {{#each building.certifications as |certification|}}
+                  {{#if (eq certification.category 'Smoking Policy')}}
+                    {{#if (eq certification.obtained 'Yes')}}
+                      <li class="obtained">
+                        {{certification.credits}} - {{certification.label}}
+                      </li>
+                    {{else}}
+                    <li class="not-obtained">
+                      {{#if (eq certification.label 'NA')}}
+                        {{certification.credits}}
+                      {{else}}
+                        {{certification.credits}} - {{certification.label}}
+                      {{/if}}
+                    </li>
+                    {{/if}}
+                  {{/if}}
+              {{/each}}
+            </ul>
+            <h5>Occupant Surveys</h5>
+            <ul>
+              {{#each building.certifications as |certification|}}
+                  {{#if (eq certification.category 'Occupant Surveys')}}
+                    {{#if (eq certification.obtained 'Yes')}}
+                      <li class="obtained">
+                        {{certification.credits}} - {{certification.label}}
+                      </li>
+                    {{else}}
+                    <li class="not-obtained">
+                      {{#if (eq certification.label 'NA')}}
+                        {{certification.credits}}
+                      {{else}}
+                        {{certification.credits}} - {{certification.label}}
+                      {{/if}}
+                    </li>
+                    {{/if}}
+                  {{/if}}
+              {{/each}}
+            </ul>
+          </div>
+
         </div>
       </div>
       <div class="row">
         <div class="col-md-12 center-container">
-
-          <!-- Controls -->
-          <a class="left timeline-control" role="button" {{action "leftArrow"}} id="leftArrow">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-
-          {{ui-slider ticks='1,2,3,4,5' tooltip='hide' changed='changed' selection="none"}}
-
-          <a class="right timeline-control" role="button" {{action "rightArrow"}} id="rightArrow">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
-
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-          <ul class="timeline-labels">
-            <li id="firstDate">11/8/2015</li>
-            <li id="secondDate">11/9/2015</li>
-            <li id="thirdDate">11/10/2015</li>
-            <li id="fourthDate">11/11/2015</li>
-            <li id="fifthDate" class="selected-date">11/12/2015</li>
-          </ul>
-        </div>
-      </div>
+    </div>
+
       <div class="row small-space">
         {{!-- <div class="small-space"></div> --}}
       </div>

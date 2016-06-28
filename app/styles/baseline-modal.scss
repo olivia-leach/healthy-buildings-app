@@ -1,0 +1,48 @@
+.baseline-credits li {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.not-obtained:before {
+    content: "\e157";
+    font-family: 'Glyphicons Halflings';
+    // font-size: 9px;
+    float: left;
+    // margin-top: 4px;
+    margin-left: -25px;
+    color: #CCCCCC;
+}
+
+.obtained:before {
+    content: "\e067";
+    font-family: 'Glyphicons Halflings';
+    // font-size: 9px;
+    float: left;
+    // margin-top: 4px;
+    margin-left: -25px;
+    color: #57bf74;
+}
+
+.baseline-credits h5 {
+  font-weight: 600;
+}
+
+.baseline-score-container {
+  position: absolute;
+  right: -15px;
+  top: -50px;
+  height: 200px;
+  width: 50%;
+  border: 1px solid rgba(135, 135, 135, 0.2);
+  margin-bottom: 15px;
+  background-color: white;
+}
+
+.baseline-credits ul {
+  margin-bottom: 15px;
+  width: 95%;
+}
+
+.baseline-credits:nth-child(2n+1) {
+  // clear: left;
+}
