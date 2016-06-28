@@ -9,5 +9,6 @@ export default Model.extend({
   category: DS.attr('string'),
   credits: DS.attr('string'),
   obtained: DS.attr('string'),
+  label: DS.attr('string'),
   building: belongsTo('building')
 });
