@@ -72,7 +72,7 @@
     <div class="baseline-group" hidden>
       <div class="row small-space">
         <div class="col-md-10 col-md-offset-1">
-          <div class="col-md-6 baseline-credits">
+          <div class="col-md-6 baseline-credits baseline-credits-left">
             <h5>Enhanced IAQ Strategies</h5>
             <ul>
               {{#each building.certifications as |certification|}}
@@ -214,9 +214,10 @@
               {{/each}}
             </ul>
           </div>
-          <div class="col-md-6 baseline-credits">
-            <div class="baseline-score-container center-content">
-              Total Score
+          <div class="col-md-6 baseline-credits baseline-credits-right">
+            <div class="baseline-score-container center-container">
+              <div id="baselineScoreContainer"></div>
+              <h5>Overall Baseline Score</h5>
             </div>
             <h5>Interior Lighting</h5>
             <ul>

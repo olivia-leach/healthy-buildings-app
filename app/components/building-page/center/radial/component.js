@@ -130,7 +130,7 @@ export default Ember.Component.extend({
     return timeline.slider('getValue');
   }),
 
-  baselineModal: function(certifications) {
+  baselineModal: function(certifications, baselineScore) {
     Ember.$('.baseline-group').show();
     let leedversion = certifications[0].get('leedversion');
     let rating = certifications[0].get('rating');
@@ -144,6 +144,28 @@ export default Ember.Component.extend({
     }
 
     Ember.$('#baselineModalTitle').text('Baseline Score (' + leedversion + ' - ' + rating + ')');
+
+    Ember.$('#baselineScoreContainer').empty();
+    new RadialProgressChart('#baselineScoreContainer', {
+      diameter: 80,
+      stroke: {
+        width: 18,
+        gap: 1
+      },
+      shadow: {
+        width: 0
+      },
+      series: [{
+        // labelStart: content[0].get('score.framework.name'),
+        // value: 50
+        value: baselineScore*100,
+        color: '#007AFF'
+      }],
+      center: function(p) {
+        let points = 42;
+        return (Math.round((p*points)*10/100)/10) + '/' + points;
+      }
+    });
 
   },
 
@@ -237,6 +259,7 @@ export default Ember.Component.extend({
     let drawModalChart = this.drawModalChart;
     let certifications = this.get('certifications').toArray();
     let baselineModal = this.baselineModal;
+    let baselineScore = this.get('baseline');
     let content = this.get('content');
     let details = this.get('details');
     let baseline = this.get('baseline')*100;
@@ -439,7 +462,7 @@ export default Ember.Component.extend({
           Ember.$('#detailsModal').modal('show');
         } else if (this.id === "ring5") {
           Ember.$('.timeline-group').hide();
-          baselineModal(certifications);
+          baselineModal(certifications, baselineScore);
           Ember.$('#baselineModal').modal('show');
         }
 
