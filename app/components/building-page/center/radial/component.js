@@ -161,9 +161,9 @@ export default Ember.Component.extend({
         value: baselineScore*100,
         color: '#007AFF'
       }],
-      center: function(p) {
+      center: function() {
         let points = 42;
-        return (Math.round((p*points)*10/100)/10) + '/' + points;
+        return (Math.round((baselineScore*100*points)*10/100)/10) + '/' + points;
       }
     });
 
