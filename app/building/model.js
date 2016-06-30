@@ -23,5 +23,6 @@ export default Model.extend({
   sensors: hasMany('sensors'),
   days: hasMany('days'),
   details: hasMany('details'),
-  certifications: hasMany('certifications')
+  certifications: hasMany('certifications'),
+  thermals: hasMany('thermals')
 });
