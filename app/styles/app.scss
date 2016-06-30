@@ -55,3 +55,7 @@ body.ember-application {
   align-items: center;
   justify-content: center;
 }
+
+.c3-chart-component {
+  pointer-events: none;
+}

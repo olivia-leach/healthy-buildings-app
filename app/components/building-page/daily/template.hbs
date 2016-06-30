@@ -1,3 +1,65 @@
 {{!-- <div class="col-md-12"> --}}
   <ul class="week"></ul>
 {{!-- </div> --}}
+
+<div class="modal fade" id="tcModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="tcModalLabel">Modal title</h4>
+      </div>
+      {{!-- <div class="modal-body"> --}}
+      <div class="row small-space">
+        {{!-- <div class="small-space"></div> --}}
+      </div>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          {{c3-chart data=data}}
+        </div>
+      </div>
+      <div class="timeline-group">
+        <div class="row small-space">
+          <div class="col-md-12 center-container">
+            <h4 id="modalDate">Date</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 center-container">
+
+            <!-- Controls -->
+            <a class="left timeline-control" role="button" {{action "leftArrow"}} id="leftArrow">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+
+            {{ui-slider ticks='1,2,3,4,5' tooltip='hide' changed='changed' selection="none"}}
+
+            <a class="right timeline-control" role="button" {{action "rightArrow"}} id="rightArrow">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <ul class="timeline-labels">
+              <li id="firstDate">11/8/2015</li>
+              <li id="secondDate">11/9/2015</li>
+              <li id="thirdDate">11/10/2015</li>
+              <li id="fourthDate">11/11/2015</li>
+              <li id="fifthDate" class="selected-date">11/12/2015</li>
+            </ul>
+          </div>
+      </div>
+    </div> {{!-- end timeline group --}}
+    <div class="row small-space">
+      {{!-- <div class="small-space"></div> --}}
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+    </div>
+    </div>
+    </div>

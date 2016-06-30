@@ -15,6 +15,8 @@ let day;
 let chosenColor;
 let sensors;
 let sensors_array;
+let group1 = {};
+let tcModalShow = false;
 
 export default Ember.Component.extend({
 
@@ -169,6 +171,65 @@ export default Ember.Component.extend({
 
   },
 
+  data: Ember.computed(function () {
+    console.log(this.get('group1.temp'));
+    console.log(this.get('group1.hum'));
+    return ({
+      xs: {
+            'data1': 'x1',
+            'data2': 'x2',
+        },
+        columns: [
+            ['x1', 10, 30, 45, 50, 70, 100],
+            ['x2', 30, 50, 75, 100, 120],
+            ['data1', 30, 200, 100, 400, 150, 250],
+            ['data2', 20, 180, 240, 100, 190]
+        ]
+    });
+
+
+    // return (
+    //   { x: 'x',
+    //     columns: [
+    //       this.get('group1.temp'),
+    //       this.get('group1.hum')
+    //     ],
+    //     // color: this.get('color'),
+    //     type: 'spline'
+    //   });
+    }),
+
+  tcModal: function(tcData) {
+    let tcModalShow = true;
+    console.log(tcModalShow);
+    console.log('test');
+
+    let chart = c3.generate({
+      bindTo: '#tcModalContent',
+      data: {
+        xs: {
+              'data1': 'x1',
+              'data2': 'x2',
+          },
+          columns: [
+              ['x1', 10, 30, 45, 50, 70, 100],
+              ['x2', 30, 50, 75, 100, 120],
+              ['data1', 30, 200, 100, 400, 150, 250],
+              ['data2', 20, 180, 240, 100, 190]
+          ]
+      }
+    });
+    // group1.temp = [];
+    // group1.hum = [];
+    // for (let i = 0; i < tcData.length; i++) {
+    //   if (tcData[i].get('group') === 1) {
+    //     group1.temp.push(tcData[i].get('temp'));
+    //     group1.hum.push(tcData[i].get('hum'));
+    //   }
+    // }
+    // console.log(group1);
+  },
+
   drawModalChart: function(chosenColor, day, details) {
     let today = [];
     let dataset = [];
@@ -259,6 +320,8 @@ export default Ember.Component.extend({
     let drawModalChart = this.drawModalChart;
     let certifications = this.get('certifications').toArray();
     let baselineModal = this.baselineModal;
+    let tcModal = this.tcModal;
+    let tcData = this.get('building.thermals').toArray();
     let baselineScore = this.get('baseline');
     let content = this.get('content');
     let details = this.get('details');
@@ -454,14 +517,18 @@ export default Ember.Component.extend({
             .attr("fill", "none");
 
           Ember.$('.timeline-group').show();
+          Ember.$('#tcModalContent').hide();
           Ember.$('#detailsModal').modal('show');
 
         } else if (this.id === "ring2") {
           Ember.$('#myModalLabel').text('Thermal Comfort');
           Ember.$('.timeline-group').show();
-          Ember.$('#detailsModal').modal('show');
+          Ember.$('#tcModalContent').show();
+          Ember.$('#tcModal').modal('show');
+          tcModal(tcData);
         } else if (this.id === "ring5") {
           Ember.$('.timeline-group').hide();
+          Ember.$('#tcModalContent').hide();
           baselineModal(certifications, baselineScore);
           Ember.$('#baselineModal').modal('show');
         }
