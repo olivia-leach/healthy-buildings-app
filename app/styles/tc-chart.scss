@@ -3,10 +3,19 @@
 }
 
 .c3-area {
-  opacity: 0.4 !important;
+  opacity: 0.3 !important;
   stroke-width: 0;
 }
 
 .c3-area-data22 {
   opacity: 1 !important;
+  stroke-width: 2px;
+  stroke: #fff !important;
+}
+
+.c3-circles-data0 .c3-circle {
+  stroke: rgba(21, 82, 125, 1);
+  stroke-width: 1px;
+  opacity: 1 !important;
+  fill: rgba(31,119,180,0.5) !important;
 }
