@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-let day;
+let day = 5;
 
 export default Ember.Component.extend({
   score: Ember.computed(function() {
@@ -61,7 +61,7 @@ export default Ember.Component.extend({
       let value = timeline.slider('getValue');
       timeline.slider('setValue', value-1, true, true);
       value = timeline.slider('getValue');
-
+      day = value;
       Ember.$('.week li:nth-child(' + value + ')').trigger('click');
       let date = Ember.$('.week li:nth-child(' + value + ')').children('.circle').text();
       Ember.$('#TCmodalDate').text(date);
@@ -83,7 +83,7 @@ export default Ember.Component.extend({
       let value = timeline.slider('getValue');
       timeline.slider('setValue', value+1, true, true);
       value = timeline.slider('getValue');
-
+      day = value;
       Ember.$('.week li:nth-child(' + value + ')').trigger('click');
       let date = Ember.$('.week li:nth-child(' + value + ')').children('.circle').text();
       Ember.$('#TCmodalDate').text(date);
@@ -109,6 +109,20 @@ export default Ember.Component.extend({
       results.push(details[i]);
     }
     return results;
+  }),
+
+  tcData: Ember.computed(function() {
+    let tcData = {};
+    tcData.temp = ['x0'];
+    tcData.hum = ['data0'];
+    for (let i = 0; i < this.get('details').length; i++) {
+      if (this.get('details')[i].get('day') === day) {
+        tcData.temp.push(this.get('details')[i].get('temp'));
+        tcData.hum.push(this.get('details')[i].get('sh'));
+      }
+    }
+    console.log(tcData);
+    return tcData;
   }),
 
   group1: Ember.computed(function() {
@@ -307,11 +321,43 @@ export default Ember.Component.extend({
     return group21;
   }),
 
+  comfortZone1: Ember.computed(function() {
+    let comfortZone1 = {};
+    comfortZone1.temp = ['x22', 23.2, 21.3];
+    comfortZone1.hum = ['data22', 0, 12];
+    return comfortZone1;
+  }),
+
+  comfortZone1b: Ember.computed(function() {
+    let comfortZone1b = {};
+    comfortZone1b.temp = ['x25', 23.2, 21.3];
+    comfortZone1b.hum = ['data25', 0, 12];
+    return comfortZone1b;
+  }),
+
+  comfortZone2: Ember.computed(function() {
+    let comfortZone2 = {};
+    comfortZone2.temp = ['x23', 25.2, 27];
+    comfortZone2.hum = ['data23', 12, 0];
+    return comfortZone2;
+  }),
+
+  comfortZone3: Ember.computed(function() {
+    let comfortZone3 = {};
+    comfortZone3.temp = ['x24', 21.3, 25.2];
+    comfortZone3.hum = ['data24', 12, 12];
+    return comfortZone3;
+  }),
+
   data: Ember.computed(function () {
     let lightgrey = '#c8c8c8';
+    let green = '#30b585';
     return ({
       types: {
-        // 'data1': 'scatter'
+        'data0': 'scatter',
+        'data22': 'area',
+        'data23': 'area',
+        'data24': 'area'
       },
       colors: {
         'data1': lightgrey,
@@ -327,7 +373,11 @@ export default Ember.Component.extend({
         'data18': lightgrey,
         'data19': lightgrey,
         'data20': lightgrey,
-        'data21': lightgrey
+        'data21': lightgrey,
+        'data22': '#fff',
+        'data24': green,
+        'data23': green,
+        'data25': green
       },
       xs: {
             'data1': 'x1',
@@ -343,9 +393,22 @@ export default Ember.Component.extend({
             'data18': 'x18',
             'data19': 'x19',
             'data20': 'x20',
-            'data21': 'x21'
+            'data21': 'x21',
+            'data23': 'x23',
+            'data24': 'x24',
+            'data22': 'x22',
+            'data25': 'x25',
+            'data0': 'x0',
         },
         columns: [
+            this.get('comfortZone3.temp'),
+            this.get('comfortZone3.hum'),
+            this.get('comfortZone2.temp'),
+            this.get('comfortZone2.hum'),
+            this.get('comfortZone1.temp'),
+            this.get('comfortZone1.hum'),
+            this.get('comfortZone1b.temp'),
+            this.get('comfortZone1b.hum'),
             this.get('group1.temp'),
             this.get('group1.hum'),
             this.get('group2.temp'),
@@ -373,7 +436,9 @@ export default Ember.Component.extend({
             this.get('group20.temp'),
             this.get('group20.hum'),
             this.get('group21.temp'),
-            this.get('group21.hum')
+            this.get('group21.hum'),
+            this.get('tcData.temp'),
+            this.get('tcData.hum')
         ]
     });
   }),
@@ -388,7 +453,8 @@ export default Ember.Component.extend({
   },
 
   point: {
-    show: false
+    show: false,
+    r: 5
   },
 
   size: {
@@ -420,6 +486,10 @@ export default Ember.Component.extend({
         bottom: 0
       }
     }
-  }
+  },
+
+  greenZone: function() {
+    // d3.selectAll('.c3-area').attr("opacity", 1);
+  }.on('didInsertElement')
 
 });

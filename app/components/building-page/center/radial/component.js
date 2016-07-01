@@ -206,25 +206,25 @@ export default Ember.Component.extend({
     }),
 
   tcModal: function(tcData) {
-    let tcModalShow = true;
-    console.log(tcModalShow);
-    console.log('test');
-
-    let chart = c3.generate({
-      bindTo: '#tcModalContent',
-      data: {
-        xs: {
-              'data1': 'x1',
-              'data2': 'x2',
-          },
-          columns: [
-              ['x1', 10, 30, 45, 50, 70, 100],
-              ['x2', 30, 50, 75, 100, 120],
-              ['data1', 30, 200, 100, 400, 150, 250],
-              ['data2', 20, 180, 240, 100, 190]
-          ]
-      }
-    });
+    // let tcModalShow = true;
+    // console.log(tcModalShow);
+    // console.log('test');
+    //
+    // let chart = c3.generate({
+    //   bindTo: '#tcModalContent',
+    //   data: {
+    //     xs: {
+    //           'data1': 'x1',
+    //           'data2': 'x2',
+    //       },
+    //       columns: [
+    //           ['x1', 10, 30, 45, 50, 70, 100],
+    //           ['x2', 30, 50, 75, 100, 120],
+    //           ['data1', 30, 200, 100, 400, 150, 250],
+    //           ['data2', 20, 180, 240, 100, 190]
+    //       ]
+    //   }
+    // });
     // group1.temp = [];
     // group1.hum = [];
     // for (let i = 0; i < tcData.length; i++) {
@@ -535,6 +535,7 @@ export default Ember.Component.extend({
           Ember.$('.timeline-group').show();
           Ember.$('#tcModalContent').show();
           Ember.$('#tcModal').modal('show');
+
           tcModal(tcData);
         } else if (this.id === "ring5") {
           Ember.$('.timeline-group').hide();

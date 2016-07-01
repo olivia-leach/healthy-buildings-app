@@ -2,7 +2,11 @@
   height: 400px;
 }
 
-.tc-chart-container rect {
-  // width: 100%;
-  // border: 1px solid red;
+.c3-area {
+  opacity: 0.4 !important;
+  stroke-width: 0;
+}
+
+.c3-area-data22 {
+  opacity: 1 !important;
 }
