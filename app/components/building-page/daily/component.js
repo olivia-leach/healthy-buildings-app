@@ -223,8 +223,112 @@ export default Ember.Component.extend({
     return group15;
   }),
 
+  group16: Ember.computed(function() {
+    let tcData = this.get('building.thermals').toArray();
+    let group16 = {};
+    group16.temp = ['x16'];
+    group16.hum = ['data16'];
+    for (let i = 0; i < tcData.length; i++) {
+      if (tcData[i].get('group') === 16) {
+        group16.temp.push(tcData[i].get('temp'));
+        group16.hum.push(tcData[i].get('hum'));
+      }
+    }
+    return group16;
+  }),
+
+  group17: Ember.computed(function() {
+    let tcData = this.get('building.thermals').toArray();
+    let group17 = {};
+    group17.temp = ['x17'];
+    group17.hum = ['data17'];
+    for (let i = 0; i < tcData.length; i++) {
+      if (tcData[i].get('group') === 17) {
+        group17.temp.push(tcData[i].get('temp'));
+        group17.hum.push(tcData[i].get('hum'));
+      }
+    }
+    return group17;
+  }),
+
+  group18: Ember.computed(function() {
+    let tcData = this.get('building.thermals').toArray();
+    let group18 = {};
+    group18.temp = ['x18'];
+    group18.hum = ['data18'];
+    for (let i = 0; i < tcData.length; i++) {
+      if (tcData[i].get('group') === 18) {
+        group18.temp.push(tcData[i].get('temp'));
+        group18.hum.push(tcData[i].get('hum'));
+      }
+    }
+    return group18;
+  }),
+
+  group19: Ember.computed(function() {
+    let tcData = this.get('building.thermals').toArray();
+    let group19 = {};
+    group19.temp = ['x19'];
+    group19.hum = ['data19'];
+    for (let i = 0; i < tcData.length; i++) {
+      if (tcData[i].get('group') === 19) {
+        group19.temp.push(tcData[i].get('temp'));
+        group19.hum.push(tcData[i].get('hum'));
+      }
+    }
+    return group19;
+  }),
+
+  group20: Ember.computed(function() {
+    let tcData = this.get('building.thermals').toArray();
+    let group20 = {};
+    group20.temp = ['x20'];
+    group20.hum = ['data20'];
+    for (let i = 0; i < tcData.length; i++) {
+      if (tcData[i].get('group') === 20) {
+        group20.temp.push(tcData[i].get('temp'));
+        group20.hum.push(tcData[i].get('hum'));
+      }
+    }
+    return group20;
+  }),
+
+  group21: Ember.computed(function() {
+    let tcData = this.get('building.thermals').toArray();
+    let group21 = {};
+    group21.temp = ['x21'];
+    group21.hum = ['data21'];
+    for (let i = 0; i < tcData.length; i++) {
+      if (tcData[i].get('group') === 21) {
+        group21.temp.push(tcData[i].get('temp'));
+        group21.hum.push(tcData[i].get('hum'));
+      }
+    }
+    return group21;
+  }),
+
   data: Ember.computed(function () {
+    let lightgrey = '#c8c8c8';
     return ({
+      types: {
+        // 'data1': 'scatter'
+      },
+      colors: {
+        'data1': lightgrey,
+        'data2': lightgrey,
+        'data3': lightgrey,
+        'data4': lightgrey,
+        'data5': lightgrey,
+        'data6': lightgrey,
+        'data7': lightgrey,
+        'data15': lightgrey,
+        'data16': lightgrey,
+        'data17': lightgrey,
+        'data18': lightgrey,
+        'data19': lightgrey,
+        'data20': lightgrey,
+        'data21': lightgrey
+      },
       xs: {
             'data1': 'x1',
             'data2': 'x2',
@@ -233,7 +337,13 @@ export default Ember.Component.extend({
             'data5': 'x5',
             'data6': 'x6',
             'data7': 'x7',
-            'data15': 'x15'
+            'data15': 'x15',
+            'data16': 'x16',
+            'data17': 'x17',
+            'data18': 'x18',
+            'data19': 'x19',
+            'data20': 'x20',
+            'data21': 'x21'
         },
         columns: [
             this.get('group1.temp'),
@@ -251,20 +361,65 @@ export default Ember.Component.extend({
             this.get('group7.temp'),
             this.get('group7.hum'),
             this.get('group15.temp'),
-            this.get('group15.hum')
+            this.get('group15.hum'),
+            this.get('group16.temp'),
+            this.get('group16.hum'),
+            this.get('group17.temp'),
+            this.get('group17.hum'),
+            this.get('group18.temp'),
+            this.get('group18.hum'),
+            this.get('group19.temp'),
+            this.get('group19.hum'),
+            this.get('group20.temp'),
+            this.get('group20.hum'),
+            this.get('group21.temp'),
+            this.get('group21.hum')
         ]
     });
+  }),
 
+  legend: {
+    show: false
+  },
 
-    // return (
-    //   { x: 'x',
-    //     columns: [
-    //       this.get('group1.temp'),
-    //       this.get('group1.hum')
-    //     ],
-    //     // color: this.get('color'),
-    //     type: 'spline'
-    //   });
-    }),
+  padding: {
+    left: 50,
+    right: 50
+  },
+
+  point: {
+    show: false
+  },
+
+  size: {
+    height: 400
+  },
+
+  axis: {
+    x: {
+      min: 0,
+      max: 35,
+      label: 'Dry Bulb Temperature (°C)',
+      tick: {
+        fit: false
+      },
+      padding: {
+        left: 0,
+        right: 0
+      }
+    },
+    y: {
+      min: 0,
+      max: 20,
+      label: 'Specific Humidity (gm vap/kg dry air)',
+      tick: {
+        fit: false
+      },
+      padding: {
+        top: 0,
+        bottom: 0
+      }
+    }
+  }
 
 });
