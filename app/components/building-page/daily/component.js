@@ -1,10 +1,114 @@
 import Ember from 'ember';
 
+let day;
+
 export default Ember.Component.extend({
   score: Ember.computed(function() {
     return (
       this.get('days.date')
     );
+  }),
+
+  keyDown(event) {
+    if (Ember.$('#tcModal').is(':visible')) {
+      if (event.keyCode === 37 || event.keyCode === 40) {
+        Ember.$('#leftArrowTC').trigger('click');
+      } else if (event.keyCode === 39 || event.keyCode === 38) {
+        Ember.$('#rightArrowTC').trigger('click');
+      } else if (event.keyCode === 27) {
+        Ember.$('#modalContent').modal('hide');
+      }
+    }
+  },
+
+  actions: {
+    changed() {
+      let details = this.get('details');
+
+      Ember.$('#leftArrowTC').removeClass('end-of-line');
+      Ember.$('#rightArrowTC').removeClass('end-of-line');
+
+      let timeline = Ember.$('#tcSlider .slider-value');
+      let value = timeline.slider('getValue');
+
+      this.set('chosenDate', value);
+      Ember.$('.week li:nth-child(' + value + ')').trigger('click');
+
+      let timelineDay = this.get('chosenDate');
+      day = parseInt(timelineDay, 10);
+      Ember.$('.timeline-labels li').removeClass('selected-date');
+
+      if (day === 1) {
+        Ember.$('.firstDate').toggleClass('selected-date');
+        Ember.$('#leftArrowTC').addClass('end-of-line');
+      } else if (day === 2) {
+        Ember.$('.secondDate').toggleClass('selected-date');
+      } else if (day === 3) {
+        Ember.$('.thirdDate').toggleClass('selected-date');
+      } else if (day === 4) {
+        Ember.$('.fourthDate').toggleClass('selected-date');
+      } else if (day === 5) {
+        Ember.$('.fifthDate').toggleClass('selected-date');
+        Ember.$('#rightArrowTC').addClass('end-of-line');
+      }
+
+    },
+
+    leftArrow() {
+      let details = this.get('details');
+
+      let timeline = Ember.$('.slider-value');
+      let value = timeline.slider('getValue');
+      timeline.slider('setValue', value-1, true, true);
+      value = timeline.slider('getValue');
+
+      Ember.$('.week li:nth-child(' + value + ')').trigger('click');
+      let date = Ember.$('.week li:nth-child(' + value + ')').children('.circle').text();
+      Ember.$('#TCmodalDate').text(date);
+
+      Ember.$('#leftArrowTC').removeClass('end-of-line');
+      Ember.$('#rightArrowTC').removeClass('end-of-line');
+
+      if (value === 1) {
+        Ember.$('#leftArrowTC').addClass('end-of-line');
+      }
+
+      // this.drawModalChart(chosenColor, value, details);
+    },
+
+    rightArrow() {
+      let details = this.get('details');
+
+      let timeline = Ember.$('.slider-value');
+      let value = timeline.slider('getValue');
+      timeline.slider('setValue', value+1, true, true);
+      value = timeline.slider('getValue');
+
+      Ember.$('.week li:nth-child(' + value + ')').trigger('click');
+      let date = Ember.$('.week li:nth-child(' + value + ')').children('.circle').text();
+      Ember.$('#TCmodalDate').text(date);
+
+      // Ember.$('.slider-track div:nth-child(' + (value + 3) + ')').trigger('click');
+
+      Ember.$('#leftArrowTC').removeClass('end-of-line');
+      Ember.$('#rightArrowTC').removeClass('end-of-line');
+
+      if (value === 5) {
+        Ember.$('#rightArrowTC').addClass('end-of-line');
+      }
+
+      // this.drawModalChart(chosenColor, value, details);
+    },
+
+  },
+
+  details: Ember.computed(function() {
+    let details = this.get('building.details').toArray();
+    let results = [];
+    for (let i = 0; i < details.get('length'); i++) {
+      results.push(details[i]);
+    }
+    return results;
   }),
 
   group1: Ember.computed(function() {

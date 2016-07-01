@@ -28,14 +28,14 @@
           <div class="col-md-12 center-container">
 
             <!-- Controls -->
-            <a class="left timeline-control" role="button" {{action "leftArrow"}} id="leftArrow">
+            <a class="left timeline-control left-arrow" role="button" {{action "leftArrow"}} id="leftArrow">
               <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
               <span class="sr-only">Previous</span>
             </a>
 
             {{ui-slider ticks='1,2,3,4,5' tooltip='hide' changed='changed' selection="none"}}
 
-            <a class="right timeline-control" role="button" {{action "rightArrow"}} id="rightArrow">
+            <a class="right timeline-control right-arrow" role="button" {{action "rightArrow"}} id="rightArrow">
               <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
               <span class="sr-only">Next</span>
             </a>
@@ -45,11 +45,11 @@
         <div class="row">
           <div class="col-md-8 col-md-offset-2">
             <ul class="timeline-labels">
-              <li id="firstDate">11/8/2015</li>
-              <li id="secondDate">11/9/2015</li>
-              <li id="thirdDate">11/10/2015</li>
-              <li id="fourthDate">11/11/2015</li>
-              <li id="fifthDate" class="selected-date">11/12/2015</li>
+              <li class="firstDate">11/8/2015</li>
+              <li class="secondDate">11/9/2015</li>
+              <li class="thirdDate">11/10/2015</li>
+              <li class="fourthDate">11/11/2015</li>
+              <li class="fifthDate selected-date">11/12/2015</li>
             </ul>
           </div>
       </div>

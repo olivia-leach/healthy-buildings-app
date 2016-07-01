@@ -21,7 +21,7 @@ let tcModalShow = false;
 export default Ember.Component.extend({
 
   keyDown(event) {
-    if (Ember.$('#detailsModal').is(':visible')) {
+    if (Ember.$('#detailsModal').is(':visible') || Ember.$('#tcModal').is(':visible')) {
       if (event.keyCode === 37 || event.keyCode === 40) {
         Ember.$('#leftArrow').trigger('click');
       } else if (event.keyCode === 39 || event.keyCode === 38) {
@@ -62,9 +62,12 @@ export default Ember.Component.extend({
 
       Ember.$('#leftArrow').removeClass('end-of-line');
       Ember.$('#rightArrow').removeClass('end-of-line');
+      Ember.$('#leftArrowTC').removeClass('end-of-line');
+      Ember.$('#rightArrowTC').removeClass('end-of-line');
 
       if (value === 1) {
         Ember.$('#leftArrow').addClass('end-of-line');
+        Ember.$('#leftArrowTC').addClass('end-of-line');
       }
 
       this.drawModalChart(chosenColor, value, details);
@@ -83,9 +86,12 @@ export default Ember.Component.extend({
 
       Ember.$('#leftArrow').removeClass('end-of-line');
       Ember.$('#rightArrow').removeClass('end-of-line');
+      Ember.$('#leftArrowTC').removeClass('end-of-line');
+      Ember.$('#rightArrowTC').removeClass('end-of-line');
 
       if (value === 5) {
         Ember.$('#rightArrow').addClass('end-of-line');
+        Ember.$('#rightArrowTC').addClass('end-of-line');
       }
 
       this.drawModalChart(chosenColor, value, details);
@@ -305,11 +311,15 @@ export default Ember.Component.extend({
 
     Ember.$('#rightArrow').removeClass('end-of-line');
     Ember.$('#leftArrow').removeClass('end-of-line');
+    Ember.$('#rightArrowTC').removeClass('end-of-line');
+    Ember.$('#leftArrowTC').removeClass('end-of-line');
 
     if (day === 5) {
       Ember.$('#rightArrow').addClass('end-of-line');
+      Ember.$('#rightArrowTC').addClass('end-of-line');
     } else if (day === 1) {
       Ember.$('#leftArrow').addClass('end-of-line');
+      Ember.$('#leftArrowTC').addClass('end-of-line');
     }
 
     popUpChart.update(dataset);
@@ -521,7 +531,7 @@ export default Ember.Component.extend({
           Ember.$('#detailsModal').modal('show');
 
         } else if (this.id === "ring2") {
-          Ember.$('#myModalLabel').text('Thermal Comfort');
+          Ember.$('#tcModalLabel').text('Thermal Comfort');
           Ember.$('.timeline-group').show();
           Ember.$('#tcModalContent').show();
           Ember.$('#tcModal').modal('show');
@@ -564,17 +574,22 @@ export default Ember.Component.extend({
         timeline.slider('setValue', day);
 
         Ember.$('#modalDate').text(thisDate);
+        Ember.$('#TCmodalDate').text(thisDate);
+        Ember.$('#leftArrowTC').removeClass('end-of-line');
+        Ember.$('#rightArrowTC').removeClass('end-of-line');
         Ember.$('.timeline-labels li').removeClass('selected-date');
         if (chosenDate === "1") {
-          Ember.$('#firstDate').toggleClass('selected-date');
+          Ember.$('.firstDate').toggleClass('selected-date');
+          Ember.$('#leftArrowTC').toggleClass('end-of-line');
         } else if (chosenDate === "2") {
-          Ember.$('#secondDate').toggleClass('selected-date');
+          Ember.$('.secondDate').toggleClass('selected-date');
         } else if (chosenDate === "3") {
-          Ember.$('#thirdDate').toggleClass('selected-date');
+          Ember.$('.thirdDate').toggleClass('selected-date');
         } else if (chosenDate === "4") {
-          Ember.$('#fourthDate').toggleClass('selected-date');
+          Ember.$('.fourthDate').toggleClass('selected-date');
         } else if (chosenDate === "5") {
-          Ember.$('#fifthDate').toggleClass('selected-date');
+          Ember.$('.fifthDate').toggleClass('selected-date');
+          Ember.$('#rightArrowTC').toggleClass('end-of-line');
         }
 
       })
@@ -583,6 +598,7 @@ export default Ember.Component.extend({
         let n = 6-d.get('day');
         Ember.$('.timeline-labels li:nth-child(' + n + ')').text(moment(moment(startDate).add(5-d.get('day'), 'days')).format('l'));
         Ember.$('#modalDate').text(label);
+        Ember.$('#TCmodalDate').text(label);
         return label;
       })
       .each(function(d, i) {
