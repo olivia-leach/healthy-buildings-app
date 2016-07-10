@@ -103,6 +103,26 @@
   background-color: rgb(0, 122, 255);
 }
 
+.comfort-zone-legend {
+  position: absolute;
+  left: 20%;
+  top: 10%;
+  display: flex;
+}
+
+.comfort-zone-key {
+  background-color: rgba(63, 191, 10, 0.3);
+  height: 10px;
+  width: 10px;
+  border: 1px solid #3FBF0A;
+  margin-right: 8px;
+}
+
+.comfort-zone-label {
+  position: relative;
+  top: -4px;
+}
+
 .overall-score {
   font-size: 4em;
   font-family: 'Source Sans Pro', sans-serif;

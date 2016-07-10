@@ -126,7 +126,7 @@ export default Ember.Component.extend({
     this.set('tcData', tcData);
 
     let lightgrey = '#c8c8c8';
-    let green = '#30b585';
+    let green = '#3FBF0A';
 
     let data = {
         types: {
@@ -480,7 +480,7 @@ export default Ember.Component.extend({
 
   data: Ember.computed(function () {
     let lightgrey = '#c8c8c8';
-    let green = '#30b585';
+    let green = '#3FBF0A';
     return ({
       types: {
         'data0': 'scatter',

@@ -7,14 +7,16 @@
   padding: 0;
   margin: 0;
   justify-content: space-between;
-  width: 112%;
+  width: 125%;
   position: relative;
-  left: -5%;
+  left: -12.5%;
 }
 
 .timeline-labels li {
   display: inline-block;
   font-size: 0.8em;
+  width: 20%;
+  text-align: center;
 }
 
 .selected-date {
