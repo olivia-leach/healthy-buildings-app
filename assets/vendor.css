@@ -1,0 +1,532 @@
+.c3 svg{font:10px sans-serif;-webkit-tap-highlight-color:transparent}.c3 line,.c3 path{fill:none;stroke:#000}.c3 text{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.c3-bars path,.c3-event-rect,.c3-legend-item-tile,.c3-xgrid-focus,.c3-ygrid{shape-rendering:crispEdges}.c3-chart-arc path{stroke:#fff}.c3-chart-arc text{fill:#fff;font-size:13px}.c3-grid line{stroke:#aaa}.c3-grid text{fill:#aaa}.c3-xgrid,.c3-ygrid{stroke-dasharray:3 3}.c3-text.c3-empty{fill:gray;font-size:2em}.c3-line{stroke-width:1px}.c3-circle._expanded_{stroke-width:1px;stroke:#fff}.c3-selected-circle{fill:#fff;stroke-width:2px}.c3-bar{stroke-width:0}.c3-bar._expanded_{fill-opacity:.75}.c3-target.c3-focused{opacity:1}.c3-target.c3-focused path.c3-line,.c3-target.c3-focused path.c3-step{stroke-width:2px}.c3-target.c3-defocused{opacity:.3!important}.c3-region{fill:#4682b4;fill-opacity:.1}.c3-brush .extent{fill-opacity:.1}.c3-legend-item{font-size:12px}.c3-legend-item-hidden{opacity:.15}.c3-legend-background{opacity:.75;fill:#fff;stroke:#d3d3d3;stroke-width:1}.c3-title{font:14px sans-serif}.c3-tooltip-container{z-index:10}.c3-tooltip{border-collapse:collapse;border-spacing:0;background-color:#fff;empty-cells:show;box-shadow:7px 7px 12px -9px #777;opacity:.9}.c3-tooltip tr{border:1px solid #CCC}.c3-tooltip th{background-color:#aaa;font-size:14px;padding:2px 5px;text-align:left;color:#FFF}.c3-tooltip td{font-size:13px;padding:3px 6px;background-color:#fff;border-left:1px dotted #999}.c3-tooltip td>span{display:inline-block;width:10px;height:10px;margin-right:6px}.c3-tooltip td.value{text-align:right}.c3-area{stroke-width:0;opacity:.2}.c3-chart-arcs-title{dominant-baseline:middle;font-size:1.3em}.c3-chart-arcs .c3-chart-arcs-background{fill:#e0e0e0;stroke:none}.c3-chart-arcs .c3-chart-arcs-gauge-unit{fill:#000;font-size:16px}.c3-chart-arcs .c3-chart-arcs-gauge-max,.c3-chart-arcs .c3-chart-arcs-gauge-min{fill:#777}.c3-chart-arc .c3-gauge-value{fill:#000}
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+       local('MaterialIcons-Regular'),
+       url(MaterialIcons-Regular.woff2) format('woff2'),
+       url(MaterialIcons-Regular.woff) format('woff'),
+       url(MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  -webkit-font-feature-settings: 'liga';
+          font-feature-settings: 'liga';
+}
+
+/*! =======================================================
+                      VERSION  6.0.17              
+========================================================= */
+/*! =========================================================
+ * bootstrap-slider.js
+ *
+ * Maintainers:
+ *		Kyle Kemp
+ *			- Twitter: @seiyria
+ *			- Github:  seiyria
+ *		Rohit Kalkur
+ *			- Twitter: @Rovolutionary
+ *			- Github:  rovolution
+ *
+ * =========================================================
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ========================================================= */
+.slider {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+}
+.slider.slider-horizontal {
+  width: 210px;
+  height: 20px;
+}
+.slider.slider-horizontal .slider-track {
+  height: 10px;
+  width: 100%;
+  margin-top: -5px;
+  top: 50%;
+  left: 0;
+}
+.slider.slider-horizontal .slider-selection,
+.slider.slider-horizontal .slider-track-low,
+.slider.slider-horizontal .slider-track-high {
+  height: 100%;
+  top: 0;
+  bottom: 0;
+}
+.slider.slider-horizontal .slider-tick,
+.slider.slider-horizontal .slider-handle {
+  margin-left: -10px;
+  margin-top: -5px;
+}
+.slider.slider-horizontal .slider-tick.triangle,
+.slider.slider-horizontal .slider-handle.triangle {
+  border-width: 0 10px 10px 10px;
+  width: 0;
+  height: 0;
+  border-bottom-color: #0480be;
+  margin-top: 0;
+}
+.slider.slider-horizontal .slider-tick-label-container {
+  white-space: nowrap;
+  margin-top: 20px;
+}
+.slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
+  padding-top: 4px;
+  display: inline-block;
+  text-align: center;
+}
+.slider.slider-vertical {
+  height: 210px;
+  width: 20px;
+}
+.slider.slider-vertical .slider-track {
+  width: 10px;
+  height: 100%;
+  margin-left: -5px;
+  left: 50%;
+  top: 0;
+}
+.slider.slider-vertical .slider-selection {
+  width: 100%;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+.slider.slider-vertical .slider-track-low,
+.slider.slider-vertical .slider-track-high {
+  width: 100%;
+  left: 0;
+  right: 0;
+}
+.slider.slider-vertical .slider-tick,
+.slider.slider-vertical .slider-handle {
+  margin-left: -5px;
+  margin-top: -10px;
+}
+.slider.slider-vertical .slider-tick.triangle,
+.slider.slider-vertical .slider-handle.triangle {
+  border-width: 10px 0 10px 10px;
+  width: 1px;
+  height: 1px;
+  border-left-color: #0480be;
+  margin-left: 0;
+}
+.slider.slider-vertical .slider-tick-label-container {
+  white-space: nowrap;
+}
+.slider.slider-vertical .slider-tick-label-container .slider-tick-label {
+  padding-left: 4px;
+}
+.slider.slider-disabled .slider-handle {
+  background-image: -webkit-linear-gradient(top, #dfdfdf 0%, #bebebe 100%);
+  background-image: linear-gradient(to bottom, #dfdfdf 0%, #bebebe 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdfdfdf', endColorstr='#ffbebebe', GradientType=0);
+}
+.slider.slider-disabled .slider-track {
+  background-image: -webkit-linear-gradient(top, #e5e5e5 0%, #e9e9e9 100%);
+  background-image: linear-gradient(to bottom, #e5e5e5 0%, #e9e9e9 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe5e5e5', endColorstr='#ffe9e9e9', GradientType=0);
+  cursor: not-allowed;
+}
+.slider input {
+  display: none;
+}
+.slider .tooltip.top {
+  margin-top: -36px;
+}
+.slider .tooltip-inner {
+  white-space: nowrap;
+}
+.slider .hide {
+  display: none;
+}
+.slider-track {
+  position: absolute;
+  cursor: pointer;
+  background-image: -webkit-linear-gradient(top, #f5f5f5 0%, #f9f9f9 100%);
+  background-image: linear-gradient(to bottom, #f5f5f5 0%, #f9f9f9 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#fff9f9f9', GradientType=0);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+.slider-selection {
+  position: absolute;
+  background-image: -webkit-linear-gradient(top, #f9f9f9 0%, #f5f5f5 100%);
+  background-image: linear-gradient(to bottom, #f9f9f9 0%, #f5f5f5 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff9f9f9', endColorstr='#fff5f5f5', GradientType=0);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+.slider-selection.tick-slider-selection {
+  background-image: -webkit-linear-gradient(top, #89cdef 0%, #81bfde 100%);
+  background-image: linear-gradient(to bottom, #89cdef 0%, #81bfde 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff89cdef', endColorstr='#ff81bfde', GradientType=0);
+}
+.slider-track-low,
+.slider-track-high {
+  position: absolute;
+  background: transparent;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+.slider-handle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #337ab7;
+  background-image: -webkit-linear-gradient(top, #149bdf 0%, #0480be 100%);
+  background-image: linear-gradient(to bottom, #149bdf 0%, #0480be 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff149bdf', endColorstr='#ff0480be', GradientType=0);
+  -webkit-filter: none;
+          filter: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+  border: 0px solid transparent;
+}
+.slider-handle.round {
+  border-radius: 50%;
+}
+.slider-handle.triangle {
+  background: transparent none;
+}
+.slider-handle.custom {
+  background: transparent none;
+}
+.slider-handle.custom::before {
+  line-height: 20px;
+  font-size: 20px;
+  content: '\2605';
+  color: #726204;
+}
+.slider-tick {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-image: -webkit-linear-gradient(top, #f9f9f9 0%, #f5f5f5 100%);
+  background-image: linear-gradient(to bottom, #f9f9f9 0%, #f5f5f5 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff9f9f9', endColorstr='#fff5f5f5', GradientType=0);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  -webkit-filter: none;
+          filter: none;
+  opacity: 0.8;
+  border: 0px solid transparent;
+}
+.slider-tick.round {
+  border-radius: 50%;
+}
+.slider-tick.triangle {
+  background: transparent none;
+}
+.slider-tick.custom {
+  background: transparent none;
+}
+.slider-tick.custom::before {
+  line-height: 20px;
+  font-size: 20px;
+  content: '\2605';
+  color: #726204;
+}
+.slider-tick.in-selection {
+  background-image: -webkit-linear-gradient(top, #89cdef 0%, #81bfde 100%);
+  background-image: linear-gradient(to bottom, #89cdef 0%, #81bfde 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff89cdef', endColorstr='#ff81bfde', GradientType=0);
+  opacity: 1;
+}
+
+/* FLEXBOX and Auto-width*/
+ .ui-slider {
+   display: -webkit-box;
+   display: -ms-flexbox;
+   display: flex;
+   width: 100%;
+   -webkit-box-align: stretch;
+       -ms-flex-align: stretch;
+           align-items: stretch;
+ }
+ .ui-slider .slider {
+   display: -webkit-box;
+   display: -ms-flexbox;
+   display: flex;
+   -webkit-box-flex: 1;
+       -ms-flex: 1 1;
+           flex: 1 1;
+ }
+ .ui-slider .slider-horizontal {
+   min-width: 200px;
+   height: 35px;
+ }
+
+ .ui-slider .slider-vertical {
+   min-height: 200px;
+   width: 35px;
+ }
+
+
+/* MOODS */
+.ui-slider.mood-success .slider-handle {
+  background: hsl(120, 39%, 30%);
+}
+.ui-slider.mood-success .slider-selection {
+  background: hsl(120, 39%, 70%);
+}
+.ui-slider.mood-success.section-1 .slider-selection {
+  background: hsl(120, 39%, 95%);
+}
+.ui-slider.mood-success.section-2 .slider-selection {
+  background: hsl(120, 39%, 90%);
+}
+.ui-slider.mood-success.section-3 .slider-selection {
+  background: hsl(120, 39%, 85%);
+}
+.ui-slider.mood-success.section-4 .slider-selection {
+  background: hsl(120, 39%, 80%);
+}
+.ui-slider.mood-success.section-5 .slider-selection {
+  background: hsl(120, 39%, 75%);
+}
+.ui-slider.mood-success.section-6 .slider-selection {
+  background: hsl(120, 39%, 70%);
+}
+.ui-slider.mood-success.section-7 .slider-selection {
+  background: hsl(120, 39%, 65%);
+}
+.ui-slider.mood-success.section-8 .slider-selection {
+  background: hsl(120, 39%, 60%);
+}
+.ui-slider.mood-success.section-9 .slider-selection {
+  background: hsl(120, 39%, 55%);
+}
+.ui-slider.mood-success.section-10 .slider-selection {
+  background: hsl(120, 39%, 50%);
+}
+/* info */
+.ui-slider.mood-info .slider-handle {
+  background: hsl(194, 66%, 30%);
+}
+.ui-slider.mood-info .slider-selection {
+  background: hsl(194, 66%, 70%);
+}
+.ui-slider.mood-info.section-1 .slider-selection {
+  background: hsl(194, 66%, 95%);
+}
+.ui-slider.mood-info.section-2 .slider-selection {
+  background: hsl(194, 66%, 90%);
+}
+.ui-slider.mood-info.section-3 .slider-selection {
+  background: hsl(194, 66%, 85%);
+}
+.ui-slider.mood-info.section-4 .slider-selection {
+  background: hsl(194, 66%, 80%);
+}
+.ui-slider.mood-info.section-5 .slider-selection {
+  background: hsl(194, 66%, 75%);
+}
+.ui-slider.mood-info.section-6 .slider-selection {
+  background: hsl(194, 66%, 70%);
+}
+.ui-slider.mood-info.section-7 .slider-selection {
+  background: hsl(194, 66%, 65%);
+}
+.ui-slider.mood-info.section-8 .slider-selection {
+  background: hsl(194, 66%, 60%);
+}
+.ui-slider.mood-info.section-9 .slider-selection {
+  background: hsl(194, 66%, 55%);
+}
+.ui-slider.mood-info.section-10 .slider-selection {
+  background: hsl(194, 66%, 50%);
+}
+/* warning */
+.ui-slider.mood-warning .slider-handle {
+  background: hsl(35, 84%, 30%);
+}
+.ui-slider.mood-warning .slider-selection {
+  background: hsl(35, 84%, 70%);
+}
+.ui-slider.mood-warning.section-1 .slider-selection {
+  background: hsl(35, 84%, 95%);
+}
+.ui-slider.mood-warning.section-2 .slider-selection {
+  background: hsl(35, 84%, 90%);
+}
+.ui-slider.mood-warning.section-3 .slider-selection {
+  background: hsl(35, 84%, 85%);
+}
+.ui-slider.mood-warning.section-4 .slider-selection {
+  background: hsl(35, 84%, 80%);
+}
+.ui-slider.mood-warning.section-5 .slider-selection {
+  background: hsl(35, 84%, 75%);
+}
+.ui-slider.mood-warning.section-6 .slider-selection {
+  background: hsl(35, 84%, 70%);
+}
+.ui-slider.mood-warning.section-7 .slider-selection {
+  background: hsl(35, 84%, 65%);
+}
+.ui-slider.mood-warning.section-8 .slider-selection {
+  background: hsl(35, 84%, 60%);
+}
+.ui-slider.mood-warning.section-9 .slider-selection {
+  background: hsl(35, 84%, 55%);
+}
+.ui-slider.mood-warning.section-10 .slider-selection {
+  background: hsl(35, 84%, 50%);
+}
+/* error */
+.ui-slider.mood-error .slider-handle {
+  background: hsl(2, 64%, 30%);
+}
+.ui-slider.mood-error .slider-selection {
+  background: hsl(2, 64%, 70%);
+}
+.ui-slider.mood-error.section-1 .slider-selection {
+  background: hsl(2, 64%, 95%);
+}
+.ui-slider.mood-error.section-2 .slider-selection {
+  background: hsl(2, 64%, 90%);
+}
+.ui-slider.mood-error.section-3 .slider-selection {
+  background: hsl(2, 64%, 85%);
+}
+.ui-slider.mood-error.section-4 .slider-selection {
+  background: hsl(2, 64%, 80%);
+}
+.ui-slider.mood-error.section-5 .slider-selection {
+  background: hsl(2, 64%, 75%);
+}
+.ui-slider.mood-error.section-6 .slider-selection {
+  background: hsl(2, 64%, 70%);
+}
+.ui-slider.mood-error.section-7 .slider-selection {
+  background: hsl(2, 64%, 65%);
+}
+.ui-slider.mood-error.section-8 .slider-selection {
+  background: hsl(2, 64%, 60%);
+}
+.ui-slider.mood-error.section-9 .slider-selection {
+  background: hsl(2, 64%, 55%);
+}
+.ui-slider.mood-error.section-10 .slider-selection {
+  background: hsl(2, 64%, 50%);
+}
+/* RAG, RAGAR */
+.ui-slider.mood-rag.section-1 .slider-handle,
+.ui-slider.mood-ragar.section-1 .slider-handle,
+.ui-slider.mood-ragar.section-5 .slider-handle {
+  background: hsl(2, 64%, 35%);
+}
+.ui-slider.mood-rag.section-1 .slider-tick.in-selection,
+.ui-slider.mood-ragar.section-1 .slider-tick.in-selection,
+.ui-slider.mood-ragar.section-5 .slider-tick.in-selection {
+  background: hsl(2, 64%, 85%);
+}
+.ui-slider.mood-rag.section-1 .slider-selection,
+.ui-slider.mood-ragar.section-1 .slider-selection,
+.ui-slider.mood-ragar.section-5 .slider-selection {
+  background: hsl(2, 64%, 75%);
+}
+.ui-slider.mood-rag.section-2 .slider-handle,
+.ui-slider.mood-ragar.section-2 .slider-handle,
+.ui-slider.mood-ragar.section-4 .slider-handle
+ {
+  background: hsl(44, 64%, 35%);
+}
+.ui-slider.mood-rag.section-2 .slider-tick.in-selection,
+.ui-slider.mood-ragar.section-2 .slider-tick.in-selection,
+.ui-slider.mood-ragar.section-4 .slider-tick.in-selection
+ {
+  background: hsl(44, 64%, 85%);
+}
+.ui-slider.mood-rag.section-2 .slider-selection,
+.ui-slider.mood-ragar.section-2 .slider-selection,
+.ui-slider.mood-ragar.section-4 .slider-selection {
+  background: hsl(44, 64%, 75%);
+}
+.ui-slider.mood-rag.section-3 .slider-handle,
+.ui-slider.mood-ragar.section-3 .slider-handle {
+  background: hsl(120, 39%, 35%);
+}
+.ui-slider.mood-rag.section-3 .slider-tick.in-selection,
+.ui-slider.mood-ragar.section-3 .slider-tick.in-selection {
+  background: hsl(120, 39%, 85%);
+}
+.ui-slider.mood-rag.section-3 .slider-selection,
+.ui-slider.mood-ragar.section-3 .slider-selection  {
+  background: hsl(120, 39%, 75%);
+}
+/* GAR */
+.ui-slider.mood-gar.section-3 .slider-handle {
+  background: hsl(2, 64%, 35%);
+}
+.ui-slider.mood-gar.section-3 .slider-selection {
+  background: hsl(2, 64%, 75%);
+}
+.ui-slider.mood-gar.section-2 .slider-handle {
+  background: hsl(44, 64%, 35%);
+}
+.ui-slider.mood-gar.section-2 .slider-selection {
+  background: hsl(44, 64%, 75%);
+}
+.ui-slider.mood-gar.section-1 .slider-handle {
+  background: hsl(120, 39%, 35%);
+}
+.ui-slider.mood-gar.section-1 .slider-selection {
+  background: hsl(120, 39%, 75%);
+}
+
+/*  HANDLE SHAPES  */
+.ui-slider .slider-handle.rect {
+  width: 5px;
+  border-radius: 2px;
+}
+.ui-slider.slider-horizontal .rect {
+  margin-left: -5px;
+}
+
