@@ -47,16 +47,11 @@
 .week {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   font-size: 12px;
-  margin-top: 50px;
-}
-
-.main-donut-chart {
-  position: relative;
-  left: -60px;
-  top: -10px;
+  margin-top: 30px;
+  padding: 0;
 }
 
 .keys li {
@@ -195,14 +190,8 @@
 }
 
 .foundations-list {
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
   padding: 0;
   margin: 0;
-  // justify-content: center;
-  // height: 60vh;
-  // overflow-y: scroll;
 }
 
 .foundations-list li {
@@ -257,4 +246,12 @@
 
 .circle.active {
   font-weight: bold;
+}
+
+.main-left-col h3 {
+  width: 150%;
+}
+
+.main-score-section {
+  padding-right: 5%;
 }

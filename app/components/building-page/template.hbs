@@ -22,14 +22,14 @@
 {{/if}} --}}
 
 <div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 col-sm-9 col-xs-9 main-score-section">
     {{building-page/center building=building day=day}}
   <div class="row">
     {{building-page/daily building=building days=building.days day=day baselineScore=baselineScore}}
     {{building-page/sensors building=building}}
   </div>
   </div>
-  <div class="col-md-3 baseline-column">
+  <div class="col-md-3 col-sm-3 col-xs-3 baseline-column">
   {{building-page/foundations building=building}}
   </div>
 </div>
@@ -37,7 +37,7 @@
 {{else}}
 <img src="">
 <div class="row warning">
-  <div class="col-md-8">
+  <div class="col-md-8 col-sm-8 col-xs-8">
     <div class="panel panel-warning">
       <div class="panel-heading">
         <h3 class="panel-title"><span class="glyphicon glyphicon-random"></span><span class="panel-title-text">Building page in development</span></h3>

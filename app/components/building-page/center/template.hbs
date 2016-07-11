@@ -1,6 +1,6 @@
 <div class="row no-gutters">
-<div class="col-md-4">
-  <h3>Overall Health Score</h3>
+<div class="col-md-4 col-sm-4 col-xs-4 main-left-col">
+  <h3>Healthy Building Score</h3>
   <h4 id="date">{{todaysDate}}</h4>
   <div class="muted-text score-container"><span class="overall-score">{{overall}}</span><span class="small-text"> / 64</span>
   <p class="muted-text">{{numsensors}} sensors reporting</p></div>
@@ -15,7 +15,7 @@
   </ul>
 </div>
 
-<div class="col-md-8 main-donut-chart">
+<div class="col-md-8 col-sm-8 col-xs-8 main-donut-chart">
   {{building-page/center/radial day=day width=150 height=150 class="medium" building=building baseline=baseline overall=overall sensors=sensors chosenDate=chosenDate}}
 </div>
 </div>

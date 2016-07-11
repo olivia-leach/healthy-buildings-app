@@ -20,6 +20,13 @@ body {
   // background-color: rgb(23, 24, 26);
   // color: white;
   font-family: 'Source Sans Pro', 'Helvetica', 'Calibri', 'sans-serif';
+  min-width: 1219px;
+}
+
+@media (max-width: 992px) {
+  body {
+    min-width: 1000px;
+  }
 }
 
 html {
