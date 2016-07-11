@@ -38,5 +38,10 @@ export default Model.extend({
   noise: DS.attr('number'),
   pmv: DS.attr('number'),
   ppd: DS.attr('number'),
+  steps_score: DS.attr('number'),
+  sleep_score: DS.attr('number'),
+  steps: DS.attr('number'),
+  sleep: DS.attr('number'),
+  num_sensors: DS.attr('number'),
   building: DS.belongsTo('building')
 });
