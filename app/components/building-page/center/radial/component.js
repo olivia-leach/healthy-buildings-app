@@ -144,18 +144,36 @@ export default Ember.Component.extend({
 
   baselineModal: function(certifications, baselineScore) {
     Ember.$('.baseline-group').show();
-    let leedversion = certifications[0].get('leedversion');
-    let rating = certifications[0].get('rating');
-    let result = [];
-    for (let i = 0; i < certifications.length; i++) {
-      result[i] = {};
-      result[i].category = certifications[i].get('category');
-      result[i].credits = certifications[i].get('credits');
-      result[i].label = certifications[i].get('label');
-      result[i].obtained = certifications[i].get('obtained');
+    if (certifications[0]) {
+      let leedversion = certifications[0].get('leedversion');
+      let rating = certifications[0].get('rating');
+      let result = [];
+      for (let i = 0; i < certifications.length; i++) {
+        result[i] = {};
+        result[i].category = certifications[i].get('category');
+        result[i].credits = certifications[i].get('credits');
+        result[i].label = certifications[i].get('label');
+        result[i].obtained = certifications[i].get('obtained');
+      }
+      Ember.$('#baselineModalTitle').text('Baseline Score (' + leedversion + ' - ' + rating + ')');
+      Ember.$('#notCert').hide();
+      Ember.$('.baseline-credits h5').show();
+      Ember.$('#baselineScoreBox').css('top', '-50px');
+      Ember.$('#baselineScoreBox').css('background-color', 'white');
+      Ember.$('#baselineScoreBox').css('border', '1px solid rgba(135, 135, 135, 0.2)');
+      Ember.$('.baseline-group').css('height', 'auto');
+      Ember.$('.baseline-credits-right').css('border-left', '1px solid rgba(135, 135, 135, 0.1)');
+      Ember.$('.baseline-credits-left').css('border-right', '1px solid rgba(135, 135, 135, 0.1)');
+    } else {
+      Ember.$('#baselineModalTitle').text('Baseline Score');
+      Ember.$('#notCert').show();
+      Ember.$('.baseline-credits h5').hide();
+      Ember.$('#baselineScoreBox').css('top', '-45px');
+      Ember.$('#baselineScoreBox').css('background-color', 'rgba(255,255,255,0)');
+      Ember.$('#baselineScoreBox').css('border', 'none');
+      Ember.$('.baseline-group').css('height', '115px');
+      Ember.$('.baseline-credits').css('border', 'none');
     }
-
-    Ember.$('#baselineModalTitle').text('Baseline Score (' + leedversion + ' - ' + rating + ')');
 
     Ember.$('#baselineScoreContainer').empty();
     new RadialProgressChart('#baselineScoreContainer', {

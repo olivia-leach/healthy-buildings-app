@@ -63,3 +63,17 @@
   margin-right: -5px;
   margin-left: -10px;
 }
+
+#notCert {
+  position: absolute;
+  top: 10px;
+  width: 65%;
+  padding: 20px 0;
+}
+
+.not-certified {
+  top: -100px;
+  border: 1px solid red !important;
+  opacity: 0.5;
+  background-color: black;
+}
