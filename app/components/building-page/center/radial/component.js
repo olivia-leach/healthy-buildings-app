@@ -388,7 +388,7 @@ export default Ember.Component.extend({
       },{
         value: baseline
       },{
-        value: (content[0].get('overall_score')/60)*100,
+        value: (content[0].get('overall_score')/64)*100,
         color: ['#1a962a', '#1a962a']
       }]
     });
@@ -634,7 +634,7 @@ export default Ember.Component.extend({
         },{
           value: baseline
         }, {
-          value: (d.overall/60)*100,
+          value: (d.overall/64)*100,
           color: ['#1a962a', '#1a962a']
         }];
         new RadialProgressChart(this.parentNode, {
