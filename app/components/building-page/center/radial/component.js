@@ -8,20 +8,20 @@ export default Ember.Route.extend({
   },
 });
 
-let color = d3.scale.category20();
-
 let popUpChart;
-let day;
+let this_holder;
 let chosenColor;
 let sensors;
 let sensors_array;
-let group1 = {};
-let tcModalShow = false;
 
 export default Ember.Component.extend({
 
+  day: Ember.computed('day', function() {
+    return this_holder.get('day');
+  }),
+
   keyDown(event) {
-    if (Ember.$('#detailsModal').is(':visible') || Ember.$('#tcModal').is(':visible')) {
+    if (Ember.$('#detailsModal').is(':visible')) {
       if (event.keyCode === 37 || event.keyCode === 40) {
         Ember.$('#leftArrow').trigger('click');
       } else if (event.keyCode === 39 || event.keyCode === 38) {
@@ -43,11 +43,13 @@ export default Ember.Component.extend({
       Ember.$('.week li:nth-child(' + value + ')').trigger('click');
 
       let timelineDay = this.get('chosenDate');
-      day = parseInt(timelineDay, 10);
+      this.set('day', parseInt(timelineDay, 10));
+      this.set('this_holder', parseInt(timelineDay, 10));
       Ember.$('.timeline-labels li').removeClass('selected-date');
       Ember.$('.timeline-labels li:nth-child(' + value + ')').addClass('selected-date');
 
-      this.drawModalChart(chosenColor, day, details);
+      this.drawModalChart(chosenColor, this.get('day'), details);
+
     },
 
     leftArrow() {
@@ -57,6 +59,7 @@ export default Ember.Component.extend({
       let value = timeline.slider('getValue');
       timeline.slider('setValue', value-1, true, true);
       value = timeline.slider('getValue');
+      this.set('day', value);
 
       Ember.$('.week li:nth-child(' + value + ')').trigger('click');
 
@@ -80,6 +83,7 @@ export default Ember.Component.extend({
       let value = timeline.slider('getValue');
       timeline.slider('setValue', value+1, true, true);
       value = timeline.slider('getValue');
+      this.set('day', value);
 
       Ember.$('.week li:nth-child(' + value + ')').trigger('click');
       Ember.$('.slider-track div:nth-child(' + (value + 3) + ')').trigger('click');
@@ -164,8 +168,6 @@ export default Ember.Component.extend({
         width: 0
       },
       series: [{
-        // labelStart: content[0].get('score.framework.name'),
-        // value: 50
         value: baselineScore*100,
         color: '#007AFF'
       }],
@@ -175,65 +177,6 @@ export default Ember.Component.extend({
       }
     });
 
-  },
-
-  data: Ember.computed(function () {
-    console.log(this.get('group1.temp'));
-    console.log(this.get('group1.hum'));
-    return ({
-      xs: {
-            'data1': 'x1',
-            'data2': 'x2',
-        },
-        columns: [
-            ['x1', 10, 30, 45, 50, 70, 100],
-            ['x2', 30, 50, 75, 100, 120],
-            ['data1', 30, 200, 100, 400, 150, 250],
-            ['data2', 20, 180, 240, 100, 190]
-        ]
-    });
-
-
-    // return (
-    //   { x: 'x',
-    //     columns: [
-    //       this.get('group1.temp'),
-    //       this.get('group1.hum')
-    //     ],
-    //     // color: this.get('color'),
-    //     type: 'spline'
-    //   });
-    }),
-
-  tcModal: function(tcData) {
-    // let tcModalShow = true;
-    // console.log(tcModalShow);
-    // console.log('test');
-    //
-    // let chart = c3.generate({
-    //   bindTo: '#tcModalContent',
-    //   data: {
-    //     xs: {
-    //           'data1': 'x1',
-    //           'data2': 'x2',
-    //       },
-    //       columns: [
-    //           ['x1', 10, 30, 45, 50, 70, 100],
-    //           ['x2', 30, 50, 75, 100, 120],
-    //           ['data1', 30, 200, 100, 400, 150, 250],
-    //           ['data2', 20, 180, 240, 100, 190]
-    //       ]
-    //   }
-    // });
-    // group1.temp = [];
-    // group1.hum = [];
-    // for (let i = 0; i < tcData.length; i++) {
-    //   if (tcData[i].get('group') === 1) {
-    //     group1.temp.push(tcData[i].get('temp'));
-    //     group1.hum.push(tcData[i].get('hum'));
-    //   }
-    // }
-    // console.log(group1);
   },
 
   drawModalChart: function(chosenColor, day, details) {
@@ -326,12 +269,11 @@ export default Ember.Component.extend({
   },
 
   draw: function() {
+    this_holder = this;
     sensors = this.get('sensor_list').toArray();
     let drawModalChart = this.drawModalChart;
     let certifications = this.get('certifications').toArray();
     let baselineModal = this.baselineModal;
-    let tcModal = this.tcModal;
-    let tcData = this.get('building.thermals').toArray();
     let baselineScore = this.get('baseline');
     let content = this.get('content');
     let details = this.get('details');
@@ -438,20 +380,15 @@ export default Ember.Component.extend({
       series: [{
         value: humidity_score*100
       }, {
-        // labelStart: '\uF101',
         value: tc_score*100
       }, {
-        // labelStart: '\uF101',
         value: noise_score*100
       }, {
-        // labelStart: '\uF105',
         value: aer_score*100
       },{
         value: baseline
       },{
-        // value: overall_start*100
         value: (content[0].get('overall_score')/60)*100,
-        // value: (this.get('overall')/60)*100,
         color: ['#1a962a', '#1a962a']
       }]
     });
@@ -493,7 +430,6 @@ export default Ember.Component.extend({
         }
 
         Ember.$('#modalContent').empty();
-
         // set up blank modal radial chart with all of the sensors
         if (this.id === "ring3" || this.id === "ring1" || this.id === "ring4") {
           popUpChart = new RadialProgressChart('#modalContent', {
@@ -511,8 +447,7 @@ export default Ember.Component.extend({
             },
             series: sensors_array
           });
-
-          drawModalChart(chosenColor, day, details);
+          drawModalChart(chosenColor, this_holder.get('day'), details);
 
           let pathCounter = 1;
 
@@ -536,7 +471,6 @@ export default Ember.Component.extend({
           Ember.$('#tcModalContent').show();
           Ember.$('#tcModal').modal('show');
 
-          tcModal(tcData);
         } else if (this.id === "ring5") {
           Ember.$('.timeline-group').hide();
           Ember.$('#tcModalContent').hide();
@@ -546,7 +480,6 @@ export default Ember.Component.extend({
 
       });
 
-    day = 5;
     let startDate = content[4].get('date');
 
     d3.select('.week').selectAll('li')
@@ -566,13 +499,13 @@ export default Ember.Component.extend({
         // pestControl.update(d.ipm);
         lightingAndViews.update(d.lightingAndViews);
         moisture.update(d.moisture);
-        day = 6-d.get('day');
-        let position = (day*25) - 25;
-        let chosenDate = day.toString();
+        let chosenDate = (6-d.get('day')).toString();
 
-        let timeline = Ember.$('.slider-value');
-        let value = timeline.slider('getValue');
-        timeline.slider('setValue', day);
+        let timeline = Ember.$('#radialSlider .slider-value');
+        let tcTimeline = Ember.$('#tcSlider .slider-value');
+        timeline.slider('setValue', 6-d.get('day'), true, true);
+        tcTimeline.slider('setValue', 6-d.get('day'), true, true);
+        this_holder.set('day', 6-d.get('day'));
 
         Ember.$('#modalDate').text(thisDate);
         Ember.$('#TCmodalDate').text(thisDate);
@@ -691,7 +624,6 @@ export default Ember.Component.extend({
         }
 
         d.series = [{
-          // value: content[i].get('humidity_score')*100
           value: humidity_score*100
         }, {
           value: tc_score*100
@@ -703,7 +635,6 @@ export default Ember.Component.extend({
           value: baseline
         }, {
           value: (d.overall/60)*100,
-          // value: d.overall,
           color: ['#1a962a', '#1a962a']
         }];
         new RadialProgressChart(this.parentNode, {

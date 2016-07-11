@@ -1,6 +1,19 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+
+  day: Ember.computed(function() {
+    // console.log('in main Component');
+    // console.log('day is on default set to 5');
+    return 5;
+    // for (let i = 1; i < 5; i++) {
+    //   if (Ember.$('.week li:nth-child(' + i + ')').children('.circle').hasClass('active')) {
+    //     console.log('day is ' + i);
+    //     return i;
+    //   }
+    // }
+  }),
+
   isEditing: false,
   label: Ember.computed(function() {
     // $('[data-toggle="tooltip"]').tooltip();

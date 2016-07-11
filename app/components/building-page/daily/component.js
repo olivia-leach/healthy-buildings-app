@@ -1,7 +1,5 @@
 import Ember from 'ember';
 
-let day = 5;
-
 export default Ember.Component.extend({
   score: Ember.computed(function() {
     return (
@@ -23,8 +21,6 @@ export default Ember.Component.extend({
 
   actions: {
     changed() {
-      let details = this.get('details');
-
       Ember.$('#leftArrowTC').removeClass('end-of-line');
       Ember.$('#rightArrowTC').removeClass('end-of-line');
 
@@ -35,21 +31,20 @@ export default Ember.Component.extend({
       Ember.$('.week li:nth-child(' + value + ')').trigger('click');
 
       let timelineDay = this.get('chosenDate');
-      day = parseInt(timelineDay, 10);
-      this.updateTCChart();
+      this.set('day', parseInt(timelineDay, 10));
 
       Ember.$('.timeline-labels li').removeClass('selected-date');
 
-      if (day === 1) {
+      if (this.get('day') === 1) {
         Ember.$('.firstDate').toggleClass('selected-date');
         Ember.$('#leftArrowTC').addClass('end-of-line');
-      } else if (day === 2) {
+      } else if (this.get('day') === 2) {
         Ember.$('.secondDate').toggleClass('selected-date');
-      } else if (day === 3) {
+      } else if (this.get('day') === 3) {
         Ember.$('.thirdDate').toggleClass('selected-date');
-      } else if (day === 4) {
+      } else if (this.get('day') === 4) {
         Ember.$('.fourthDate').toggleClass('selected-date');
-      } else if (day === 5) {
+      } else if (this.get('day') === 5) {
         Ember.$('.fifthDate').toggleClass('selected-date');
         Ember.$('#rightArrowTC').addClass('end-of-line');
       }
@@ -57,14 +52,11 @@ export default Ember.Component.extend({
     },
 
     leftArrow() {
-      let details = this.get('details');
-
       let timeline = Ember.$('.slider-value');
       let value = timeline.slider('getValue');
       timeline.slider('setValue', value-1, true, true);
       value = timeline.slider('getValue');
-      day = value;
-      this.updateTCChart();
+      this.set('day', value);
       Ember.$('.week li:nth-child(' + value + ')').trigger('click');
       let date = Ember.$('.week li:nth-child(' + value + ')').children('.circle').text();
       Ember.$('#TCmodalDate').text(date);
@@ -75,24 +67,17 @@ export default Ember.Component.extend({
       if (value === 1) {
         Ember.$('#leftArrowTC').addClass('end-of-line');
       }
-
-      // this.drawModalChart(chosenColor, value, details);
     },
 
     rightArrow() {
-      let details = this.get('details');
-
       let timeline = Ember.$('.slider-value');
       let value = timeline.slider('getValue');
       timeline.slider('setValue', value+1, true, true);
       value = timeline.slider('getValue');
-      day = value;
-      this.updateTCChart();
+      this.set('day', value);
       Ember.$('.week li:nth-child(' + value + ')').trigger('click');
       let date = Ember.$('.week li:nth-child(' + value + ')').children('.circle').text();
       Ember.$('#TCmodalDate').text(date);
-
-      // Ember.$('.slider-track div:nth-child(' + (value + 3) + ')').trigger('click');
 
       Ember.$('#leftArrowTC').removeClass('end-of-line');
       Ember.$('#rightArrowTC').removeClass('end-of-line');
@@ -100,125 +85,8 @@ export default Ember.Component.extend({
       if (value === 5) {
         Ember.$('#rightArrowTC').addClass('end-of-line');
       }
-
-      // this.drawModalChart(chosenColor, value, details);
     },
 
-  },
-
-  updateTCChart: function() {
-    console.log('update tc chart');
-    let chart = Ember.$('#ember1432');
-
-    console.log(day);
-
-    let tcData = {};
-    console.log(this.get('sensors'));
-    tcData.temp = ['x0'];
-    tcData.hum = ['data0'];
-    for (let i = 0; i < this.get('details').length; i++) {
-      if (this.get('details')[i].get('day') === day) {
-        tcData.temp.push(this.get('details')[i].get('temp'));
-        tcData.hum.push(this.get('details')[i].get('sh'));
-      }
-    }
-
-    this.set('tcData', tcData);
-
-    let lightgrey = '#c8c8c8';
-    let green = '#3FBF0A';
-
-    let data = {
-        types: {
-          'data0': 'scatter',
-          'data22': 'area',
-          'data23': 'area',
-          'data24': 'area'
-        },
-        colors: {
-          'data1': lightgrey,
-          'data2': lightgrey,
-          'data3': lightgrey,
-          'data4': lightgrey,
-          'data5': lightgrey,
-          'data6': lightgrey,
-          'data7': lightgrey,
-          'data15': lightgrey,
-          'data16': lightgrey,
-          'data17': lightgrey,
-          'data18': lightgrey,
-          'data19': lightgrey,
-          'data20': lightgrey,
-          'data21': lightgrey,
-          'data22': '#fff',
-          'data24': green,
-          'data23': green,
-          'data25': green
-        },
-        xs: {
-              'data1': 'x1',
-              'data2': 'x2',
-              'data3': 'x3',
-              'data4': 'x4',
-              'data5': 'x5',
-              'data6': 'x6',
-              'data7': 'x7',
-              'data15': 'x15',
-              'data16': 'x16',
-              'data17': 'x17',
-              'data18': 'x18',
-              'data19': 'x19',
-              'data20': 'x20',
-              'data21': 'x21',
-              'data23': 'x23',
-              'data24': 'x24',
-              'data22': 'x22',
-              'data25': 'x25',
-              'data0': 'x0',
-          },
-          columns: [
-              this.get('comfortZone3.temp'),
-              this.get('comfortZone3.hum'),
-              this.get('comfortZone2.temp'),
-              this.get('comfortZone2.hum'),
-              this.get('comfortZone1.temp'),
-              this.get('comfortZone1.hum'),
-              this.get('comfortZone1b.temp'),
-              this.get('comfortZone1b.hum'),
-              this.get('group1.temp'),
-              this.get('group1.hum'),
-              this.get('group2.temp'),
-              this.get('group2.hum'),
-              this.get('group3.temp'),
-              this.get('group3.hum'),
-              this.get('group4.temp'),
-              this.get('group4.hum'),
-              this.get('group5.temp'),
-              this.get('group5.hum'),
-              this.get('group6.temp'),
-              this.get('group6.hum'),
-              this.get('group7.temp'),
-              this.get('group7.hum'),
-              this.get('group15.temp'),
-              this.get('group15.hum'),
-              this.get('group16.temp'),
-              this.get('group16.hum'),
-              this.get('group17.temp'),
-              this.get('group17.hum'),
-              this.get('group18.temp'),
-              this.get('group18.hum'),
-              this.get('group19.temp'),
-              this.get('group19.hum'),
-              this.get('group20.temp'),
-              this.get('group20.hum'),
-              this.get('group21.temp'),
-              this.get('group21.hum'),
-              this.get('tcData.temp'),
-              this.get('tcData.hum')
-          ]
-      };
-
-    this.set('data', data);
   },
 
   details: Ember.computed(function() {
@@ -239,18 +107,16 @@ export default Ember.Component.extend({
     return results;
   }),
 
-  tcData: Ember.computed(function() {
+  tcData: Ember.computed('day', function() {
     let tcData = {};
-    console.log(this.get('sensors'));
     tcData.temp = ['x0'];
     tcData.hum = ['data0'];
     for (let i = 0; i < this.get('details').length; i++) {
-      if (this.get('details')[i].get('day') === day) {
+      if (this.get('details')[i].get('day') === this.get('day')) {
         tcData.temp.push(this.get('details')[i].get('temp'));
         tcData.hum.push(this.get('details')[i].get('sh'));
       }
     }
-    console.log(tcData);
     return tcData;
   }),
 
@@ -478,7 +344,7 @@ export default Ember.Component.extend({
     return comfortZone3;
   }),
 
-  data: Ember.computed(function () {
+  data: Ember.computed('day', function () {
     let lightgrey = '#c8c8c8';
     let green = '#3FBF0A';
     return ({
@@ -616,10 +482,6 @@ export default Ember.Component.extend({
         bottom: 0
       }
     }
-  },
-
-  greenZone: function() {
-    // d3.selectAll('.c3-area').attr("opacity", 1);
-  }.on('didInsertElement')
+  }
 
 });
