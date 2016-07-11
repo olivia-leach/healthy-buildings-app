@@ -6,8 +6,8 @@ module.exports = function(environment) {
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
-    apiHost: 'http://localhost:3000/',
-    // apiHost: 'https://healthy-buildings-api.herokuapp.com/',
+    // apiHost: 'http://localhost:3000/',
+    apiHost: 'https://healthy-buildings-api.herokuapp.com/',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
